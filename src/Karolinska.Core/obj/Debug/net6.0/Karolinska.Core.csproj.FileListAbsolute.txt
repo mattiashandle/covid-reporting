@@ -1,0 +1,12 @@
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net6.0\Karolinska.Core.deps.json
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net6.0\Karolinska.Core.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net6.0\ref\Karolinska.Core.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net6.0\Karolinska.Core.pdb
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Core.csproj.AssemblyReference.cache
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Core.AssemblyInfoInputs.cache
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Core.AssemblyInfo.cs
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Core.csproj.CoreCompileInputs.cache
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Core.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\ref\Karolinska.Core.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Core.pdb

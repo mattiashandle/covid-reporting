@@ -1,0 +1,146 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\DevelopmentPrivate\\Karolinska\\Karolinska\\src\\Karolinska.Infrastructure\\Karolinska.Infrastructure.csproj": {}
+  },
+  "projects": {
+    "C:\\DevelopmentPrivate\\Karolinska\\Karolinska\\src\\Karolinska.Core\\Karolinska.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\DevelopmentPrivate\\Karolinska\\Karolinska\\src\\Karolinska.Core\\Karolinska.Core.csproj",
+        "projectName": "Karolinska.Core",
+        "projectPath": "C:\\DevelopmentPrivate\\Karolinska\\Karolinska\\src\\Karolinska.Core\\Karolinska.Core.csproj",
+        "packagesPath": "C:\\Users\\mattias.josephsson\\.nuget\\packages\\",
+        "outputPath": "C:\\DevelopmentPrivate\\Karolinska\\Karolinska\\src\\Karolinska.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\mattias.josephsson\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.myget.org/F/emg/api/v3/index.json": {},
+          "https://www.myget.org/F/emgprivate/auth/dc2c6ce2-3bb8-4bfd-befa-9eefd9066c0e/api/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net60",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net60",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\DevelopmentPrivate\\Karolinska\\Karolinska\\src\\Karolinska.Infrastructure\\Karolinska.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\DevelopmentPrivate\\Karolinska\\Karolinska\\src\\Karolinska.Infrastructure\\Karolinska.Infrastructure.csproj",
+        "projectName": "Karolinska.Infrastructure",
+        "projectPath": "C:\\DevelopmentPrivate\\Karolinska\\Karolinska\\src\\Karolinska.Infrastructure\\Karolinska.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\mattias.josephsson\\.nuget\\packages\\",
+        "outputPath": "C:\\DevelopmentPrivate\\Karolinska\\Karolinska\\src\\Karolinska.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\mattias.josephsson\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.myget.org/F/emg/api/v3/index.json": {},
+          "https://www.myget.org/F/emgprivate/auth/dc2c6ce2-3bb8-4bfd-befa-9eefd9066c0e/api/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net60",
+            "projectReferences": {
+              "C:\\DevelopmentPrivate\\Karolinska\\Karolinska\\src\\Karolinska.Core\\Karolinska.Core.csproj": {
+                "projectPath": "C:\\DevelopmentPrivate\\Karolinska\\Karolinska\\src\\Karolinska.Core\\Karolinska.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net60",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

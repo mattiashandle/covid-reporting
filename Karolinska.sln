@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Karolinska.Web", "src\Karolinska.Web\Karolinska.Web.csproj", "{39BE1678-27C5-40EB-9A90-915FCAEB4780}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{712A8456-643B-4C66-93F2-59A76CCB94BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{44D39B49-F9DC-4003-9613-B4288650EC36}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Karolinska.Web", "tests\TestProject1\Tests.Karolinska.Web.csproj", "{05654111-864E-4747-9279-9E085C1780A3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Karolinska.Infrastructure", "src\Karolinska.Infrastructure\Karolinska.Infrastructure.csproj", "{52CCC63C-64D4-430F-93EF-9FB3EC1302BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Karolinska.Core", "src\Karolinska.Core\Karolinska.Core.csproj", "{C7D93B0F-7885-45FA-A580-308157353CB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karolinska.Application", "src\Karolinska.Application\Karolinska.Application.csproj", "{CB7FCF4A-27D5-4EF1-A999-9D27F80C866F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39BE1678-27C5-40EB-9A90-915FCAEB4780}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39BE1678-27C5-40EB-9A90-915FCAEB4780}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39BE1678-27C5-40EB-9A90-915FCAEB4780}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39BE1678-27C5-40EB-9A90-915FCAEB4780}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05654111-864E-4747-9279-9E085C1780A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05654111-864E-4747-9279-9E085C1780A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05654111-864E-4747-9279-9E085C1780A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05654111-864E-4747-9279-9E085C1780A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52CCC63C-64D4-430F-93EF-9FB3EC1302BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52CCC63C-64D4-430F-93EF-9FB3EC1302BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52CCC63C-64D4-430F-93EF-9FB3EC1302BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52CCC63C-64D4-430F-93EF-9FB3EC1302BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7D93B0F-7885-45FA-A580-308157353CB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7D93B0F-7885-45FA-A580-308157353CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7D93B0F-7885-45FA-A580-308157353CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7D93B0F-7885-45FA-A580-308157353CB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB7FCF4A-27D5-4EF1-A999-9D27F80C866F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB7FCF4A-27D5-4EF1-A999-9D27F80C866F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB7FCF4A-27D5-4EF1-A999-9D27F80C866F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB7FCF4A-27D5-4EF1-A999-9D27F80C866F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{39BE1678-27C5-40EB-9A90-915FCAEB4780} = {712A8456-643B-4C66-93F2-59A76CCB94BA}
+		{05654111-864E-4747-9279-9E085C1780A3} = {44D39B49-F9DC-4003-9613-B4288650EC36}
+		{52CCC63C-64D4-430F-93EF-9FB3EC1302BB} = {712A8456-643B-4C66-93F2-59A76CCB94BA}
+		{C7D93B0F-7885-45FA-A580-308157353CB1} = {712A8456-643B-4C66-93F2-59A76CCB94BA}
+		{CB7FCF4A-27D5-4EF1-A999-9D27F80C866F} = {712A8456-643B-4C66-93F2-59A76CCB94BA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CBE917CB-FC90-4137-8203-29E808975D3A}
+	EndGlobalSection
+EndGlobal

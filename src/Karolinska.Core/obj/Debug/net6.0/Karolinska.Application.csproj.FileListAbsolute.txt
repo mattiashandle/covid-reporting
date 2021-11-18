@@ -1,0 +1,11 @@
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net6.0\Karolinska.Application.deps.json
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net6.0\Karolinska.Application.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net6.0\ref\Karolinska.Application.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net6.0\Karolinska.Application.pdb
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Application.AssemblyInfoInputs.cache
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Application.AssemblyInfo.cs
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Application.csproj.CoreCompileInputs.cache
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Application.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\ref\Karolinska.Application.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net6.0\Karolinska.Application.pdb

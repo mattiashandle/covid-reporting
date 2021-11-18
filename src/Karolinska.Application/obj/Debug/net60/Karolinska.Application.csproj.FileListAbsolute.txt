@@ -1,0 +1,17 @@
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net60\Karolinska.Application.deps.json
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net60\Karolinska.Application.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net60\ref\Karolinska.Application.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net60\Karolinska.Application.pdb
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net60\Karolinska.Core.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net60\Karolinska.Infrastructure.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net60\Karolinska.Core.pdb
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\bin\Debug\net60\Karolinska.Infrastructure.pdb
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net60\Karolinska.Application.csproj.AssemblyReference.cache
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net60\Karolinska.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net60\Karolinska.Application.AssemblyInfoInputs.cache
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net60\Karolinska.Application.AssemblyInfo.cs
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net60\Karolinska.Application.csproj.CoreCompileInputs.cache
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net60\Karolinska.Application.csproj.CopyComplete
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net60\Karolinska.Application.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net60\ref\Karolinska.Application.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Application\obj\Debug\net60\Karolinska.Application.pdb

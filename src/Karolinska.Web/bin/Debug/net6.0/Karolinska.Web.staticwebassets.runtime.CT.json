@@ -1,0 +1,25 @@
+{
+  "ContentRoots": [
+    "/src/Karolinska.Web/wwwroot/"
+  ],
+  "Root": {
+    "Children": {
+      "openapi.json": {
+        "Children": null,
+        "Asset": {
+          "ContentRootIndex": 0,
+          "SubPath": "openapi.json"
+        },
+        "Patterns": null
+      }
+    },
+    "Asset": null,
+    "Patterns": [
+      {
+        "ContentRootIndex": 0,
+        "Pattern": "**",
+        "Depth": 0
+      }
+    ]
+  }
+}

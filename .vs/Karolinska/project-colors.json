@@ -1,0 +1,46 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "3bcc80c6-61e7-44cb-9710-638d0748457f": {
+      "ProjectGuid": "3bcc80c6-61e7-44cb-9710-638d0748457f",
+      "DisplayName": "Karolinska.Web",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "52ccc63c-64d4-430f-93ef-9fb3ec1302bb": {
+      "ProjectGuid": "52ccc63c-64d4-430f-93ef-9fb3ec1302bb",
+      "DisplayName": "Karolinska.Infrastructure",
+      "ColorIndex": 1
+    },
+    "948dfa0f-1073-46ed-98a6-3fc2e06ab5d6": {
+      "ProjectGuid": "948dfa0f-1073-46ed-98a6-3fc2e06ab5d6",
+      "DisplayName": "Karolinska.Core",
+      "ColorIndex": 2
+    },
+    "39be1678-27c5-40eb-9a90-915fcaeb4780": {
+      "ProjectGuid": "39be1678-27c5-40eb-9a90-915fcaeb4780",
+      "DisplayName": "Karolinska.Web",
+      "ColorIndex": 3
+    },
+    "05654111-864e-4747-9279-9e085c1780a3": {
+      "ProjectGuid": "05654111-864e-4747-9279-9e085c1780a3",
+      "DisplayName": "Tests.Karolinska.Web",
+      "ColorIndex": 4
+    },
+    "cb7fcf4a-27d5-4ef1-a999-9d27f80c866f": {
+      "ProjectGuid": "cb7fcf4a-27d5-4ef1-a999-9d27f80c866f",
+      "DisplayName": "Karolinska.Application",
+      "ColorIndex": 5
+    },
+    "c7d93b0f-7885-45fa-a580-308157353cb1": {
+      "ProjectGuid": "c7d93b0f-7885-45fa-a580-308157353cb1",
+      "DisplayName": "Karolinska.Core",
+      "ColorIndex": 6
+    }
+  },
+  "NextColorIndex": 7
+}

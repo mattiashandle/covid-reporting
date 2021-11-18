@@ -1,0 +1,17 @@
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\bin\Debug\net60\Karolinska.Infrastructure.deps.json
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\bin\Debug\net60\Karolinska.Infrastructure.runtimeconfig.json
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\bin\Debug\net60\Karolinska.Infrastructure.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\bin\Debug\net60\ref\Karolinska.Infrastructure.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\bin\Debug\net60\Karolinska.Infrastructure.pdb
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\bin\Debug\net60\Karolinska.Core.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\bin\Debug\net60\Karolinska.Core.pdb
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\obj\Debug\net60\Karolinska.Infrastructure.csproj.AssemblyReference.cache
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\obj\Debug\net60\Karolinska.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\obj\Debug\net60\Karolinska.Infrastructure.AssemblyInfoInputs.cache
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\obj\Debug\net60\Karolinska.Infrastructure.AssemblyInfo.cs
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\obj\Debug\net60\Karolinska.Infrastructure.csproj.CoreCompileInputs.cache
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\obj\Debug\net60\Karolinska.Infrastructure.csproj.CopyComplete
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\obj\Debug\net60\Karolinska.Infrastructure.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\obj\Debug\net60\ref\Karolinska.Infrastructure.dll
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\obj\Debug\net60\Karolinska.Infrastructure.pdb
+C:\DevelopmentPrivate\Karolinska\Karolinska\src\Karolinska.Infrastructure\obj\Debug\net60\Karolinska.Infrastructure.genruntimeconfig.cache
