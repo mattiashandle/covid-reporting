@@ -26,27 +26,56 @@ namespace Karolinska.Web.Extensions
 
                 context.SaveChanges();
 
-                var regionUpplandId = Guid.Parse("04487af1-74bb-4b4a-a9b8-780c013301e8");
+                var pfizer = _fixture.Create<Supplier>();
 
-                var healthcareProvider = new HealthcareProvider
-                {
-                    Id = regionUpplandId,
-                    Name = "Region Uppland",
-                    CapacityReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateCapacityReport(regionUpplandId, astraZeneca.Id)).ToArray(),
-                    OrderReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateOrderReport(regionUpplandId)).ToArray(),
-                    ReceiptReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateReceiptReport(regionUpplandId, astraZeneca.Id)).ToArray(),
-                    StockBalanceReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateStockBalanceReport(regionUpplandId, astraZeneca.Id)).ToArray(),
-                    ExpenditureReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateExpenditureReport(regionUpplandId, astraZeneca.Id)).ToArray()
-                };
-
-                context.HealthcareProviders.Add(healthcareProvider);
+                context.Suppliers.Add(pfizer);
 
                 context.SaveChanges();
+
+                var fooProviderId = Guid.Parse("04487af1-74bb-4b4a-a9b8-780c013301e8");
+
+                var fooHealthcareProvider = new HealthcareProvider
+                {
+                    Id = fooProviderId,
+                    Name = "Vårdgivare Foo",
+                    CapacityReports = Enumerable.Range(1, new Random().Next(10))
+                        .Select(e => CreateCapacityReport(fooProviderId, astraZeneca.Id)).ToArray(),
+                    OrderReports = Enumerable.Range(1, new Random().Next(10))
+                        .Select(e => CreateOrderReport(fooProviderId)).ToArray(),
+                    ReceiptReports = Enumerable.Range(1, new Random().Next(10))
+                        .Select(e => CreateReceiptReport(fooProviderId, astraZeneca.Id)).ToArray(),
+                    StockBalanceReports = Enumerable.Range(1, new Random().Next(10))
+                        .Select(e => CreateStockBalanceReport(fooProviderId, astraZeneca.Id)).ToArray(),
+                    ExpenditureReports = Enumerable.Range(1, new Random().Next(10))
+                        .Select(e => CreateExpenditureReport(fooProviderId, astraZeneca.Id)).ToArray()
+                };
+
+                context.HealthcareProviders.Add(fooHealthcareProvider);
+
+                context.SaveChanges();
+
+                var barProviderId = Guid.Parse("c5d97ec1-d970-4f33-bd88-e66541533af1");
+
+                var barHealthcareProvider = new HealthcareProvider
+                {
+                    Id = barProviderId,
+                    Name = "Vårdgivare Bar",
+                    CapacityReports = Enumerable.Range(1, new Random().Next(10))
+                        .Select(e => CreateCapacityReport(barProviderId, pfizer.Id)).ToArray(),
+                    OrderReports = Enumerable.Range(1, new Random().Next(10))
+                        .Select(e => CreateOrderReport(barProviderId)).ToArray(),
+                    ReceiptReports = Enumerable.Range(1, new Random().Next(10))
+                        .Select(e => CreateReceiptReport(barProviderId, pfizer.Id)).ToArray(),
+                    StockBalanceReports = Enumerable.Range(1, new Random().Next(10))
+                        .Select(e => CreateStockBalanceReport(barProviderId, pfizer.Id)).ToArray(),
+                    ExpenditureReports = Enumerable.Range(1, new Random().Next(10))
+                        .Select(e => CreateExpenditureReport(barProviderId, pfizer.Id)).ToArray()
+                };
+
+                context.HealthcareProviders.Add(barHealthcareProvider);
+
+                context.SaveChanges();
+
             }
 
             return host;
@@ -60,7 +89,8 @@ namespace Karolinska.Web.Extensions
                 Date = _fixture.Create<DateTime>().Date,
                 HealthcareProviderId = providerId,
                 NumberOfVials = _fixture.Create<int>(),
-                SupplierId = supplierId
+                SupplierId = supplierId,
+                InsertDate = _fixture.Create<DateTime>()
             };
         }
 
@@ -73,7 +103,8 @@ namespace Karolinska.Web.Extensions
                 OrderDate = _fixture.Create<DateTime?>().Value.Date,
                 Quantity = _fixture.Create<int>(),
                 RequestedDeliveryDate = _fixture.Create<DateTime?>().Value.Date,
-                HealthcareProviderId = providerId
+                HealthcareProviderId = providerId,
+                InsertDate = _fixture.Create<DateTime>()
             };
         }
 
@@ -87,7 +118,8 @@ namespace Karolinska.Web.Extensions
                 ExpectedDeliveryDate = _fixture.Create<DateTime>().Date,
                 NumberOfVials = _fixture.Create<int>(),
                 SupplierId = supplierId,
-                HealthcareProviderId = providerId
+                HealthcareProviderId = providerId,
+                InsertDate = _fixture.Create<DateTime>()
             };
         }
 
@@ -100,7 +132,8 @@ namespace Karolinska.Web.Extensions
                 Date = _fixture.Create<DateTime>().Date,
                 NumberOfDosages = _fixture.Create<int>(),
                 NumberOfVials = _fixture.Create<int>(),
-                SupplierId = supplierId
+                SupplierId = supplierId,
+                InsertDate = _fixture.Create<DateTime>()
             };
         }
 
@@ -112,7 +145,8 @@ namespace Karolinska.Web.Extensions
                 HealthcareProviderId = providerId,
                 Date = _fixture.Create<DateTime>().Date,
                 NumberOfVials = _fixture.Create<int>(),
-                SupplierId = supplierId
+                SupplierId = supplierId,
+                InsertDate = _fixture.Create<DateTime>()
             };
         }
     }

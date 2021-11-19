@@ -25,5 +25,7 @@ namespace Karolinska.Core.Entities
         public string GLNReceiver { get; set; }
 
         public Guid HealthcareProviderId { get; set; }
+
+        public DateTime InsertDate { get; set; }
     }
 }

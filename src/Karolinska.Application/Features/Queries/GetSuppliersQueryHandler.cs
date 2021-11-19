@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Karolinska.Application.Features.Queries
 {
-    public class GetSuppliersQuery : PagedRequest
+    public class GetSuppliersQuery : PagedQuery
     {
         [Range(1, int.MaxValue / 1000)]
         public override int PageNumber { get; set; }

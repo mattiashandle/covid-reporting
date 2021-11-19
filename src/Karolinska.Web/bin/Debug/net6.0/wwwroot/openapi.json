@@ -6,31 +6,33 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/Provider": {
+    "/HealthcareProvider": {
       "get": {
         "tags": [
-          "Provider"
+          "HealthcareProvider"
         ],
-        "operationId": "Provider_Get",
+        "operationId": "HealthcareProvider_GetHealthcareProviders",
         "parameters": [
           {
-            "name": "PageNumber",
+            "name": "pageNumber",
             "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32",
-              "maximum": 2147483.0,
+              "default": 1,
+              "maximum": 1000.0,
               "minimum": 1.0
             },
             "x-position": 1
           },
           {
-            "name": "PageSize",
+            "name": "pageSize",
             "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32",
-              "maximum": 1000.0,
+              "default": 100,
+              "maximum": 2147483.0,
               "minimum": 1.0
             },
             "x-position": 2
@@ -47,8 +49,60 @@
               }
             }
           },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "500": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/{healthcareProviderId}": {
+      "get": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_GetHealthcareProvider",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthcareProviderDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           },
           "400": {
             "description": "",
@@ -59,6 +113,954 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/{healthcareProviderId}/orderReports": {
+      "get": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_GetOrderReports",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "maximum": 1000.0,
+              "minimum": 1.0
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100,
+              "maximum": 2147483.0,
+              "minimum": 1.0
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseOfOrderReportDtoOf"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_AddOrderReport",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderReportCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderReportDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/{healthcareProviderId}/orderReports/{id}": {
+      "get": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_GetOrderReport",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderReportDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/{healthcareProviderId}/stockBalanceReports": {
+      "get": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_GetStockBalanceReports",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "maximum": 1000.0,
+              "minimum": 1.0
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100,
+              "maximum": 2147483.0,
+              "minimum": 1.0
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseOfStockBalanceReportDtoOf"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_AddStockBalanceReport",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStockBalanceReportCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockBalanceReportDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/{healthcareProviderId}/stockBalanceReports/{id}": {
+      "get": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_GetStockBalanceReport",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockBalanceReportDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/{healthcareProviderId}/receiptReports": {
+      "get": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_GetReceiptReports",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "maximum": 1000.0,
+              "minimum": 1.0
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100,
+              "maximum": 2147483.0,
+              "minimum": 1.0
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseOfReceiptReportDtoOf"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_AddReceiptReport",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReceiptReportCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReceiptReportDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/{healthcareProviderId}/receiptReports/{id}": {
+      "get": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_GetReceiptReport",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReceiptReportDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/{healthcareProviderId}/expenditureReports": {
+      "get": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_GetExpenditureReports",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "maximum": 1000.0,
+              "minimum": 1.0
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100,
+              "maximum": 2147483.0,
+              "minimum": 1.0
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseOfExpenditureReportDtoOf"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_AddExpenditureReport",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExpenditureReportCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseOfCapacityReportDtoOf"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/{healthcareProviderId}/expenditureReports/{id}": {
+      "get": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_GetCapacityReport",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenditureReportDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/{healthcareProviderId}/capacityReports": {
+      "get": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_GetCapacityReports",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "maximum": 1000.0,
+              "minimum": 1.0
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100,
+              "maximum": 2147483.0,
+              "minimum": 1.0
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseOfCapacityReportDtoOf"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_AddCapacityReport",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCapacityReportCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseOfCapacityReportDtoOf"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/{healthcareProviderId}/capacityReports/{id}": {
+      "get": {
+        "tags": [
+          "HealthcareProvider"
+        ],
+        "operationId": "HealthcareProvider_GetCapacityReport2",
+        "parameters": [
+          {
+            "name": "healthcareProviderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapacityReportDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": ""
           }
         }
       }
@@ -102,28 +1104,64 @@
             "type": "string",
             "format": "guid"
           },
-          "orderReports": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "additionalProperties": {
+          "nullable": true
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PagedResponseOfOrderReportDtoOf": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/OrderReportDto"
-            }
-          },
-          "capacityReports": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CapacityReportDto"
-            }
-          },
-          "stockBalanceReports": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StockBalanceReportDto"
-            }
-          },
-          "receiptReports": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReceiptReportDto"
             }
           }
         }
@@ -152,28 +1190,65 @@
           },
           "glnReceiver": {
             "type": "string"
+          },
+          "insertDate": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
-      "CapacityReportDto": {
+      "CreateOrderReportCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
+          "orderDate": {
             "type": "string",
-            "format": "guid"
+            "format": "date-time",
+            "nullable": true
           },
-          "date": {
+          "requestedDeliveryDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
-          "numberOfVials": {
+          "quantity": {
             "type": "integer",
             "format": "int32"
           },
-          "supplierId": {
+          "glnReceiver": {
+            "type": "string"
+          },
+          "healthcareProviderId": {
             "type": "string",
             "format": "guid"
+          }
+        }
+      },
+      "PagedResponseOfStockBalanceReportDtoOf": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StockBalanceReportDto"
+            }
           }
         }
       },
@@ -200,6 +1275,64 @@
           "numberOfDosages": {
             "type": "integer",
             "format": "int32"
+          },
+          "insertDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateStockBalanceReportCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "supplierId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "numberOfVials": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numberOfDosages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "healthcareProviderId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "PagedResponseOfReceiptReportDtoOf": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReceiptReportDto"
+            }
           }
         }
       },
@@ -230,35 +1363,192 @@
           "supplierId": {
             "type": "string",
             "format": "guid"
+          },
+          "insertDate": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
-      "ProblemDetails": {
+      "CreateReceiptReportCommand": {
         "type": "object",
-        "additionalProperties": {
-          "nullable": true
-        },
+        "additionalProperties": false,
         "properties": {
-          "type": {
+          "deliveryDate": {
             "type": "string",
+            "format": "date-time",
             "nullable": true
           },
-          "title": {
+          "expectedDeliveryDate": {
             "type": "string",
-            "nullable": true
+            "format": "date-time"
           },
-          "status": {
+          "numberOfVials": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
-          "detail": {
-            "type": "string",
-            "nullable": true
+          "glnReceiver": {
+            "type": "string"
           },
-          "instance": {
+          "supplierId": {
             "type": "string",
-            "nullable": true
+            "format": "guid"
+          },
+          "healthcareProviderId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "PagedResponseOfExpenditureReportDtoOf": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExpenditureReportDto"
+            }
+          }
+        }
+      },
+      "ExpenditureReportDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "supplierId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "numberOfVials": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "insertDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PagedResponseOfCapacityReportDtoOf": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CapacityReportDto"
+            }
+          }
+        }
+      },
+      "CapacityReportDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "numberOfVials": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "supplierId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "insertDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateExpenditureReportCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "supplierId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "numberOfVials": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "healthcareProviderId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "CreateCapacityReportCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "healthcareProviderId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "numberOfVials": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "supplierId": {
+            "type": "string",
+            "format": "guid"
           }
         }
       }

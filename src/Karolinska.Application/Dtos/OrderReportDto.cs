@@ -22,5 +22,7 @@ namespace Karolinska.Application.Dtos
         public int Quantity { get; set; }
 
         public string GLNReceiver { get; set; }
+
+        public DateTime InsertDate { get; set; }
     }
 }

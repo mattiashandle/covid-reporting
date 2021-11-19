@@ -17,5 +17,7 @@ namespace Karolinska.Application.Dtos
         public int NumberOfVials { get; set; }
 
         public int NumberOfDosages { get; set; }
+
+        public DateTime InsertDate { get; set; }
     }
 }

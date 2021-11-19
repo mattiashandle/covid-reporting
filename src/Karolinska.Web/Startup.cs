@@ -7,6 +7,8 @@ using Karolinska.Application.Features.Queries;
 using Karolinska.Application.Dtos;
 using Karolinska.Application.Wrappers;
 using Karolinska.Application.AutoMapper;
+using Karolinska.Application.Features.Commands;
+using Karolinska.Web.Extensions;
 
 namespace Karolinska.Web
 {
@@ -21,15 +23,13 @@ namespace Karolinska.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IQueryHandler<GetSupplierByIdQuery, SupplierDto>, GetSupplierByIdQueryHandler>();
-          
-            services.AddTransient<IQueryHandler<GetSuppliersQuery, PagedResponse<SupplierDto[]>>, GetSuppliersQueryHandler>();
+            services.RegisterQueries();
 
-            services.AddTransient<IQueryHandler<GetProvidersQuery, PagedResponse<HealthcareProviderDto[]>>, GetProvidersQueryHandler>();
+            services.RegisterCommands();
 
             var mapperConfig = new MapperConfiguration(cfg =>
-                    cfg.AddMaps(new[] { typeof(SupplierProfile) })
-                    );
+                  cfg.AddMaps(new[] { typeof(SupplierProfile) })
+                  );
 
             IMapper mapper = mapperConfig.CreateMapper();
 
@@ -78,7 +78,7 @@ namespace Karolinska.Web
             {
                 app.UseHttpsRedirection();
             }
-            else 
+            else
             {
                 app.UseDeveloperExceptionPage();
             }

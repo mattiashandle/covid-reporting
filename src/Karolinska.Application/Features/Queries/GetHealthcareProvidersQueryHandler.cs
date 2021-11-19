@@ -6,34 +6,27 @@ using Karolinska.Core.Interfaces;
 using Karolinska.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Karolinska.Application.Features.Queries
 {
-    public class GetProvidersQuery : PagedRequest
+    public class GetHealthcareProvidersQuery : PagedQuery
     {
-        [Range(1, int.MaxValue / 1000)]
-        public override int PageNumber { get; set; }
 
-        [Range(1, 1000)]
-        public override int PageSize { get; set; }
     }
 
-    public class GetProvidersQueryHandler : IQueryHandler<GetProvidersQuery, PagedResponse<HealthcareProviderDto[]>>
+    public class GetHealthcareProvidersQueryHandler : IQueryHandler<GetHealthcareProvidersQuery, PagedResponse<HealthcareProviderDto[]>>
     {
         private readonly KarolinskaContext _karolinskaContext;
         private readonly IMapper _mapper;
 
-        public GetProvidersQueryHandler(KarolinskaContext karolinskaContext, IMapper mapper)
+        public GetHealthcareProvidersQueryHandler(KarolinskaContext karolinskaContext, IMapper mapper)
         {
             _karolinskaContext = karolinskaContext ?? throw new ArgumentNullException(nameof(karolinskaContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        public async Task<PagedResponse<HealthcareProviderDto[]>?> HandleAsync(GetProvidersQuery query)
+        public async Task<PagedResponse<HealthcareProviderDto[]>?> HandleAsync(GetHealthcareProvidersQuery query)
         {
             var baseQuery = _karolinskaContext.HealthcareProviders.AsNoTracking();
 

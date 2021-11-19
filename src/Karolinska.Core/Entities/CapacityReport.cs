@@ -18,5 +18,7 @@ namespace Karolinska.Core.Entities
         public Guid SupplierId { get; set; }
 
         public Guid HealthcareProviderId { get; set; }
+
+        public DateTime InsertDate { get; set; }
     }
 }

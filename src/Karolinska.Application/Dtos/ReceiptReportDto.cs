@@ -19,5 +19,7 @@ namespace Karolinska.Application.Dtos
         public string GLNReceiver { get; set; }
 
         public Guid SupplierId { get; set; }
+
+        public DateTime InsertDate { get; set; }
     }
 }
