@@ -41,7 +41,7 @@ namespace Tests.Karolinska.Web
 
             fixture.Register<IMapper>(() =>
             {
-                var configuration = new MapperConfiguration(cfg => cfg.AddMaps(new[] { typeof(SupplierProfile) }));
+                var configuration = new MapperConfiguration(cfg => cfg.AddMaps(new[] { typeof(AppProfile) }));
 
                 var mapper = new Mapper(configuration);
 
