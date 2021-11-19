@@ -30,9 +30,9 @@ namespace Karolinska.Web.Controllers
         {
             var query = new GetHealthcareProvidersQuery { PageNumber = pageNumber, PageSize = pageSize };
 
-            var suppliers = await queryHandler.HandleAsync(query);
+            var providers = await queryHandler.HandleAsync(query);
 
-            return Ok(suppliers);
+            return Ok(providers);
         }
 
         [HttpGet("/{healthcareProviderId}")]

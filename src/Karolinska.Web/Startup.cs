@@ -28,7 +28,7 @@ namespace Karolinska.Web
             services.RegisterCommands();
 
             var mapperConfig = new MapperConfiguration(cfg =>
-                  cfg.AddMaps(new[] { typeof(SupplierProfile) })
+                  cfg.AddMaps(new[] { typeof(AppProfile) })
                   );
 
             IMapper mapper = mapperConfig.CreateMapper();
