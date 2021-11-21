@@ -7,6 +7,7 @@ using Karolinska.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Karolinska.Application.Features.Queries
@@ -26,7 +27,7 @@ namespace Karolinska.Application.Features.Queries
             _karolinskaContext = karolinskaContext ?? throw new ArgumentNullException(nameof(karolinskaContext));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        public async Task<PagedResponse<HealthcareProviderDto[]>?> HandleAsync(GetHealthcareProvidersQuery query)
+        public async Task<PagedResponse<HealthcareProviderDto[]>?> HandleAsync(GetHealthcareProvidersQuery query, CancellationToken cancellationToken)
         {
             var baseQuery = _karolinskaContext.HealthcareProviders.AsNoTracking();
 
@@ -39,7 +40,7 @@ namespace Karolinska.Application.Features.Queries
                 .ProjectTo<HealthcareProviderDto>(_mapper.ConfigurationProvider)
                 .Skip((query.PageNumber - 1) * query.PageSize)
                 .Take(query.PageSize)
-                .ToArrayAsync();
+                .ToArrayAsync(cancellationToken);
 
             var response = new PagedResponse<HealthcareProviderDto[]>(queryResult, query.PageNumber, query.PageSize)
             {

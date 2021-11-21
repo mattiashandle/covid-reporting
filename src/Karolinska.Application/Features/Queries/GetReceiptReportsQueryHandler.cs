@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Karolinska.Application.Features.Queries
@@ -29,7 +30,7 @@ namespace Karolinska.Application.Features.Queries
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<PagedResponse<ReceiptReportDto[]>?> HandleAsync(GetReceiptReportsQuery query)
+        public async Task<PagedResponse<ReceiptReportDto[]>?> HandleAsync(GetReceiptReportsQuery query, CancellationToken cancellationToken)
         {
             var baseQuery = _context.ReceiptReports.AsNoTracking();
 
@@ -40,11 +41,11 @@ namespace Karolinska.Application.Features.Queries
             var totalPages = (double)totalRecords / query.PageSize;
 
             var queryResult = await baseQuery
-                .OrderByDescending(e => e.Id)
+                .OrderByDescending(e => e.InsertDate)
                 .ProjectTo<ReceiptReportDto>(_mapper.ConfigurationProvider)
                 .Skip((query.PageNumber - 1) * query.PageSize)
                 .Take(query.PageSize)
-                .ToArrayAsync();
+                .ToArrayAsync(cancellationToken);
 
             var response = new PagedResponse<ReceiptReportDto[]>(queryResult, query.PageNumber, query.PageSize)
             {

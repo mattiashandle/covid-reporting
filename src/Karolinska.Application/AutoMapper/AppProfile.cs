@@ -10,11 +10,11 @@ namespace Karolinska.Application.AutoMapper
         {
             CreateMap<CapacityReport, CapacityReportDto>();
             CreateMap<Supplier, SupplierDto>();
-            CreateMap<ExpenditureReport, ExpenditureReportDto>();
-            CreateMap<StockBalanceReport, StockBalanceReportDto>();
+            CreateMap<ExpenditureReport, ExpenditureReportDto>().ForMember(e => e.SupplierName, src => src.MapFrom(v => v.Supplier.Name));
+            CreateMap<StockBalanceReport, StockBalanceReportDto>().ForMember(e => e.SupplierName, src => src.MapFrom(v => v.Supplier.Name));
             CreateMap<OrderReport, OrderReportDto>();
             CreateMap<HealthcareProvider, HealthcareProviderDto>();
-            CreateMap<ReceiptReport, ReceiptReportDto>();
+            CreateMap<ReceiptReport, ReceiptReportDto>().ForMember(e => e.SupplierName, src => src.MapFrom(v => v.Supplier.Name));
         }
     }
 }

@@ -6,6 +6,7 @@ using Karolinska.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Karolinska.Application.Features.Queries
@@ -26,12 +27,12 @@ namespace Karolinska.Application.Features.Queries
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<SupplierDto?> HandleAsync(GetSupplierByIdQuery query)
+        public async Task<SupplierDto?> HandleAsync(GetSupplierByIdQuery query, CancellationToken cancellationToken)
         {
             return await _context.Suppliers.AsNoTracking()
                 .Where(e => e.Id.Equals(query.Id))
                 .ProjectTo<SupplierDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Karolinska.Application.Features.Queries
@@ -28,12 +29,12 @@ namespace Karolinska.Application.Features.Queries
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<StockBalanceReportDto?> HandleAsync(GetStockBalanceReportByIdQuery query)
+        public async Task<StockBalanceReportDto?> HandleAsync(GetStockBalanceReportByIdQuery query, CancellationToken cancellationToken)
         {
             return await _context.StockBalanceReports.AsNoTracking()
                 .Where(e => e.Id.Equals(query.Id))
                 .ProjectTo<StockBalanceReportDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

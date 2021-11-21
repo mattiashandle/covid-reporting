@@ -1,17 +1,41 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import { Navbar, NavbarBrand, Nav, NavDropdown, Container } from "react-bootstrap";
+import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
+import Reporting from "./Components/Reporting";
+import Overview from "./Components/Overview";
+
+import ProviderReport from "./Components/ProviderReport";
+import Home from "./Components/Home";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <Container>
+     <Navbar bg="light" expand="lg">
+        <Container>
+          <Navbar.Brand href="/">Vaccin Portalen</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="/overview">Översikt</Nav.Link>
+              <Nav.Link href="/reports">Inrapportering</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      <App />
+      <BrowserRouter>
+      <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/reports" element={<Reporting />} />
+            <Route path="/overview" element={<Overview message={"hello"} />} />
+            <Route path="/reports/add"  element={ <ProviderReport />}/>
+          </Routes>
+       
+      
+      </BrowserRouter>
+    </Container>,
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

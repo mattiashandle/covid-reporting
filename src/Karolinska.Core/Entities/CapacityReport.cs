@@ -13,9 +13,7 @@ namespace Karolinska.Core.Entities
 
         public DateTime Date { get; set; }
 
-        public int NumberOfVials { get; set; }
-
-        public Guid SupplierId { get; set; }
+        public int NumberOfDoses { get; set; }
 
         public Guid HealthcareProviderId { get; set; }
 

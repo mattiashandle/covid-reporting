@@ -15,6 +15,8 @@ namespace Karolinska.Core.Entities
 
         public Guid SupplierId { get; set; }
 
+        public virtual Supplier Supplier { get; set; }
+
         public int NumberOfVials { get; set; }
 
         public Guid HealthcareProviderId { get; set; }

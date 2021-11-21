@@ -43,6 +43,8 @@ namespace Karolinska.Web
 
             services.AddEndpointsApiExplorer();
 
+            services.AddCors();
+
             services.AddOpenApiDocument(options =>
             {
                 options.Version = "1.0.0";
@@ -82,6 +84,8 @@ namespace Karolinska.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
 
             app.UseRouting();
 

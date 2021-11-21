@@ -2,6 +2,6 @@
 {
     public interface IQueryHandler<U,T>
     {
-        Task<T?> HandleAsync(U query);
+        Task<T?> HandleAsync(U query, CancellationToken cancellationToken);
     }
 }

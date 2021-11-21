@@ -13,6 +13,8 @@ namespace Karolinska.Core.Entities
 
         public DateTime Date { get; set; }
 
+        public virtual Supplier Supplier { get; set; }
+
         public Guid SupplierId { get; set; }
 
         public int NumberOfVials { get; set; }

@@ -24,12 +24,13 @@ namespace Karolinska.Web.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetSuppliers(
         [FromServices] IQueryHandler<GetSuppliersQuery, PagedResponse<SupplierDto[]>> queryHandler,
+        CancellationToken cancellationToken,
         [Range(1, 1000), FromQuery] int pageNumber = 1,
         [Range(1, int.MaxValue / 1000), FromQuery] int pageSize = 100)
         {
             var query = new GetSuppliersQuery { PageNumber = pageNumber, PageSize = pageSize };
 
-            var suppliers = await queryHandler.HandleAsync(query);
+            var suppliers = await queryHandler.HandleAsync(query, cancellationToken);
 
             return Ok(suppliers);
         }

@@ -51,7 +51,8 @@ namespace Karolinska.Application.Features.Commands
                 Id = Guid.NewGuid(),
                 OrderDate = command.OrderDate,
                 Quantity = command.Quantity,
-                RequestedDeliveryDate = command.RequestedDeliveryDate
+                RequestedDeliveryDate = command.RequestedDeliveryDate,
+                InsertDate = DateTime.UtcNow
             };
 
             await _context.OrderReports.AddAsync(orderReport);

@@ -14,6 +14,8 @@ namespace Karolinska.Application.Dtos
 
         public Guid SupplierId { get; set; }
 
+        public string SupplierName { get; set; }
+
         public int NumberOfVials { get; set; }
 
         public DateTime InsertDate { get; set; }

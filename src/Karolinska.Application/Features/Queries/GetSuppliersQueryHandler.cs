@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Karolinska.Application.Features.Queries
@@ -32,7 +33,7 @@ namespace Karolinska.Application.Features.Queries
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<PagedResponse<SupplierDto[]>?> HandleAsync(GetSuppliersQuery query)
+        public async Task<PagedResponse<SupplierDto[]>?> HandleAsync(GetSuppliersQuery query, CancellationToken cancellationToken)
         {
             var baseQuery = _karolinskaContext.Suppliers.AsNoTracking();
 
@@ -45,7 +46,7 @@ namespace Karolinska.Application.Features.Queries
                 .ProjectTo<SupplierDto>(_mapper.ConfigurationProvider)
                 .Skip((query.PageNumber - 1) * query.PageSize)
                 .Take(query.PageSize)
-                .ToArrayAsync();
+                .ToArrayAsync(cancellationToken);
 
             var response = new PagedResponse<SupplierDto[]>(queryResult, query.PageNumber, query.PageSize)
             {

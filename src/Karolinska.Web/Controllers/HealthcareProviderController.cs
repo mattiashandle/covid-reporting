@@ -9,7 +9,6 @@ using System.ComponentModel.DataAnnotations;
 namespace Karolinska.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class HealthcareProviderController : ControllerBase
     {
         private readonly ILogger<HealthcareProviderController> _logger;
@@ -19,32 +18,34 @@ namespace Karolinska.Web.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        [HttpGet]
+        [HttpGet("healtcareProvider")]
         [ProducesResponseType(typeof(PagedResponse<HealthcareProviderDto[]>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetHealthcareProviders(
             [FromServices] IQueryHandler<GetHealthcareProvidersQuery, PagedResponse<HealthcareProviderDto[]>> queryHandler,
+            CancellationToken cancellationToken,
             [Range(1, 1000), FromQuery] int pageNumber = 1,
             [Range(1, int.MaxValue / 1000), FromQuery] int pageSize = 100)
         {
             var query = new GetHealthcareProvidersQuery { PageNumber = pageNumber, PageSize = pageSize };
 
-            var providers = await queryHandler.HandleAsync(query);
+            var providers = await queryHandler.HandleAsync(query, cancellationToken);
 
             return Ok(providers);
         }
 
-        [HttpGet("/{healthcareProviderId}")]
+        [HttpGet("healtcareProvider/{healthcareProviderId}")]
         [ProducesResponseType(typeof(HealthcareProviderDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetHealthcareProvider(
             [FromServices] IQueryHandler<GetProviderByIdQuery, HealthcareProviderDto> queryHandler,
-            [FromRoute] Guid healthcareProviderId)
+            [FromRoute] Guid healthcareProviderId,
+            CancellationToken cancellationToken)
         {
-            var provider = await queryHandler.HandleAsync(new GetProviderByIdQuery { Id = healthcareProviderId });
+            var provider = await queryHandler.HandleAsync(new GetProviderByIdQuery { Id = healthcareProviderId }, cancellationToken);
 
             if (provider == null)
             {
@@ -54,13 +55,14 @@ namespace Karolinska.Web.Controllers
             return Ok(provider);
         }
 
-        [HttpGet("/{healthcareProviderId}/orderReports")]
+        [HttpGet("healtcareProvider/{healthcareProviderId}/orderReports")]
         [ProducesResponseType(typeof(PagedResponse<OrderReportDto[]>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetOrderReports(
             [FromServices] IQueryHandler<GetOrderReportsQuery, PagedResponse<OrderReportDto[]>> queryHandler,
             [FromRoute] Guid healthcareProviderId,
+            CancellationToken cancellationToken,
             [Range(1, 1000), FromQuery] int pageNumber = 1,
             [Range(1, int.MaxValue / 1000), FromQuery] int pageSize = 100)
         {
@@ -71,21 +73,22 @@ namespace Karolinska.Web.Controllers
                 PageSize = pageSize
             };
 
-            var orderReports = await queryHandler.HandleAsync(query);
+            var orderReports = await queryHandler.HandleAsync(query, cancellationToken);
 
             return Ok(orderReports);
         }
 
-        [HttpGet("/{healthcareProviderId}/orderReports/{id}")]
+        [HttpGet("healtcareProvider/{healthcareProviderId}/orderReports/{id}")]
         [ProducesResponseType(typeof(OrderReportDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetOrderReport(
            [FromServices] IQueryHandler<GetOrderReportByIdQuery, OrderReportDto> queryHandler,
-           [FromRoute] Guid healthcareProviderId, Guid id)
+           [FromRoute] Guid healthcareProviderId, Guid id,
+            CancellationToken cancellationToken)
         {
-            var orderReport = await queryHandler.HandleAsync(new GetOrderReportByIdQuery { Id = id });
+            var orderReport = await queryHandler.HandleAsync(new GetOrderReportByIdQuery { Id = id }, cancellationToken);
 
             if (orderReport == null)
             {
@@ -95,14 +98,15 @@ namespace Karolinska.Web.Controllers
             return Ok(orderReport);
         }
 
-        [HttpPost("/{healthcareProviderId}/orderReports")]
+        [HttpPost("healtcareProvider/{healthcareProviderId}/orderReports")]
         [ProducesResponseType(typeof(OrderReportDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddOrderReport(
             [FromServices] ICommandHandler<CreateOrderReportCommand, OrderReportDto> commandHandler,
             [FromRoute] Guid healthcareProviderId,
-            [FromBody] CreateOrderReportCommand command)
+            [FromBody] CreateOrderReportCommand command,
+            CancellationToken cancellationToken)
         {
             var orderReport = await commandHandler.HandleAsync(command);
 
@@ -111,16 +115,17 @@ namespace Karolinska.Web.Controllers
                 return NotFound();
             }
 
-            return CreatedAtAction(nameof(GetOrderReport), new { healthcareProviderId, id = orderReport.Id } ,orderReport);
+            return CreatedAtAction(nameof(GetOrderReport), new { healthcareProviderId, id = orderReport.Id }, orderReport);
         }
 
-        [HttpGet("/{healthcareProviderId}/stockBalanceReports")]
+        [HttpGet("healtcareProvider/{healthcareProviderId}/stockBalanceReports")]
         [ProducesResponseType(typeof(PagedResponse<StockBalanceReportDto[]>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetStockBalanceReports(
             [FromServices] IQueryHandler<GetStockBalanceReportsQuery, PagedResponse<StockBalanceReportDto[]>> queryHandler,
             [FromRoute] Guid healthcareProviderId,
+            CancellationToken cancellationToken,
             [Range(1, 1000), FromQuery] int pageNumber = 1,
             [Range(1, int.MaxValue / 1000), FromQuery] int pageSize = 100)
         {
@@ -131,21 +136,22 @@ namespace Karolinska.Web.Controllers
                 PageSize = pageSize
             };
 
-            var stockBalanceReports = await queryHandler.HandleAsync(query);
+            var stockBalanceReports = await queryHandler.HandleAsync(query, cancellationToken);
 
             return Ok(stockBalanceReports);
         }
 
-        [HttpGet("/{healthcareProviderId}/stockBalanceReports/{id}")]
+        [HttpGet("healtcareProvider/{healthcareProviderId}/stockBalanceReports/{id}")]
         [ProducesResponseType(typeof(StockBalanceReportDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetStockBalanceReport(
          [FromServices] IQueryHandler<GetStockBalanceReportByIdQuery, StockBalanceReportDto?> queryHandler,
-         [FromRoute] Guid healthcareProviderId, Guid id)
+         [FromRoute] Guid healthcareProviderId, Guid id,
+            CancellationToken cancellationToken)
         {
-            var stockBalanceReport = await queryHandler.HandleAsync(new GetStockBalanceReportByIdQuery { Id = id });
+            var stockBalanceReport = await queryHandler.HandleAsync(new GetStockBalanceReportByIdQuery { Id = id }, cancellationToken);
 
             if (stockBalanceReport == null)
             {
@@ -155,14 +161,15 @@ namespace Karolinska.Web.Controllers
             return Ok(stockBalanceReport);
         }
 
-        [HttpPost("/{healthcareProviderId}/stockBalanceReports")]
+        [HttpPost("healtcareProvider/{healthcareProviderId}/stockBalanceReports")]
         [ProducesResponseType(typeof(StockBalanceReportDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddStockBalanceReport(
              [FromServices] ICommandHandler<CreateStockBalanceReportCommand, StockBalanceReportDto> commandHandler,
              [FromRoute] Guid healthcareProviderId,
-             [FromBody] CreateStockBalanceReportCommand command)
+             [FromBody] CreateStockBalanceReportCommand command,
+             CancellationToken cancellationToken)
         {
             var stockBalance = await commandHandler.HandleAsync(command);
 
@@ -175,13 +182,14 @@ namespace Karolinska.Web.Controllers
         }
 
 
-        [HttpGet("/{healthcareProviderId}/receiptReports")]
+        [HttpGet("healtcareProvider/{healthcareProviderId}/receiptReports")]
         [ProducesResponseType(typeof(PagedResponse<ReceiptReportDto[]>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetReceiptReports(
             [FromServices] IQueryHandler<GetReceiptReportsQuery, PagedResponse<ReceiptReportDto[]>> queryHandler,
             [FromRoute] Guid healthcareProviderId,
+            CancellationToken cancellationToken,
             [Range(1, 1000), FromQuery] int pageNumber = 1,
             [Range(1, int.MaxValue / 1000), FromQuery] int pageSize = 100)
         {
@@ -192,21 +200,22 @@ namespace Karolinska.Web.Controllers
                 PageSize = pageSize
             };
 
-            var recieptReports = await queryHandler.HandleAsync(query);
+            var recieptReports = await queryHandler.HandleAsync(query, cancellationToken);
 
             return Ok(recieptReports);
         }
 
-        [HttpGet("/{healthcareProviderId}/receiptReports/{id}")]
+        [HttpGet("healtcareProvider/{healthcareProviderId}/receiptReports/{id}")]
         [ProducesResponseType(typeof(ReceiptReportDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetReceiptReport(
          [FromServices] IQueryHandler<GetReceiptReportByIdQuery, ReceiptReportDto?> queryHandler,
-         [FromRoute] Guid healthcareProviderId, Guid id)
+         [FromRoute] Guid healthcareProviderId, Guid id,
+            CancellationToken cancellationToken)
         {
-            var receiptReport = await queryHandler.HandleAsync(new GetReceiptReportByIdQuery { Id = id });
+            var receiptReport = await queryHandler.HandleAsync(new GetReceiptReportByIdQuery { Id = id }, cancellationToken);
 
             if (receiptReport == null)
             {
@@ -216,14 +225,15 @@ namespace Karolinska.Web.Controllers
             return Ok(receiptReport);
         }
 
-        [HttpPost("/{healthcareProviderId}/receiptReports")]
+        [HttpPost("healtcareProvider/{healthcareProviderId}/receiptReports")]
         [ProducesResponseType(typeof(ReceiptReportDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddReceiptReport(
             [FromServices] ICommandHandler<CreateReceiptReportCommand, ReceiptReportDto> commandHandler,
             [FromRoute] Guid healthcareProviderId,
-            [FromBody] CreateReceiptReportCommand command)
+            [FromBody] CreateReceiptReportCommand command,
+            CancellationToken cancellationToken)
         {
             var receiptReport = await commandHandler.HandleAsync(command);
 
@@ -235,13 +245,14 @@ namespace Karolinska.Web.Controllers
             return CreatedAtAction(nameof(GetReceiptReport), new { healthcareProviderId, id = receiptReport.Id }, receiptReport);
         }
 
-        [HttpGet("/{healthcareProviderId}/expenditureReports")]
+        [HttpGet("healtcareProvider/{healthcareProviderId}/expenditureReports")]
         [ProducesResponseType(typeof(PagedResponse<ExpenditureReportDto[]>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetExpenditureReports(
             [FromServices] IQueryHandler<GetExpenditureReportsQuery, PagedResponse<ExpenditureReportDto[]>> queryHandler,
             [FromRoute] Guid healthcareProviderId,
+            CancellationToken cancellationToken,
             [Range(1, 1000), FromQuery] int pageNumber = 1,
             [Range(1, int.MaxValue / 1000), FromQuery] int pageSize = 100)
         {
@@ -252,21 +263,22 @@ namespace Karolinska.Web.Controllers
                 PageSize = pageSize
             };
 
-            var expenditureReports = await queryHandler.HandleAsync(query);
+            var expenditureReports = await queryHandler.HandleAsync(query, cancellationToken);
 
             return Ok(expenditureReports);
         }
 
-        [HttpGet("/{healthcareProviderId}/expenditureReports/{id}")]
+        [HttpGet("healtcareProvider/{healthcareProviderId}/expenditureReports/{id}")]
         [ProducesResponseType(typeof(ExpenditureReportDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetCapacityReport(
+        public async Task<IActionResult> GetExpenditureReport(
            [FromServices] IQueryHandler<GetExpenditureReportByIdQuery, ExpenditureReportDto?> queryHandler,
-           [FromRoute] Guid healthcareProviderId, Guid id)
+           [FromRoute] Guid healthcareProviderId, Guid id,
+            CancellationToken cancellationToken)
         {
-            var expenditureReport = await queryHandler.HandleAsync(new GetExpenditureReportByIdQuery { Id = id });
+            var expenditureReport = await queryHandler.HandleAsync(new GetExpenditureReportByIdQuery { Id = id }, cancellationToken);
 
             if (expenditureReport == null)
             {
@@ -276,14 +288,15 @@ namespace Karolinska.Web.Controllers
             return Ok(expenditureReport);
         }
 
-        [HttpPost("/{healthcareProviderId}/expenditureReports")]
+        [HttpPost("healtcareProvider/{healthcareProviderId}/expenditureReports")]
         [ProducesResponseType(typeof(PagedResponse<CapacityReportDto[]>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddExpenditureReport(
             [FromServices] ICommandHandler<CreateExpenditureReportCommand, ExpenditureReportDto> commandHandler,
             [FromRoute] Guid healthcareProviderId,
-            [FromBody] CreateExpenditureReportCommand command)
+            [FromBody] CreateExpenditureReportCommand command,
+            CancellationToken cancellationToken)
         {
             var expenditureReport = await commandHandler.HandleAsync(command);
 
@@ -295,13 +308,14 @@ namespace Karolinska.Web.Controllers
             return CreatedAtAction(nameof(GetOrderReport), new { healthcareProviderId, id = expenditureReport.Id }, expenditureReport);
         }
 
-        [HttpGet("/{healthcareProviderId}/capacityReports")]
+        [HttpGet("healtcareProvider/{healthcareProviderId}/capacityReports")]
         [ProducesResponseType(typeof(PagedResponse<CapacityReportDto[]>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCapacityReports(
             [FromServices] IQueryHandler<GetCapacityReportsQuery, PagedResponse<CapacityReportDto[]>> queryHandler,
             [FromRoute] Guid healthcareProviderId,
+            CancellationToken cancellationToken,
             [Range(1, 1000), FromQuery] int pageNumber = 1,
             [Range(1, int.MaxValue / 1000), FromQuery] int pageSize = 100)
         {
@@ -312,21 +326,22 @@ namespace Karolinska.Web.Controllers
                 PageSize = pageSize
             };
 
-            var capacityReports = await queryHandler.HandleAsync(query);
+            var capacityReports = await queryHandler.HandleAsync(query, cancellationToken);
 
             return Ok(capacityReports);
         }
 
-        [HttpGet("/{healthcareProviderId}/capacityReports/{id}")]
+        [HttpGet("healtcareProvider/{healthcareProviderId}/capacityReports/{id}")]
         [ProducesResponseType(typeof(CapacityReportDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCapacityReport(
            [FromServices] IQueryHandler<GetCapacityReportByIdQuery, CapacityReportDto?> queryHandler,
-           [FromRoute] Guid healthcareProviderId, Guid id)
+           [FromRoute] Guid healthcareProviderId, Guid id,
+            CancellationToken cancellationToken)
         {
-            var capacityReport = await queryHandler.HandleAsync(new GetCapacityReportByIdQuery { Id = id });
+            var capacityReport = await queryHandler.HandleAsync(new GetCapacityReportByIdQuery { Id = id }, cancellationToken);
 
             if (capacityReport == null)
             {
@@ -336,14 +351,15 @@ namespace Karolinska.Web.Controllers
             return Ok(capacityReport);
         }
 
-        [HttpPost("/{healthcareProviderId}/capacityReports")]
+        [HttpPost("healtcareProvider/{healthcareProviderId}/capacityReports")]
         [ProducesResponseType(typeof(PagedResponse<CapacityReportDto[]>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddCapacityReport(
             [FromServices] ICommandHandler<CreateCapacityReportCommand, CapacityReportDto> commandHandler,
             [FromRoute] Guid healthcareProviderId,
-            [FromBody] CreateCapacityReportCommand command)
+            [FromBody] CreateCapacityReportCommand command,
+            CancellationToken cancellationToken)
         {
             var capacityReport = await commandHandler.HandleAsync(command);
 

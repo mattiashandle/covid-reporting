@@ -18,9 +18,7 @@ namespace Karolinska.Application.Features.Commands
 
         public DateTime Date { get; set; }
 
-        public int NumberOfVials { get; set; }
-
-        public Guid SupplierId { get; set; }
+        public int NumberOfDoses { get; set; }
     }
 
     public class CreateCapacityReportCommandHandler : ICommandHandler<CreateCapacityReportCommand, CapacityReportDto?>
@@ -49,8 +47,7 @@ namespace Karolinska.Application.Features.Commands
                 Date = command.Date,
                 HealthcareProviderId = command.HealthcareProviderId,
                 InsertDate = DateTime.UtcNow,
-                NumberOfVials = command.NumberOfVials,
-                SupplierId = command.SupplierId
+                NumberOfDoses = command.NumberOfDoses
             };
 
             await _context.CapacityReports.AddAsync(capacityReport);

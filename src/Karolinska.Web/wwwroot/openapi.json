@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/HealthcareProvider": {
+    "/healtcareProvider": {
       "get": {
         "tags": [
           "HealthcareProvider"
@@ -65,7 +65,7 @@
         }
       }
     },
-    "/{healthcareProviderId}": {
+    "/healtcareProvider/{healthcareProviderId}": {
       "get": {
         "tags": [
           "HealthcareProvider"
@@ -120,7 +120,7 @@
         }
       }
     },
-    "/{healthcareProviderId}/orderReports": {
+    "/healtcareProvider/{healthcareProviderId}/orderReports": {
       "get": {
         "tags": [
           "HealthcareProvider"
@@ -244,7 +244,7 @@
         }
       }
     },
-    "/{healthcareProviderId}/orderReports/{id}": {
+    "/healtcareProvider/{healthcareProviderId}/orderReports/{id}": {
       "get": {
         "tags": [
           "HealthcareProvider"
@@ -309,7 +309,7 @@
         }
       }
     },
-    "/{healthcareProviderId}/stockBalanceReports": {
+    "/healtcareProvider/{healthcareProviderId}/stockBalanceReports": {
       "get": {
         "tags": [
           "HealthcareProvider"
@@ -433,7 +433,7 @@
         }
       }
     },
-    "/{healthcareProviderId}/stockBalanceReports/{id}": {
+    "/healtcareProvider/{healthcareProviderId}/stockBalanceReports/{id}": {
       "get": {
         "tags": [
           "HealthcareProvider"
@@ -498,7 +498,7 @@
         }
       }
     },
-    "/{healthcareProviderId}/receiptReports": {
+    "/healtcareProvider/{healthcareProviderId}/receiptReports": {
       "get": {
         "tags": [
           "HealthcareProvider"
@@ -622,7 +622,7 @@
         }
       }
     },
-    "/{healthcareProviderId}/receiptReports/{id}": {
+    "/healtcareProvider/{healthcareProviderId}/receiptReports/{id}": {
       "get": {
         "tags": [
           "HealthcareProvider"
@@ -687,7 +687,7 @@
         }
       }
     },
-    "/{healthcareProviderId}/expenditureReports": {
+    "/healtcareProvider/{healthcareProviderId}/expenditureReports": {
       "get": {
         "tags": [
           "HealthcareProvider"
@@ -811,12 +811,12 @@
         }
       }
     },
-    "/{healthcareProviderId}/expenditureReports/{id}": {
+    "/healtcareProvider/{healthcareProviderId}/expenditureReports/{id}": {
       "get": {
         "tags": [
           "HealthcareProvider"
         ],
-        "operationId": "HealthcareProvider_GetCapacityReport",
+        "operationId": "HealthcareProvider_GetExpenditureReport",
         "parameters": [
           {
             "name": "healthcareProviderId",
@@ -876,7 +876,7 @@
         }
       }
     },
-    "/{healthcareProviderId}/capacityReports": {
+    "/healtcareProvider/{healthcareProviderId}/capacityReports": {
       "get": {
         "tags": [
           "HealthcareProvider"
@@ -1000,12 +1000,12 @@
         }
       }
     },
-    "/{healthcareProviderId}/capacityReports/{id}": {
+    "/healtcareProvider/{healthcareProviderId}/capacityReports/{id}": {
       "get": {
         "tags": [
           "HealthcareProvider"
         ],
-        "operationId": "HealthcareProvider_GetCapacityReport2",
+        "operationId": "HealthcareProvider_GetCapacityReport",
         "parameters": [
           {
             "name": "healthcareProviderId",
@@ -1327,6 +1327,9 @@
             "type": "string",
             "format": "guid"
           },
+          "supplierName": {
+            "type": "string"
+          },
           "numberOfVials": {
             "type": "integer",
             "format": "int32"
@@ -1423,6 +1426,9 @@
             "type": "string",
             "format": "guid"
           },
+          "supplierName": {
+            "type": "string"
+          },
           "insertDate": {
             "type": "string",
             "format": "date-time"
@@ -1503,6 +1509,9 @@
             "type": "string",
             "format": "guid"
           },
+          "supplierName": {
+            "type": "string"
+          },
           "numberOfVials": {
             "type": "integer",
             "format": "int32"
@@ -1553,13 +1562,9 @@
             "type": "string",
             "format": "date-time"
           },
-          "numberOfVials": {
+          "numberOfDoses": {
             "type": "integer",
             "format": "int32"
-          },
-          "supplierId": {
-            "type": "string",
-            "format": "guid"
           },
           "insertDate": {
             "type": "string",
@@ -1601,13 +1606,9 @@
             "type": "string",
             "format": "date-time"
           },
-          "numberOfVials": {
+          "numberOfDoses": {
             "type": "integer",
             "format": "int32"
-          },
-          "supplierId": {
-            "type": "string",
-            "format": "guid"
           }
         }
       },

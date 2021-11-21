@@ -88,8 +88,7 @@ namespace Karolinska.Web.Extensions
                 Id = _fixture.Create<Guid>(),
                 Date = _fixture.Create<DateTime>().Date,
                 HealthcareProviderId = providerId,
-                NumberOfVials = _fixture.Create<int>(),
-                SupplierId = supplierId,
+                NumberOfDoses = _fixture.Create<int>(),
                 InsertDate = _fixture.Create<DateTime>()
             };
         }
