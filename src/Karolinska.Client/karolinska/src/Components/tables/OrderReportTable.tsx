@@ -3,11 +3,10 @@ import * as React from "react";
 import Table from "react-bootstrap/Table";
 import {
   OrderReportDto,
-  HealthcareProviderClient,
   HealthcareProviderDto,
 } from "../SDKs/api.generated.clients";
 import { useState, useEffect } from "react";
-
+import ClientFactory from "../SDKs/ClientFactory";
 
 type Props = {
   provider: HealthcareProviderDto
@@ -20,7 +19,7 @@ function OrderReportTable(props: Props) {
 
   useEffect(() => {
     if(!loading){
-      const client = new HealthcareProviderClient("http://localhost:5271")
+      const client = new ClientFactory().CreateProviderClient()
       props.provider && props.provider.id && client.getOrderReports(props.provider.id, 1, 100).then(response => setReports(response.data!))
     }
     setLoading(false);
@@ -44,15 +43,15 @@ function OrderReportTable(props: Props) {
            </tr>
          </thead>
          <tbody>
-         {reports?.map((orderReport, idx) => {
+         {reports?.map((report, idx) => {
                   return <tr key={idx.toString()}>
                           <td>#</td>
-                          <td>{orderReport.id}</td>
-                          <td>{orderReport.insertDate?.toDateString()}</td>
-                          <td>{orderReport.orderDate?.toDateString()}</td>
-                          <td>{orderReport.requestedDeliveryDate?.toDateString()}</td>
-                          <td>{orderReport.quantity}</td>
-                          <td>{orderReport.glnReceiver}</td>
+                          <td>{report.id}</td>
+                          <td>{report.insertDate?.toDateString()}</td>
+                          <td>{report.orderDate?.toDateString()}</td>
+                          <td>{report.requestedDeliveryDate?.toDateString()}</td>
+                          <td>{report.quantity}</td>
+                          <td>{report.glnReceiver}</td>
                         </tr>
               })}
            </tbody>

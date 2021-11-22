@@ -20,11 +20,10 @@ import {
 } from "./SDKs/api.generated.clients";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import ReceiptReportTable from "./tables/ReceiptReportTable";
+import ReceiptReportForm from "./Forms/ReceiptReportForm";
 import StockBalanceReportTable from "./tables/StockBalanceReportTable";
-import ExpenditureReportTable from "./tables/ExpenditureReportTable";
-import CapacityReportTable from "./tables/CapacityReportTable";
-import OrderReportTable from "./tables/OrderReportTable";
+import ExpenditureReportForm from "./Forms/ExpenditureReportForm";
+import CapacityReportForm from "./Forms/CapacityReportForm";
 import OrderReportForm from "./Forms/OrderReportForm";
 
 type ProviderData = {
@@ -98,8 +97,8 @@ function ProviderReport() {
                     className="mb-3"
                   >
                     <Tab eventKey="receipts" title="Inleverans">
-                      <ReceiptReportTable
-                        reports={providerData!.receiptReports!}
+                      <ReceiptReportForm
+                        provider={providerData!.provider!}
                       />
                     </Tab>
                     <Tab eventKey="stockBalance" title="Lagersaldo">
@@ -108,24 +107,21 @@ function ProviderReport() {
                       />
                     </Tab>
                     <Tab eventKey="expenditure" title="Förbrukning">
-                      <ExpenditureReportTable
-                        reports={providerData!.expenditureReports!}
-                      />
-                    </Tab>
-                    <Tab eventKey="capacity" title="Kapacitet">
-                      <CapacityReportTable
-                        reports={providerData!.capacityReports!}
+                      <ExpenditureReportForm
                         provider={providerData!.provider!}
                       />
                     </Tab>
-                    <Tab eventKey="order" title="Beställning">
-                      <Container>
-                        {/* <Row className="mt-5">
-                          <OrderReportTable
-                            // reports={providerData!.orderReports!}
+                    <Tab eventKey="capacity" title="Kapacitet">
+                    <Container>
+                        <Row className="mt-5">
+                          <CapacityReportForm
                             provider={providerData!.provider!}
                           />
-                        </Row> */}
+                        </Row>
+                      </Container>
+                    </Tab>
+                    <Tab eventKey="order" title="Beställning">
+                      <Container>
                         <Row className="mt-5">
                           <OrderReportForm
                             provider={providerData!.provider!}

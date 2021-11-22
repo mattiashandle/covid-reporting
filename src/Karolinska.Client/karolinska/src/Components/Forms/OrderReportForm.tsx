@@ -1,17 +1,12 @@
 import * as React from "react";
-import { Container, Row, Form, Button, Col } from "react-bootstrap";
+import { Container, Row, Form, Button, Col, Alert } from "react-bootstrap";
 import {
-  CapacityReportDto,
-  ExpenditureReportDto,
-  HealthcareProviderClient,
   HealthcareProviderDto,
-  OrderReportDto,
-  ReceiptReportDto,
-  StockBalanceReportDto,
   CreateOrderReportCommand,
 } from "../SDKs/api.generated.clients";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import OrderReportTable from "../tables/OrderReportTable";
+import ClientFactory from "../SDKs/ClientFactory";
 
 type Props = {
   provider: HealthcareProviderDto;
@@ -25,7 +20,7 @@ function OrderReportForm(props: Props) {
   const [submit, setSubmit] = useState(false);  
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
 
-  const client = new HealthcareProviderClient("http://localhost:5271");
+  const client = new ClientFactory().CreateProviderClient();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
@@ -44,15 +39,18 @@ function OrderReportForm(props: Props) {
     client.addOrderReport(props.provider.id!, command).then((response) => {
         setSubmit(true);
         setButtonDisabled(false);
+       
     });
 
-   
-    
+    setTimeout(() => {
+      setSubmit(false);
+    },10000);
   };
 
   return (
     <>
       <Container>
+      <Alert variant="success" show={submit}>Rapport skickad</Alert>
         <Row>
           <Form
             onSubmit={(e) => {
@@ -60,7 +58,7 @@ function OrderReportForm(props: Props) {
             }}
           >
             <Row>
-              <Col md={2}>
+              <Col md={3}>
                 <Form.Group className="mb-1" controlId="orderDateInput">
                   <Form.Label>Beställnings datum</Form.Label>
                   <Form.Control
@@ -71,7 +69,7 @@ function OrderReportForm(props: Props) {
                   />
                 </Form.Group>
               </Col>
-              <Col md={2}>
+              <Col md={3}>
                 <Form.Group
                   className="mb-3"
                   controlId="expectedDeliveryDateInput"
@@ -86,7 +84,7 @@ function OrderReportForm(props: Props) {
                   />
                 </Form.Group>
               </Col>
-              <Col md={2}>
+              <Col md={3}>
                 <Form.Group className="mb-3" controlId="numberOfDosesInput">
                   <Form.Label>Kvantitet (dos)</Form.Label>
                   <Form.Control
@@ -96,7 +94,7 @@ function OrderReportForm(props: Props) {
                   />
                 </Form.Group>
               </Col>
-              <Col md={2}>
+              <Col md={3}>
                 <Form.Group className="mb-3" controlId="glnReceiverInput">
                   <Form.Label>GLN Mottagare</Form.Label>
                   <Form.Control
@@ -109,8 +107,10 @@ function OrderReportForm(props: Props) {
                 Spara
               </Button>
             </Row>
+          
           </Form>
         </Row>
+       
         <Row className="mt-5">
           <OrderReportTable provider={props.provider!} />
         </Row>

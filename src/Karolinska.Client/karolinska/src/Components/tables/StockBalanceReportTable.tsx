@@ -3,6 +3,7 @@ import Table from "react-bootstrap/Table";
 import {
   StockBalanceReportDto
 } from "../SDKs/api.generated.clients";
+import ClientFactory from "../SDKs/ClientFactory";
 
 type Props = {
   reports: StockBalanceReportDto[];

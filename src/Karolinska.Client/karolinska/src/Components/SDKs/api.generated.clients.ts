@@ -967,7 +967,7 @@ export class SupplierClient {
     }
 
     getSuppliers(pageNumber: number | undefined, pageSize: number | undefined): Promise<PagedResponseOfSupplierDtoOf> {
-        let url_ = this.baseUrl + "/Supplier?";
+        let url_ = this.baseUrl + "/suppliers?";
         if (pageNumber === null)
             throw new Error("The parameter 'pageNumber' cannot be null.");
         else if (pageNumber !== undefined)

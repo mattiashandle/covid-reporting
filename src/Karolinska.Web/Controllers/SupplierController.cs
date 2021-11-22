@@ -8,7 +8,6 @@ using System.ComponentModel.DataAnnotations;
 namespace Karolinska.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class SupplierController : ControllerBase
     {
         private readonly ILogger<SupplierController> _logger;
@@ -18,7 +17,7 @@ namespace Karolinska.Web.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        [HttpGet]
+        [HttpGet("suppliers")]
         [ProducesResponseType(typeof(PagedResponse<SupplierDto[]>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

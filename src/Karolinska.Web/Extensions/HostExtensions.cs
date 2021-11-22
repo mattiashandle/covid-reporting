@@ -20,56 +20,56 @@ namespace Karolinska.Web.Extensions
 
                 ArgumentNullException.ThrowIfNull(context);
 
-                var astraZeneca = _fixture.Create<Supplier>();
+                var astraZeneca = _fixture.Build<Supplier>().With(e => e.Name, "AztraZenaca").Create();
 
                 context.Suppliers.Add(astraZeneca);
 
                 context.SaveChanges();
 
-                var pfizer = _fixture.Create<Supplier>();
+                var pfizer = _fixture.Build<Supplier>().With(e => e.Name, "Pfizer").Create();
 
                 context.Suppliers.Add(pfizer);
 
                 context.SaveChanges();
 
-                var fooProviderId = Guid.Parse("04487af1-74bb-4b4a-a9b8-780c013301e8");
+                var danderyId = Guid.Parse("04487af1-74bb-4b4a-a9b8-780c013301e8");
 
                 var fooHealthcareProvider = new HealthcareProvider
                 {
-                    Id = fooProviderId,
-                    Name = "Vårdgivare Foo",
+                    Id = danderyId,
+                    Name = "Danderyds Sjukhus",
                     CapacityReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateCapacityReport(fooProviderId, astraZeneca.Id)).ToArray(),
+                        .Select(e => CreateCapacityReport(danderyId, astraZeneca.Id)).ToArray(),
                     OrderReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateOrderReport(fooProviderId)).ToArray(),
+                        .Select(e => CreateOrderReport(danderyId)).ToArray(),
                     ReceiptReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateReceiptReport(fooProviderId, astraZeneca.Id)).ToArray(),
+                        .Select(e => CreateReceiptReport(danderyId, astraZeneca.Id)).ToArray(),
                     StockBalanceReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateStockBalanceReport(fooProviderId, astraZeneca.Id)).ToArray(),
+                        .Select(e => CreateStockBalanceReport(danderyId, astraZeneca.Id)).ToArray(),
                     ExpenditureReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateExpenditureReport(fooProviderId, astraZeneca.Id)).ToArray()
+                        .Select(e => CreateExpenditureReport(danderyId, astraZeneca.Id)).ToArray()
                 };
 
                 context.HealthcareProviders.Add(fooHealthcareProvider);
 
                 context.SaveChanges();
 
-                var barProviderId = Guid.Parse("c5d97ec1-d970-4f33-bd88-e66541533af1");
+                var huddingeId = Guid.Parse("c5d97ec1-d970-4f33-bd88-e66541533af1");
 
                 var barHealthcareProvider = new HealthcareProvider
                 {
-                    Id = barProviderId,
-                    Name = "Vårdgivare Bar",
+                    Id = huddingeId,
+                    Name = "Huddinge Sjukhus",
                     CapacityReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateCapacityReport(barProviderId, pfizer.Id)).ToArray(),
+                        .Select(e => CreateCapacityReport(huddingeId, pfizer.Id)).ToArray(),
                     OrderReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateOrderReport(barProviderId)).ToArray(),
+                        .Select(e => CreateOrderReport(huddingeId)).ToArray(),
                     ReceiptReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateReceiptReport(barProviderId, pfizer.Id)).ToArray(),
+                        .Select(e => CreateReceiptReport(huddingeId, pfizer.Id)).ToArray(),
                     StockBalanceReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateStockBalanceReport(barProviderId, pfizer.Id)).ToArray(),
+                        .Select(e => CreateStockBalanceReport(huddingeId, pfizer.Id)).ToArray(),
                     ExpenditureReports = Enumerable.Range(1, new Random().Next(10))
-                        .Select(e => CreateExpenditureReport(barProviderId, pfizer.Id)).ToArray()
+                        .Select(e => CreateExpenditureReport(huddingeId, pfizer.Id)).ToArray()
                 };
 
                 context.HealthcareProviders.Add(barHealthcareProvider);
@@ -83,69 +83,85 @@ namespace Karolinska.Web.Extensions
 
         private static CapacityReport CreateCapacityReport(Guid providerId, Guid supplierId)
         {
+            var insertDate = DateTime.UtcNow.AddDays(-_fixture.Create<int>());
+
             return new CapacityReport
             {
                 Id = _fixture.Create<Guid>(),
-                Date = _fixture.Create<DateTime>().Date,
+                Date = insertDate,
                 HealthcareProviderId = providerId,
                 NumberOfDoses = _fixture.Create<int>(),
-                InsertDate = _fixture.Create<DateTime>()
+                InsertDate = insertDate,
             };
         }
 
         private static OrderReport CreateOrderReport(Guid providerId)
         {
+            var insertDate = DateTime.UtcNow.AddDays(-_fixture.Create<int>());
+
             return new OrderReport
             {
                 Id = _fixture.Create<Guid>(),
-                GLNReceiver = _fixture.Create<string>(),
-                OrderDate = _fixture.Create<DateTime?>().Value.Date,
+                GLNReceiver = $"GLN{_fixture.Create<string>()}",
+                OrderDate = insertDate.Date,
                 Quantity = _fixture.Create<int>(),
-                RequestedDeliveryDate = _fixture.Create<DateTime?>().Value.Date,
+                RequestedDeliveryDate = insertDate.AddDays(_fixture.Create<int>()).Date,
                 HealthcareProviderId = providerId,
-                InsertDate = _fixture.Create<DateTime>()
+                InsertDate = insertDate
             };
         }
 
         private static ReceiptReport CreateReceiptReport(Guid providerId, Guid supplierId)
         {
+            var insertDate = DateTime.UtcNow.AddDays(-_fixture.Create<int>());
+
+            var expectedDeliveryDate = insertDate.AddDays(_fixture.Create<int>()).Date;
+
+            var deliveryDate = expectedDeliveryDate.AddDays(new Random().Next(0, 10));
+
             return new ReceiptReport
             {
                 Id = _fixture.Create<Guid>(),
-                GLNReceiver = _fixture.Create<string>(),
-                DeliveryDate = _fixture.Create<DateTime?>().Value.Date,
-                ExpectedDeliveryDate = _fixture.Create<DateTime>().Date,
+                GLNReceiver = $"GLN{_fixture.Create<string>()}",
+                DeliveryDate = deliveryDate.Date,
+                ExpectedDeliveryDate = expectedDeliveryDate,
                 NumberOfVials = _fixture.Create<int>(),
                 SupplierId = supplierId,
                 HealthcareProviderId = providerId,
-                InsertDate = _fixture.Create<DateTime>()
+                InsertDate = insertDate,
             };
         }
 
         private static StockBalanceReport CreateStockBalanceReport(Guid providerId, Guid supplierId)
         {
+            var insertDate = DateTime.UtcNow.AddDays(-_fixture.Create<int>());
+
+            var stockBalanceDate = insertDate.Date;
+
             return new StockBalanceReport
             {
                 Id = _fixture.Create<Guid>(),
                 HealthcareProviderId = providerId,
-                Date = _fixture.Create<DateTime>().Date,
+                Date = stockBalanceDate,
                 NumberOfDosages = _fixture.Create<int>(),
                 NumberOfVials = _fixture.Create<int>(),
                 SupplierId = supplierId,
-                InsertDate = _fixture.Create<DateTime>()
+                InsertDate = insertDate,
             };
         }
 
         private static ExpenditureReport CreateExpenditureReport(Guid providerId, Guid supplierId)
         {
+            var insertDate = DateTime.UtcNow.AddDays(-_fixture.Create<int>());
+
             return new ExpenditureReport
             {
                 Id = _fixture.Create<Guid>(),
                 HealthcareProviderId = providerId,
-                Date = _fixture.Create<DateTime>().Date,
+                Date = insertDate.Date,
                 NumberOfVials = _fixture.Create<int>(),
                 SupplierId = supplierId,
-                InsertDate = _fixture.Create<DateTime>()
+                InsertDate = insertDate,
             };
         }
     }

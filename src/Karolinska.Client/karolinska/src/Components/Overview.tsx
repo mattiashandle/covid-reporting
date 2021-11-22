@@ -21,6 +21,7 @@ import ExpenditureReportTable from "./tables/ExpenditureReportTable";
 import ReceiptReportTable from "./tables/ReceiptReportTable";
 import CapacityReportTable from "./tables/CapacityReportTable";
 import StockBalanceReportTable from "./tables/StockBalanceReportTable";
+import ClientFactory from "./SDKs/ClientFactory";
 
 type OverviewProps = {
   // using `interface` is also ok
@@ -57,7 +58,7 @@ export default class Overview extends React.Component<
     receiptReports: [],
     selectedProviderId: "",
     selectedProvider: null,
-    client: new HealthcareProviderClient("http://localhost:5271")
+    client: new ClientFactory().CreateProviderClient()
   };
 
   loadProviderData(provider: HealthcareProviderDto) {
@@ -129,17 +130,16 @@ export default class Overview extends React.Component<
         </Row>
        
         <hr />
-        <ReceiptReportTable reports={this.state.receiptReports!} />
+        <ReceiptReportTable provider={this.state.selectedProvider!} />
         <hr />
         <StockBalanceReportTable reports={this.state.stockBalanceReports!} />
         <hr />
-        <ExpenditureReportTable reports={this.state.expenditureReports!} />
+        <ExpenditureReportTable provider={this.state.selectedProvider!}  />
         <hr />
-        <CapacityReportTable provider={this.state.selectedProvider!} reports={this.state.capacityReports!} />
+        <CapacityReportTable provider={this.state.selectedProvider!} />
         <hr />
         <OrderReportTable
          provider={this.state.selectedProvider!}
-        //  reports={this.state.orderReports!} 
          />
         <hr />
    

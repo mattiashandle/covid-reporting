@@ -9,6 +9,9 @@ using Karolinska.Application.Wrappers;
 using Karolinska.Application.AutoMapper;
 using Karolinska.Application.Features.Commands;
 using Karolinska.Web.Extensions;
+using Karolinska.Web.Middlewares;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Karolinska.Web.Filters;
 
 namespace Karolinska.Web
 {
@@ -39,10 +42,13 @@ namespace Karolinska.Web
             dbContextOptions => dbContextOptions
                 .UseInMemoryDatabase("karolinska-in-memory"));
 
-            services.AddControllers();
+            services.AddControllers((options) =>
+            {
+                options.Filters.Add(typeof(OperationCanceledExceptionFilter));
+            });
 
             services.AddEndpointsApiExplorer();
-
+            
             services.AddCors();
 
             services.AddOpenApiDocument(options =>
@@ -84,6 +90,8 @@ namespace Karolinska.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<RequestLoggingMiddleware>();
 
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
 
