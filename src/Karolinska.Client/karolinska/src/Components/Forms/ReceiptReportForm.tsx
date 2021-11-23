@@ -24,7 +24,7 @@ function ReceiptReportForm(props: Props) {
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const [loading, setLoading] = useState(true);
   const [suppliers, setSuppliers] = useState<SupplierDto[]>();
-  const [selectedSupplier, setSelectedSupplier] = useState<SupplierDto | null>(null);
+  const [selectedSupplier, setSelectedSupplier] = useState<SupplierDto>();
 
 
   const supplierClient = new ClientFactory().CreateSupplierClient();
@@ -52,12 +52,16 @@ function ReceiptReportForm(props: Props) {
 
     setButtonDisabled(true);
 
+    if(!selectedSupplier)
+      return;
+
     const command : ICreateReceiptReportCommand = {
       deliveryDate: deliveryDate,
       expectedDeliveryDate: expectedDeliveryDate,
       numberOfVials: numberOfVials,
       glnReceiver: glnReceiver,
-      healthcareProviderId: props.provider.id!
+      healthcareProviderId: props.provider.id!,
+      supplierId: selectedSupplier.id
     }
 
     e.preventDefault();
@@ -67,7 +71,7 @@ function ReceiptReportForm(props: Props) {
     providerClient.addReceiptReport(props.provider.id!, new CreateReceiptReportCommand(command)).then(() => {
         setSubmit(true);
         setButtonDisabled(false);
-    }, (error) => {console.log(error)});
+    }, (error) => {console.log(error)}).catch((error) => console.log(error));
 
     setTimeout(() => {
       setSubmit(false);
