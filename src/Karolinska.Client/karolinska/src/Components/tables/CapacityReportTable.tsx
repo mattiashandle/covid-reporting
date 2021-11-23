@@ -11,10 +11,9 @@ type Props = {
 }
 
 function CapacityReportTable(props: Props) {
-  const [provider, setProvider] = useState<HealthcareProviderDto>(props.provider);
   const [loading, setLoading] = useState(true);
-  const [reports, setReports] = useState<CapacityReportDto[] | null>(null);
-
+  const [reports, setReports] = useState<CapacityReportDto[]>();
+  
   useEffect(() => {
     if(!loading){
       const client = new ClientFactory().CreateProviderClient();
@@ -33,7 +32,7 @@ function CapacityReportTable(props: Props) {
     <>
     {loading ? (<h1>Loading</h1>) : (
       <div>
-      <h3 className="text-center" >Kapacitet</h3>
+      <h3 className="" >Kapacitet</h3>
        <Table striped bordered hover responsive>
          <thead>
            <tr key="-1">

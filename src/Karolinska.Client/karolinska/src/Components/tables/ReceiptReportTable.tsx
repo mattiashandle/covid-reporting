@@ -11,7 +11,6 @@ type Props = {
 }
 
 function ReceiptReportTable(props: Props) {
-  const [provider, setProvider] = useState<HealthcareProviderDto>(props.provider);
   const [loading, setLoading] = useState(true);
   const [reports, setReports] = useState<ReceiptReportDto[] | null>(null);
 
@@ -19,11 +18,7 @@ function ReceiptReportTable(props: Props) {
     if(!loading){
       const client = new ClientFactory().CreateProviderClient();
       props.provider && props.provider.id && client.getReceiptReports(props.provider.id, 1, 100).then(response => {
-        if(response.data && response.data.length > 1) {
-          console.log(response);
-          setReports(response.data!)
-        }
-         
+        setReports(response.data!)
       })
     }
     setLoading(false);
@@ -33,7 +28,7 @@ function ReceiptReportTable(props: Props) {
     <>
     {loading ? (<h1>Loading</h1>) : (
       <div>
-      <h3 className="text-center" >Inleverans</h3>
+      <h3 className="" >Inleverans</h3>
        <Table striped bordered hover responsive>
          <thead>
            <tr key="-1">

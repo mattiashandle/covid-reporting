@@ -3,6 +3,7 @@ import { Container, Row, Form, Button, Col, Alert } from "react-bootstrap";
 import {
   HealthcareProviderDto,
   CreateOrderReportCommand,
+  ICreateOrderReportCommand
 } from "../SDKs/api.generated.clients";
 import { useState } from "react";
 import OrderReportTable from "../tables/OrderReportTable";
@@ -18,7 +19,7 @@ function OrderReportForm(props: Props) {
   const [quantity, setQuantity] = useState(0);
   const [glnReceiver, setGlnReceiver] = useState("");
   const [submit, setSubmit] = useState(false);  
-  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const client = new ClientFactory().CreateProviderClient();
 
@@ -26,21 +27,20 @@ function OrderReportForm(props: Props) {
 
     setButtonDisabled(true);
 
-    const command = CreateOrderReportCommand.fromJS({
+    const command : ICreateOrderReportCommand = {
       orderDate: orderDate,
       requestedDeliveryDate: expectedDate,
       quantity: quantity,
       glnReceiver: glnReceiver,
-      healthcareProviderId: props.provider.id!,
-    });
+      healthcareProviderId: props.provider.id!
+    }
 
     e.preventDefault();
 
-    client.addOrderReport(props.provider.id!, command).then((response) => {
+    client.addOrderReport(props.provider.id!, new CreateOrderReportCommand(command)).then(() => {
         setSubmit(true);
         setButtonDisabled(false);
-       
-    });
+    }, (error) => {console.log(error)});
 
     setTimeout(() => {
       setSubmit(false);

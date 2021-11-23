@@ -2,12 +2,12 @@ import * as React from "react";
 import { Container, Row, Form, Button, Col, Alert } from "react-bootstrap";
 import {
   HealthcareProviderDto,
-  CreateReceiptReportCommand,
-  ICreateReceiptReportCommand,
+  CreateStockBalanceReportCommand,
+  ICreateStockBalanceReportCommand,
   SupplierDto
 } from "../SDKs/api.generated.clients";
 import { useState, useEffect } from "react";
-import ReceiptReportTable from "../tables/ReceiptReportTable";
+import StockBalanceReportTable from "../tables/StockBalanceReportTable";
 import Select from "react-select";
 import ClientFactory from "../SDKs/ClientFactory";
 
@@ -15,17 +15,15 @@ type Props = {
   provider: HealthcareProviderDto;
 };
 
-function ReceiptReportForm(props: Props) {
-  const [deliveryDate, setDeliveryDate] = useState<Date>();
-  const [expectedDeliveryDate, setExpectedDeliveryDate] = useState<Date>();
+function StockBalanceReportForm(props: Props) {
+  const [stockDate, setStockDate] = useState<Date>();
   const [numberOfVials, setNumberOfVials] = useState(0);
-  const [glnReceiver, setGlnReceiver] = useState("");
+  const [numberOfDoses, setNumberOfDoses] = useState(0);
   const [submit, setSubmit] = useState(false);  
-  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
   const [suppliers, setSuppliers] = useState<SupplierDto[]>();
   const [selectedSupplier, setSelectedSupplier] = useState<SupplierDto | null>(null);
-
 
   const supplierClient = new ClientFactory().CreateSupplierClient();
 
@@ -36,13 +34,13 @@ function ReceiptReportForm(props: Props) {
         setSuppliers(response.data);
         setSelectedSupplier(response.data![0]!);
         setLoading(false);
-      });
-    
+      });    
   })
 
   const handleSupplierChange = (
-    selected?: SupplierDto | SupplierDto[] | null
+    selected: any
   ) => {
+    console.log(selected)
     if (selected instanceof SupplierDto) {
         setSelectedSupplier(selected)
     }
@@ -52,22 +50,29 @@ function ReceiptReportForm(props: Props) {
 
     setButtonDisabled(true);
 
-    const command : ICreateReceiptReportCommand = {
-      deliveryDate: deliveryDate,
-      expectedDeliveryDate: expectedDeliveryDate,
+    if(!selectedSupplier) return;
+    
+    if(!stockDate) return;
+
+    const command : ICreateStockBalanceReportCommand = {
+      date: stockDate,
+      supplierId: selectedSupplier.id,
       numberOfVials: numberOfVials,
-      glnReceiver: glnReceiver,
-      healthcareProviderId: props.provider.id!
+      numberOfDoses: numberOfDoses,
+      healthcareProviderId: props.provider.id
     }
+
+    console.log(command)
 
     e.preventDefault();
 
     const providerClient = new ClientFactory().CreateProviderClient();
 
-    providerClient.addReceiptReport(props.provider.id!, new CreateReceiptReportCommand(command)).then(() => {
+    providerClient.addStockBalanceReport(props.provider.id!, new CreateStockBalanceReportCommand(command)).then((response) => {
+        console.log(response);
         setSubmit(true);
         setButtonDisabled(false);
-    }, (error) => {console.log(error)});
+    }, (error) => console.log(error)).catch((exception) => console.log(exception));
 
     setTimeout(() => {
       setSubmit(false);
@@ -86,42 +91,17 @@ function ReceiptReportForm(props: Props) {
           >
             <Row>
               <Col md={3}>
-                <Form.Group className="mb-1" controlId="deliveryDateInput">
-                  <Form.Label>Lev datum</Form.Label>
+                <Form.Group className="mb-1" controlId="stockDateInput">
+                  <Form.Label>Datum tid</Form.Label>
                   <Form.Control
                     onChange={(e) =>
-                      setDeliveryDate(new Date(e.target.value + "T00:00"))
+                      setStockDate(new Date(e.target.value + "T00:00"))
                     }
                     type="date"
                   />
                 </Form.Group>
               </Col>
-              <Col md={3}>
-                <Form.Group
-                  className="mb-3"
-                  controlId="expectedDeliveryDateInput"
-                >
-                  <Form.Label>Planerat lev datum</Form.Label>
-                  <Form.Control
-                    required={true}
-                    onChange={(e) =>
-                      setExpectedDeliveryDate(new Date(e.target.value + "T00:00"))
-                    }
-                    type="date"
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={3}>
-                <Form.Group className="mb-3" controlId="numberOfVials">
-                  <Form.Label>Kvantitet (vial)</Form.Label>
-                  <Form.Control
-                    required={true}
-                    onChange={(e) => setNumberOfVials(parseInt(e.target.value))}
-                    type="number"
-                  />
-                </Form.Group>
-              </Col>
-
+              
               <Col md={3}>
                 <Form.Group className="mb-3" controlId="supplierInput">
                   <Form.Label>Vaccinleverantör</Form.Label>
@@ -134,16 +114,29 @@ function ReceiptReportForm(props: Props) {
                         />
                 </Form.Group>
               </Col>
-
+           
               <Col md={3}>
-                <Form.Group className="mb-3" controlId="glnReceiverInput">
-                  <Form.Label>GLN Mottagare</Form.Label>
+                <Form.Group className="mb-3" controlId="numberOfVials">
+                  <Form.Label>Kvantitet (vial)</Form.Label>
                   <Form.Control
-                    onChange={(e) => setGlnReceiver(e.target.value)}
-                    type="text"
+                    required={true}
+                    onChange={(e) => setNumberOfVials(parseInt(e.target.value))}
+                    type="number"
                   />
                 </Form.Group>
               </Col>
+
+              <Col md={3}>
+                <Form.Group className="mb-3" controlId="numberOfDoses">
+                  <Form.Label>Kvantitet (doser)</Form.Label>
+                  <Form.Control
+                    required={true}
+                    onChange={(e) => setNumberOfDoses(parseInt(e.target.value))}
+                    type="number"
+                  />
+                </Form.Group>
+              </Col>
+
               <Button disabled={buttonDisabled} className="mt-2" variant="primary" type="submit">
                 Spara
               </Button>
@@ -153,11 +146,11 @@ function ReceiptReportForm(props: Props) {
         </Row>
        
         <Row className="mt-5">
-          <ReceiptReportTable provider={props.provider!} />
+          <StockBalanceReportTable provider={props.provider!} />
         </Row>
       </Container>
     </>
   );
 }
 
-export default ReceiptReportForm;
+export default StockBalanceReportForm;

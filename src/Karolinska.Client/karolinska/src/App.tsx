@@ -1,10 +1,4 @@
-import * as React from "react";
-import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import Reporting from "./Components/Reporting";
-import Overview from "./Components/Overview";
-import Home from "./Components/Home";
-import ProviderReport from './Components/ProviderReport';
 import {Container, Row } from "react-bootstrap";
 
 function App() {

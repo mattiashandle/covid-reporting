@@ -1334,7 +1334,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "numberOfDosages": {
+          "numberOfDoses": {
             "type": "integer",
             "format": "int32"
           },
@@ -1360,7 +1360,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "numberOfDosages": {
+          "numberOfDoses": {
             "type": "integer",
             "format": "int32"
           },

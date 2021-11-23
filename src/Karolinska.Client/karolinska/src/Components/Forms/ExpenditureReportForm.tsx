@@ -1,11 +1,10 @@
 import * as React from "react";
 import { Container, Row, Form, Button, Col, Alert } from "react-bootstrap";
 import {
-  HealthcareProviderClient,
   HealthcareProviderDto,
   SupplierDto,
   CreateExpenditureReportCommand,
-  SupplierClient,
+  ICreateExpenditureReportCommand
 } from "../SDKs/api.generated.clients";
 import { useState, useEffect } from "react";
 import EpenditureReportTable from "../tables/ExpenditureReportTable";
@@ -17,7 +16,7 @@ type Props = {
 };
 
 function ExpenditureReportForm(props: Props) {
-  const [expenditureDate, setExpenditureDate] = useState<Date | null>(null);
+  const [expenditureDate, setExpenditureDate] = useState<Date>();
   const [numberOfVials, setNumberOfVials] = useState(0);
   const [submit, setSubmit] = useState(false);
   const [selectedSupplier, setSelectedSupplier] = useState<SupplierDto | null>(null);  
@@ -36,7 +35,7 @@ function ExpenditureReportForm(props: Props) {
         setSuppliers(response.data);
         setSelectedSupplier(response.data![0]);
         setLoading(false);
-      });
+      }, (error) => {console.log(error)});
     
   })
 
@@ -52,19 +51,20 @@ function ExpenditureReportForm(props: Props) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     setButtonDisabled(true);
-    const command = CreateExpenditureReportCommand.fromJS({
+
+    const command : ICreateExpenditureReportCommand = {
       date: expenditureDate,
       numberOfVials: numberOfVials,
       supplierId: selectedSupplier?.id,
-      healthcareProviderId: props.provider.id!,
-    });
+      healthcareProviderId: props.provider.id!
+    }
 
     e.preventDefault();
 
-    client.addExpenditureReport(props.provider.id!, command).then((response) => {
+    client.addExpenditureReport(props.provider.id!, new CreateExpenditureReportCommand(command)).then(() => {
         setSubmit(true);
         setButtonDisabled(false);
-    });
+    }, (error) => {console.log(error)});
 
     setTimeout(() => {
       setSubmit(false);

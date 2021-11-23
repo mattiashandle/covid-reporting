@@ -3,8 +3,9 @@ import { Container, Row, Form, Button, Col, Alert } from "react-bootstrap";
 import {
   HealthcareProviderDto,
   CreateCapacityReportCommand,
+  ICreateCapacityReportCommand
 } from "../SDKs/api.generated.clients";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import CapacityReportTable from "../tables/CapacityReportTable";
 import ClientFactory from "../SDKs/ClientFactory";
 
@@ -13,8 +14,8 @@ type Props = {
 };
 
 function CapacityReportForm(props: Props) {
-  const [capacityDate, setCapacityDate] = useState<Date | null>(null);
-  const [numberOfVials, setNumberOfVials] = useState(0);
+  const [capacityDate, setCapacityDate] = useState<Date>();
+  const [numberOfDoses, setNumberOfDoses] = useState(0);
   const [submit, setSubmit] = useState(false);  
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
 
@@ -24,18 +25,20 @@ function CapacityReportForm(props: Props) {
 
     setButtonDisabled(true);
 
-    const command = CreateCapacityReportCommand.fromJS({
+    const command : ICreateCapacityReportCommand = {
       date: capacityDate,
-      numberOfVials: numberOfVials,
-      healthcareProviderId: props.provider.id!,
-    });
+      numberOfDoses: numberOfDoses,
+      healthcareProviderId: props.provider.id!
+    }
 
     e.preventDefault();
 
-    client.addCapacityReport(props.provider.id!, command).then((response) => {
-        setSubmit(true);
-        setButtonDisabled(false);
-    });
+    client.addCapacityReport(props.provider.id!, new CreateCapacityReportCommand(command)).then((response) => {
+        if(response){
+          setSubmit(true);
+          setButtonDisabled(false);
+        }
+    }, (error) => {console.log(error)});
 
     setTimeout(() => {
       setSubmit(false);
@@ -66,11 +69,11 @@ function CapacityReportForm(props: Props) {
                 </Form.Group>
               </Col>
               <Col md={2}>
-                <Form.Group className="mb-3" controlId="numberOfVialsInput">
+                <Form.Group className="mb-3" controlId="numberOfDosesInput">
                   <Form.Label>Kvantitet (doser)</Form.Label>
                   <Form.Control
                     required={true}
-                    onChange={(e) => setNumberOfVials(parseInt(e.target.value))}
+                    onChange={(e) => setNumberOfDoses(parseInt(e.target.value))}
                     type="number"
                   />
                 </Form.Group>

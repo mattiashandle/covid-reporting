@@ -1,5 +1,3 @@
-import { render } from "@testing-library/react";
-import * as React from "react";
 import Table from "react-bootstrap/Table";
 import {
   OrderReportDto,
@@ -13,7 +11,6 @@ type Props = {
 }
 
 function OrderReportTable(props: Props) {
-  const [provider, setProvider] = useState<HealthcareProviderDto>(props.provider);
   const [loading, setLoading] = useState(true);
   const [reports, setReports] = useState<OrderReportDto[] | null>(null);
 
@@ -29,7 +26,7 @@ function OrderReportTable(props: Props) {
     <>
     {loading ? (<h1>Loading</h1>) : (
       <div>
-      <h3 className="text-center" >Beställningar</h3>
+      <h3 className="" >Beställningar</h3>
        <Table striped bordered hover responsive>
          <thead>
            <tr key="-1">

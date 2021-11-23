@@ -20,7 +20,7 @@ namespace Karolinska.Application.Features.Commands
 
         public int NumberOfVials { get; set; }
 
-        public int NumberOfDosages { get; set; }
+        public int NumberOfDoses { get; set; }
 
         public Guid HealthcareProviderId { get; set; }
     }
@@ -52,7 +52,8 @@ namespace Karolinska.Application.Features.Commands
                 HealthcareProviderId = command.HealthcareProviderId,
                 InsertDate = DateTime.UtcNow,
                 NumberOfVials = command.NumberOfVials,
-                SupplierId = command.SupplierId
+                SupplierId = command.SupplierId,
+                NumberOfDoses = command.NumberOfDoses
             };
 
             await _context.StockBalanceReports.AddAsync(stockBalanceReport);

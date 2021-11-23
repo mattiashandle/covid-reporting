@@ -143,7 +143,7 @@ namespace Karolinska.Web.Extensions
                 Id = _fixture.Create<Guid>(),
                 HealthcareProviderId = providerId,
                 Date = stockBalanceDate,
-                NumberOfDosages = _fixture.Create<int>(),
+                NumberOfDoses = _fixture.Create<int>(),
                 NumberOfVials = _fixture.Create<int>(),
                 SupplierId = supplierId,
                 InsertDate = insertDate,

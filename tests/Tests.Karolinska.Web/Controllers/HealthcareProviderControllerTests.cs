@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tests.Karolinska.Web.Controllers
@@ -39,7 +40,7 @@ namespace Tests.Karolinska.Web.Controllers
 
             var sut = new HealthcareProviderController(NullLogger<HealthcareProviderController>.Instance);
 
-            var actionResult = await sut.GetHealthcareProviders(new GetHealthcareProvidersQueryHandler(context, mapper));
+            var actionResult = await sut.GetHealthcareProviders(new GetHealthcareProvidersQueryHandler(context, mapper), CancellationToken.None);
 
             Assert.That(actionResult, Is.TypeOf<OkObjectResult>());
 

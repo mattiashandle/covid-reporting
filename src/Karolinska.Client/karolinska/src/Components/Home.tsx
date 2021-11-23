@@ -1,5 +1,3 @@
-import * as React from "react";
-import { Routes, Route, Link } from "react-router-dom";
 import {Container, Row } from "react-bootstrap";
 import "../App.css";
 

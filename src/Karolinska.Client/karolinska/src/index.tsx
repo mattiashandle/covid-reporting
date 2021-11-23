@@ -1,9 +1,8 @@
-import * as React from "react";
 import * as ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { Navbar, NavbarBrand, Nav, NavDropdown, Container } from "react-bootstrap";
-import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Reporting from "./Components/Reporting";
 import Overview from "./Components/Overview";
 

@@ -1038,14 +1038,17 @@ export class PagedResponseOfHealthcareProviderDtoOf implements IPagedResponseOfH
 
     init(_data?: any) {
         if (_data) {
-            this.pageNumber = _data["pageNumber"];
-            this.pageSize = _data["pageSize"];
-            this.totalPages = _data["totalPages"];
-            this.totalRecords = _data["totalRecords"];
+            this.pageNumber = _data["pageNumber"] !== undefined ? _data["pageNumber"] : <any>null;
+            this.pageSize = _data["pageSize"] !== undefined ? _data["pageSize"] : <any>null;
+            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.totalRecords = _data["totalRecords"] !== undefined ? _data["totalRecords"] : <any>null;
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(HealthcareProviderDto.fromJS(item));
+            }
+            else {
+                this.data = <any>null;
             }
         }
     }
@@ -1059,10 +1062,10 @@ export class PagedResponseOfHealthcareProviderDtoOf implements IPagedResponseOfH
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["pageNumber"] = this.pageNumber;
-        data["pageSize"] = this.pageSize;
-        data["totalPages"] = this.totalPages;
-        data["totalRecords"] = this.totalRecords;
+        data["pageNumber"] = this.pageNumber !== undefined ? this.pageNumber : <any>null;
+        data["pageSize"] = this.pageSize !== undefined ? this.pageSize : <any>null;
+        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["totalRecords"] = this.totalRecords !== undefined ? this.totalRecords : <any>null;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -1095,8 +1098,8 @@ export class HealthcareProviderDto implements IHealthcareProviderDto {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
         }
     }
 
@@ -1109,8 +1112,8 @@ export class HealthcareProviderDto implements IHealthcareProviderDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["name"] = this.name !== undefined ? this.name : <any>null;
         return data; 
     }
 }
@@ -1121,11 +1124,11 @@ export interface IHealthcareProviderDto {
 }
 
 export class ProblemDetails implements IProblemDetails {
-    type?: string | undefined;
-    title?: string | undefined;
-    status?: number | undefined;
-    detail?: string | undefined;
-    instance?: string | undefined;
+    type?: string | null;
+    title?: string | null;
+    status?: number | null;
+    detail?: string | null;
+    instance?: string | null;
 
     constructor(data?: IProblemDetails) {
         if (data) {
@@ -1138,11 +1141,11 @@ export class ProblemDetails implements IProblemDetails {
 
     init(_data?: any) {
         if (_data) {
-            this.type = _data["type"];
-            this.title = _data["title"];
-            this.status = _data["status"];
-            this.detail = _data["detail"];
-            this.instance = _data["instance"];
+            this.type = _data["type"] !== undefined ? _data["type"] : <any>null;
+            this.title = _data["title"] !== undefined ? _data["title"] : <any>null;
+            this.status = _data["status"] !== undefined ? _data["status"] : <any>null;
+            this.detail = _data["detail"] !== undefined ? _data["detail"] : <any>null;
+            this.instance = _data["instance"] !== undefined ? _data["instance"] : <any>null;
         }
     }
 
@@ -1155,21 +1158,21 @@ export class ProblemDetails implements IProblemDetails {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["type"] = this.type;
-        data["title"] = this.title;
-        data["status"] = this.status;
-        data["detail"] = this.detail;
-        data["instance"] = this.instance;
+        data["type"] = this.type !== undefined ? this.type : <any>null;
+        data["title"] = this.title !== undefined ? this.title : <any>null;
+        data["status"] = this.status !== undefined ? this.status : <any>null;
+        data["detail"] = this.detail !== undefined ? this.detail : <any>null;
+        data["instance"] = this.instance !== undefined ? this.instance : <any>null;
         return data; 
     }
 }
 
 export interface IProblemDetails {
-    type?: string | undefined;
-    title?: string | undefined;
-    status?: number | undefined;
-    detail?: string | undefined;
-    instance?: string | undefined;
+    type?: string | null;
+    title?: string | null;
+    status?: number | null;
+    detail?: string | null;
+    instance?: string | null;
 }
 
 export class PagedResponseOfOrderReportDtoOf implements IPagedResponseOfOrderReportDtoOf {
@@ -1190,14 +1193,17 @@ export class PagedResponseOfOrderReportDtoOf implements IPagedResponseOfOrderRep
 
     init(_data?: any) {
         if (_data) {
-            this.pageNumber = _data["pageNumber"];
-            this.pageSize = _data["pageSize"];
-            this.totalPages = _data["totalPages"];
-            this.totalRecords = _data["totalRecords"];
+            this.pageNumber = _data["pageNumber"] !== undefined ? _data["pageNumber"] : <any>null;
+            this.pageSize = _data["pageSize"] !== undefined ? _data["pageSize"] : <any>null;
+            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.totalRecords = _data["totalRecords"] !== undefined ? _data["totalRecords"] : <any>null;
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(OrderReportDto.fromJS(item));
+            }
+            else {
+                this.data = <any>null;
             }
         }
     }
@@ -1211,10 +1217,10 @@ export class PagedResponseOfOrderReportDtoOf implements IPagedResponseOfOrderRep
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["pageNumber"] = this.pageNumber;
-        data["pageSize"] = this.pageSize;
-        data["totalPages"] = this.totalPages;
-        data["totalRecords"] = this.totalRecords;
+        data["pageNumber"] = this.pageNumber !== undefined ? this.pageNumber : <any>null;
+        data["pageSize"] = this.pageSize !== undefined ? this.pageSize : <any>null;
+        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["totalRecords"] = this.totalRecords !== undefined ? this.totalRecords : <any>null;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -1234,8 +1240,8 @@ export interface IPagedResponseOfOrderReportDtoOf {
 
 export class OrderReportDto implements IOrderReportDto {
     id?: string;
-    orderDate?: Date | undefined;
-    requestedDeliveryDate?: Date | undefined;
+    orderDate?: Date | null;
+    requestedDeliveryDate?: Date | null;
     quantity?: number;
     glnReceiver?: string;
     insertDate?: Date;
@@ -1251,12 +1257,12 @@ export class OrderReportDto implements IOrderReportDto {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
-            this.orderDate = _data["orderDate"] ? new Date(_data["orderDate"].toString()) : <any>undefined;
-            this.requestedDeliveryDate = _data["requestedDeliveryDate"] ? new Date(_data["requestedDeliveryDate"].toString()) : <any>undefined;
-            this.quantity = _data["quantity"];
-            this.glnReceiver = _data["glnReceiver"];
-            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>undefined;
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.orderDate = _data["orderDate"] ? new Date(_data["orderDate"].toString()) : <any>null;
+            this.requestedDeliveryDate = _data["requestedDeliveryDate"] ? new Date(_data["requestedDeliveryDate"].toString()) : <any>null;
+            this.quantity = _data["quantity"] !== undefined ? _data["quantity"] : <any>null;
+            this.glnReceiver = _data["glnReceiver"] !== undefined ? _data["glnReceiver"] : <any>null;
+            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>null;
         }
     }
 
@@ -1269,28 +1275,28 @@ export class OrderReportDto implements IOrderReportDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["orderDate"] = this.orderDate ? this.orderDate.toISOString() : <any>undefined;
-        data["requestedDeliveryDate"] = this.requestedDeliveryDate ? this.requestedDeliveryDate.toISOString() : <any>undefined;
-        data["quantity"] = this.quantity;
-        data["glnReceiver"] = this.glnReceiver;
-        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>undefined;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["orderDate"] = this.orderDate ? this.orderDate.toISOString() : <any>null;
+        data["requestedDeliveryDate"] = this.requestedDeliveryDate ? this.requestedDeliveryDate.toISOString() : <any>null;
+        data["quantity"] = this.quantity !== undefined ? this.quantity : <any>null;
+        data["glnReceiver"] = this.glnReceiver !== undefined ? this.glnReceiver : <any>null;
+        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>null;
         return data; 
     }
 }
 
 export interface IOrderReportDto {
     id?: string;
-    orderDate?: Date | undefined;
-    requestedDeliveryDate?: Date | undefined;
+    orderDate?: Date | null;
+    requestedDeliveryDate?: Date | null;
     quantity?: number;
     glnReceiver?: string;
     insertDate?: Date;
 }
 
 export class CreateOrderReportCommand implements ICreateOrderReportCommand {
-    orderDate?: Date | undefined;
-    requestedDeliveryDate?: Date | undefined;
+    orderDate?: Date | null;
+    requestedDeliveryDate?: Date | null;
     quantity?: number;
     glnReceiver?: string;
     healthcareProviderId?: string;
@@ -1306,11 +1312,11 @@ export class CreateOrderReportCommand implements ICreateOrderReportCommand {
 
     init(_data?: any) {
         if (_data) {
-            this.orderDate = _data["orderDate"] ? new Date(_data["orderDate"].toString()) : <any>undefined;
-            this.requestedDeliveryDate = _data["requestedDeliveryDate"] ? new Date(_data["requestedDeliveryDate"].toString()) : <any>undefined;
-            this.quantity = _data["quantity"];
-            this.glnReceiver = _data["glnReceiver"];
-            this.healthcareProviderId = _data["healthcareProviderId"];
+            this.orderDate = _data["orderDate"] ? new Date(_data["orderDate"].toString()) : <any>null;
+            this.requestedDeliveryDate = _data["requestedDeliveryDate"] ? new Date(_data["requestedDeliveryDate"].toString()) : <any>null;
+            this.quantity = _data["quantity"] !== undefined ? _data["quantity"] : <any>null;
+            this.glnReceiver = _data["glnReceiver"] !== undefined ? _data["glnReceiver"] : <any>null;
+            this.healthcareProviderId = _data["healthcareProviderId"] !== undefined ? _data["healthcareProviderId"] : <any>null;
         }
     }
 
@@ -1323,18 +1329,18 @@ export class CreateOrderReportCommand implements ICreateOrderReportCommand {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["orderDate"] = this.orderDate ? this.orderDate.toISOString() : <any>undefined;
-        data["requestedDeliveryDate"] = this.requestedDeliveryDate ? this.requestedDeliveryDate.toISOString() : <any>undefined;
-        data["quantity"] = this.quantity;
-        data["glnReceiver"] = this.glnReceiver;
-        data["healthcareProviderId"] = this.healthcareProviderId;
+        data["orderDate"] = this.orderDate ? this.orderDate.toISOString() : <any>null;
+        data["requestedDeliveryDate"] = this.requestedDeliveryDate ? this.requestedDeliveryDate.toISOString() : <any>null;
+        data["quantity"] = this.quantity !== undefined ? this.quantity : <any>null;
+        data["glnReceiver"] = this.glnReceiver !== undefined ? this.glnReceiver : <any>null;
+        data["healthcareProviderId"] = this.healthcareProviderId !== undefined ? this.healthcareProviderId : <any>null;
         return data; 
     }
 }
 
 export interface ICreateOrderReportCommand {
-    orderDate?: Date | undefined;
-    requestedDeliveryDate?: Date | undefined;
+    orderDate?: Date | null;
+    requestedDeliveryDate?: Date | null;
     quantity?: number;
     glnReceiver?: string;
     healthcareProviderId?: string;
@@ -1358,14 +1364,17 @@ export class PagedResponseOfStockBalanceReportDtoOf implements IPagedResponseOfS
 
     init(_data?: any) {
         if (_data) {
-            this.pageNumber = _data["pageNumber"];
-            this.pageSize = _data["pageSize"];
-            this.totalPages = _data["totalPages"];
-            this.totalRecords = _data["totalRecords"];
+            this.pageNumber = _data["pageNumber"] !== undefined ? _data["pageNumber"] : <any>null;
+            this.pageSize = _data["pageSize"] !== undefined ? _data["pageSize"] : <any>null;
+            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.totalRecords = _data["totalRecords"] !== undefined ? _data["totalRecords"] : <any>null;
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(StockBalanceReportDto.fromJS(item));
+            }
+            else {
+                this.data = <any>null;
             }
         }
     }
@@ -1379,10 +1388,10 @@ export class PagedResponseOfStockBalanceReportDtoOf implements IPagedResponseOfS
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["pageNumber"] = this.pageNumber;
-        data["pageSize"] = this.pageSize;
-        data["totalPages"] = this.totalPages;
-        data["totalRecords"] = this.totalRecords;
+        data["pageNumber"] = this.pageNumber !== undefined ? this.pageNumber : <any>null;
+        data["pageSize"] = this.pageSize !== undefined ? this.pageSize : <any>null;
+        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["totalRecords"] = this.totalRecords !== undefined ? this.totalRecords : <any>null;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -1406,7 +1415,7 @@ export class StockBalanceReportDto implements IStockBalanceReportDto {
     supplierId?: string;
     supplierName?: string;
     numberOfVials?: number;
-    numberOfDosages?: number;
+    numberOfDoses?: number;
     insertDate?: Date;
 
     constructor(data?: IStockBalanceReportDto) {
@@ -1420,13 +1429,13 @@ export class StockBalanceReportDto implements IStockBalanceReportDto {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
-            this.supplierId = _data["supplierId"];
-            this.supplierName = _data["supplierName"];
-            this.numberOfVials = _data["numberOfVials"];
-            this.numberOfDosages = _data["numberOfDosages"];
-            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>undefined;
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>null;
+            this.supplierId = _data["supplierId"] !== undefined ? _data["supplierId"] : <any>null;
+            this.supplierName = _data["supplierName"] !== undefined ? _data["supplierName"] : <any>null;
+            this.numberOfVials = _data["numberOfVials"] !== undefined ? _data["numberOfVials"] : <any>null;
+            this.numberOfDoses = _data["numberOfDoses"] !== undefined ? _data["numberOfDoses"] : <any>null;
+            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>null;
         }
     }
 
@@ -1439,13 +1448,13 @@ export class StockBalanceReportDto implements IStockBalanceReportDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["supplierId"] = this.supplierId;
-        data["supplierName"] = this.supplierName;
-        data["numberOfVials"] = this.numberOfVials;
-        data["numberOfDosages"] = this.numberOfDosages;
-        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>undefined;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["date"] = this.date ? this.date.toISOString() : <any>null;
+        data["supplierId"] = this.supplierId !== undefined ? this.supplierId : <any>null;
+        data["supplierName"] = this.supplierName !== undefined ? this.supplierName : <any>null;
+        data["numberOfVials"] = this.numberOfVials !== undefined ? this.numberOfVials : <any>null;
+        data["numberOfDoses"] = this.numberOfDoses !== undefined ? this.numberOfDoses : <any>null;
+        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>null;
         return data; 
     }
 }
@@ -1456,7 +1465,7 @@ export interface IStockBalanceReportDto {
     supplierId?: string;
     supplierName?: string;
     numberOfVials?: number;
-    numberOfDosages?: number;
+    numberOfDoses?: number;
     insertDate?: Date;
 }
 
@@ -1464,7 +1473,7 @@ export class CreateStockBalanceReportCommand implements ICreateStockBalanceRepor
     date?: Date;
     supplierId?: string;
     numberOfVials?: number;
-    numberOfDosages?: number;
+    numberOfDoses?: number;
     healthcareProviderId?: string;
 
     constructor(data?: ICreateStockBalanceReportCommand) {
@@ -1478,11 +1487,11 @@ export class CreateStockBalanceReportCommand implements ICreateStockBalanceRepor
 
     init(_data?: any) {
         if (_data) {
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
-            this.supplierId = _data["supplierId"];
-            this.numberOfVials = _data["numberOfVials"];
-            this.numberOfDosages = _data["numberOfDosages"];
-            this.healthcareProviderId = _data["healthcareProviderId"];
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>null;
+            this.supplierId = _data["supplierId"] !== undefined ? _data["supplierId"] : <any>null;
+            this.numberOfVials = _data["numberOfVials"] !== undefined ? _data["numberOfVials"] : <any>null;
+            this.numberOfDoses = _data["numberOfDoses"] !== undefined ? _data["numberOfDoses"] : <any>null;
+            this.healthcareProviderId = _data["healthcareProviderId"] !== undefined ? _data["healthcareProviderId"] : <any>null;
         }
     }
 
@@ -1495,11 +1504,11 @@ export class CreateStockBalanceReportCommand implements ICreateStockBalanceRepor
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["supplierId"] = this.supplierId;
-        data["numberOfVials"] = this.numberOfVials;
-        data["numberOfDosages"] = this.numberOfDosages;
-        data["healthcareProviderId"] = this.healthcareProviderId;
+        data["date"] = this.date ? this.date.toISOString() : <any>null;
+        data["supplierId"] = this.supplierId !== undefined ? this.supplierId : <any>null;
+        data["numberOfVials"] = this.numberOfVials !== undefined ? this.numberOfVials : <any>null;
+        data["numberOfDoses"] = this.numberOfDoses !== undefined ? this.numberOfDoses : <any>null;
+        data["healthcareProviderId"] = this.healthcareProviderId !== undefined ? this.healthcareProviderId : <any>null;
         return data; 
     }
 }
@@ -1508,7 +1517,7 @@ export interface ICreateStockBalanceReportCommand {
     date?: Date;
     supplierId?: string;
     numberOfVials?: number;
-    numberOfDosages?: number;
+    numberOfDoses?: number;
     healthcareProviderId?: string;
 }
 
@@ -1530,14 +1539,17 @@ export class PagedResponseOfReceiptReportDtoOf implements IPagedResponseOfReceip
 
     init(_data?: any) {
         if (_data) {
-            this.pageNumber = _data["pageNumber"];
-            this.pageSize = _data["pageSize"];
-            this.totalPages = _data["totalPages"];
-            this.totalRecords = _data["totalRecords"];
+            this.pageNumber = _data["pageNumber"] !== undefined ? _data["pageNumber"] : <any>null;
+            this.pageSize = _data["pageSize"] !== undefined ? _data["pageSize"] : <any>null;
+            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.totalRecords = _data["totalRecords"] !== undefined ? _data["totalRecords"] : <any>null;
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(ReceiptReportDto.fromJS(item));
+            }
+            else {
+                this.data = <any>null;
             }
         }
     }
@@ -1551,10 +1563,10 @@ export class PagedResponseOfReceiptReportDtoOf implements IPagedResponseOfReceip
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["pageNumber"] = this.pageNumber;
-        data["pageSize"] = this.pageSize;
-        data["totalPages"] = this.totalPages;
-        data["totalRecords"] = this.totalRecords;
+        data["pageNumber"] = this.pageNumber !== undefined ? this.pageNumber : <any>null;
+        data["pageSize"] = this.pageSize !== undefined ? this.pageSize : <any>null;
+        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["totalRecords"] = this.totalRecords !== undefined ? this.totalRecords : <any>null;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -1574,7 +1586,7 @@ export interface IPagedResponseOfReceiptReportDtoOf {
 
 export class ReceiptReportDto implements IReceiptReportDto {
     id?: string;
-    deliveryDate?: Date | undefined;
+    deliveryDate?: Date | null;
     expectedDeliveryDate?: Date;
     numberOfVials?: number;
     glnReceiver?: string;
@@ -1593,14 +1605,14 @@ export class ReceiptReportDto implements IReceiptReportDto {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
-            this.deliveryDate = _data["deliveryDate"] ? new Date(_data["deliveryDate"].toString()) : <any>undefined;
-            this.expectedDeliveryDate = _data["expectedDeliveryDate"] ? new Date(_data["expectedDeliveryDate"].toString()) : <any>undefined;
-            this.numberOfVials = _data["numberOfVials"];
-            this.glnReceiver = _data["glnReceiver"];
-            this.supplierId = _data["supplierId"];
-            this.supplierName = _data["supplierName"];
-            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>undefined;
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.deliveryDate = _data["deliveryDate"] ? new Date(_data["deliveryDate"].toString()) : <any>null;
+            this.expectedDeliveryDate = _data["expectedDeliveryDate"] ? new Date(_data["expectedDeliveryDate"].toString()) : <any>null;
+            this.numberOfVials = _data["numberOfVials"] !== undefined ? _data["numberOfVials"] : <any>null;
+            this.glnReceiver = _data["glnReceiver"] !== undefined ? _data["glnReceiver"] : <any>null;
+            this.supplierId = _data["supplierId"] !== undefined ? _data["supplierId"] : <any>null;
+            this.supplierName = _data["supplierName"] !== undefined ? _data["supplierName"] : <any>null;
+            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>null;
         }
     }
 
@@ -1613,21 +1625,21 @@ export class ReceiptReportDto implements IReceiptReportDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["deliveryDate"] = this.deliveryDate ? this.deliveryDate.toISOString() : <any>undefined;
-        data["expectedDeliveryDate"] = this.expectedDeliveryDate ? this.expectedDeliveryDate.toISOString() : <any>undefined;
-        data["numberOfVials"] = this.numberOfVials;
-        data["glnReceiver"] = this.glnReceiver;
-        data["supplierId"] = this.supplierId;
-        data["supplierName"] = this.supplierName;
-        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>undefined;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["deliveryDate"] = this.deliveryDate ? this.deliveryDate.toISOString() : <any>null;
+        data["expectedDeliveryDate"] = this.expectedDeliveryDate ? this.expectedDeliveryDate.toISOString() : <any>null;
+        data["numberOfVials"] = this.numberOfVials !== undefined ? this.numberOfVials : <any>null;
+        data["glnReceiver"] = this.glnReceiver !== undefined ? this.glnReceiver : <any>null;
+        data["supplierId"] = this.supplierId !== undefined ? this.supplierId : <any>null;
+        data["supplierName"] = this.supplierName !== undefined ? this.supplierName : <any>null;
+        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>null;
         return data; 
     }
 }
 
 export interface IReceiptReportDto {
     id?: string;
-    deliveryDate?: Date | undefined;
+    deliveryDate?: Date | null;
     expectedDeliveryDate?: Date;
     numberOfVials?: number;
     glnReceiver?: string;
@@ -1637,7 +1649,7 @@ export interface IReceiptReportDto {
 }
 
 export class CreateReceiptReportCommand implements ICreateReceiptReportCommand {
-    deliveryDate?: Date | undefined;
+    deliveryDate?: Date | null;
     expectedDeliveryDate?: Date;
     numberOfVials?: number;
     glnReceiver?: string;
@@ -1655,12 +1667,12 @@ export class CreateReceiptReportCommand implements ICreateReceiptReportCommand {
 
     init(_data?: any) {
         if (_data) {
-            this.deliveryDate = _data["deliveryDate"] ? new Date(_data["deliveryDate"].toString()) : <any>undefined;
-            this.expectedDeliveryDate = _data["expectedDeliveryDate"] ? new Date(_data["expectedDeliveryDate"].toString()) : <any>undefined;
-            this.numberOfVials = _data["numberOfVials"];
-            this.glnReceiver = _data["glnReceiver"];
-            this.supplierId = _data["supplierId"];
-            this.healthcareProviderId = _data["healthcareProviderId"];
+            this.deliveryDate = _data["deliveryDate"] ? new Date(_data["deliveryDate"].toString()) : <any>null;
+            this.expectedDeliveryDate = _data["expectedDeliveryDate"] ? new Date(_data["expectedDeliveryDate"].toString()) : <any>null;
+            this.numberOfVials = _data["numberOfVials"] !== undefined ? _data["numberOfVials"] : <any>null;
+            this.glnReceiver = _data["glnReceiver"] !== undefined ? _data["glnReceiver"] : <any>null;
+            this.supplierId = _data["supplierId"] !== undefined ? _data["supplierId"] : <any>null;
+            this.healthcareProviderId = _data["healthcareProviderId"] !== undefined ? _data["healthcareProviderId"] : <any>null;
         }
     }
 
@@ -1673,18 +1685,18 @@ export class CreateReceiptReportCommand implements ICreateReceiptReportCommand {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["deliveryDate"] = this.deliveryDate ? this.deliveryDate.toISOString() : <any>undefined;
-        data["expectedDeliveryDate"] = this.expectedDeliveryDate ? this.expectedDeliveryDate.toISOString() : <any>undefined;
-        data["numberOfVials"] = this.numberOfVials;
-        data["glnReceiver"] = this.glnReceiver;
-        data["supplierId"] = this.supplierId;
-        data["healthcareProviderId"] = this.healthcareProviderId;
+        data["deliveryDate"] = this.deliveryDate ? this.deliveryDate.toISOString() : <any>null;
+        data["expectedDeliveryDate"] = this.expectedDeliveryDate ? this.expectedDeliveryDate.toISOString() : <any>null;
+        data["numberOfVials"] = this.numberOfVials !== undefined ? this.numberOfVials : <any>null;
+        data["glnReceiver"] = this.glnReceiver !== undefined ? this.glnReceiver : <any>null;
+        data["supplierId"] = this.supplierId !== undefined ? this.supplierId : <any>null;
+        data["healthcareProviderId"] = this.healthcareProviderId !== undefined ? this.healthcareProviderId : <any>null;
         return data; 
     }
 }
 
 export interface ICreateReceiptReportCommand {
-    deliveryDate?: Date | undefined;
+    deliveryDate?: Date | null;
     expectedDeliveryDate?: Date;
     numberOfVials?: number;
     glnReceiver?: string;
@@ -1710,14 +1722,17 @@ export class PagedResponseOfExpenditureReportDtoOf implements IPagedResponseOfEx
 
     init(_data?: any) {
         if (_data) {
-            this.pageNumber = _data["pageNumber"];
-            this.pageSize = _data["pageSize"];
-            this.totalPages = _data["totalPages"];
-            this.totalRecords = _data["totalRecords"];
+            this.pageNumber = _data["pageNumber"] !== undefined ? _data["pageNumber"] : <any>null;
+            this.pageSize = _data["pageSize"] !== undefined ? _data["pageSize"] : <any>null;
+            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.totalRecords = _data["totalRecords"] !== undefined ? _data["totalRecords"] : <any>null;
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(ExpenditureReportDto.fromJS(item));
+            }
+            else {
+                this.data = <any>null;
             }
         }
     }
@@ -1731,10 +1746,10 @@ export class PagedResponseOfExpenditureReportDtoOf implements IPagedResponseOfEx
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["pageNumber"] = this.pageNumber;
-        data["pageSize"] = this.pageSize;
-        data["totalPages"] = this.totalPages;
-        data["totalRecords"] = this.totalRecords;
+        data["pageNumber"] = this.pageNumber !== undefined ? this.pageNumber : <any>null;
+        data["pageSize"] = this.pageSize !== undefined ? this.pageSize : <any>null;
+        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["totalRecords"] = this.totalRecords !== undefined ? this.totalRecords : <any>null;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -1771,12 +1786,12 @@ export class ExpenditureReportDto implements IExpenditureReportDto {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
-            this.supplierId = _data["supplierId"];
-            this.supplierName = _data["supplierName"];
-            this.numberOfVials = _data["numberOfVials"];
-            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>undefined;
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>null;
+            this.supplierId = _data["supplierId"] !== undefined ? _data["supplierId"] : <any>null;
+            this.supplierName = _data["supplierName"] !== undefined ? _data["supplierName"] : <any>null;
+            this.numberOfVials = _data["numberOfVials"] !== undefined ? _data["numberOfVials"] : <any>null;
+            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>null;
         }
     }
 
@@ -1789,12 +1804,12 @@ export class ExpenditureReportDto implements IExpenditureReportDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["supplierId"] = this.supplierId;
-        data["supplierName"] = this.supplierName;
-        data["numberOfVials"] = this.numberOfVials;
-        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>undefined;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["date"] = this.date ? this.date.toISOString() : <any>null;
+        data["supplierId"] = this.supplierId !== undefined ? this.supplierId : <any>null;
+        data["supplierName"] = this.supplierName !== undefined ? this.supplierName : <any>null;
+        data["numberOfVials"] = this.numberOfVials !== undefined ? this.numberOfVials : <any>null;
+        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>null;
         return data; 
     }
 }
@@ -1826,14 +1841,17 @@ export class PagedResponseOfCapacityReportDtoOf implements IPagedResponseOfCapac
 
     init(_data?: any) {
         if (_data) {
-            this.pageNumber = _data["pageNumber"];
-            this.pageSize = _data["pageSize"];
-            this.totalPages = _data["totalPages"];
-            this.totalRecords = _data["totalRecords"];
+            this.pageNumber = _data["pageNumber"] !== undefined ? _data["pageNumber"] : <any>null;
+            this.pageSize = _data["pageSize"] !== undefined ? _data["pageSize"] : <any>null;
+            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.totalRecords = _data["totalRecords"] !== undefined ? _data["totalRecords"] : <any>null;
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(CapacityReportDto.fromJS(item));
+            }
+            else {
+                this.data = <any>null;
             }
         }
     }
@@ -1847,10 +1865,10 @@ export class PagedResponseOfCapacityReportDtoOf implements IPagedResponseOfCapac
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["pageNumber"] = this.pageNumber;
-        data["pageSize"] = this.pageSize;
-        data["totalPages"] = this.totalPages;
-        data["totalRecords"] = this.totalRecords;
+        data["pageNumber"] = this.pageNumber !== undefined ? this.pageNumber : <any>null;
+        data["pageSize"] = this.pageSize !== undefined ? this.pageSize : <any>null;
+        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["totalRecords"] = this.totalRecords !== undefined ? this.totalRecords : <any>null;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -1885,10 +1903,10 @@ export class CapacityReportDto implements ICapacityReportDto {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
-            this.numberOfDoses = _data["numberOfDoses"];
-            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>undefined;
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>null;
+            this.numberOfDoses = _data["numberOfDoses"] !== undefined ? _data["numberOfDoses"] : <any>null;
+            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>null;
         }
     }
 
@@ -1901,10 +1919,10 @@ export class CapacityReportDto implements ICapacityReportDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["numberOfDoses"] = this.numberOfDoses;
-        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>undefined;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["date"] = this.date ? this.date.toISOString() : <any>null;
+        data["numberOfDoses"] = this.numberOfDoses !== undefined ? this.numberOfDoses : <any>null;
+        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>null;
         return data; 
     }
 }
@@ -1933,10 +1951,10 @@ export class CreateExpenditureReportCommand implements ICreateExpenditureReportC
 
     init(_data?: any) {
         if (_data) {
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
-            this.supplierId = _data["supplierId"];
-            this.numberOfVials = _data["numberOfVials"];
-            this.healthcareProviderId = _data["healthcareProviderId"];
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>null;
+            this.supplierId = _data["supplierId"] !== undefined ? _data["supplierId"] : <any>null;
+            this.numberOfVials = _data["numberOfVials"] !== undefined ? _data["numberOfVials"] : <any>null;
+            this.healthcareProviderId = _data["healthcareProviderId"] !== undefined ? _data["healthcareProviderId"] : <any>null;
         }
     }
 
@@ -1949,10 +1967,10 @@ export class CreateExpenditureReportCommand implements ICreateExpenditureReportC
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["supplierId"] = this.supplierId;
-        data["numberOfVials"] = this.numberOfVials;
-        data["healthcareProviderId"] = this.healthcareProviderId;
+        data["date"] = this.date ? this.date.toISOString() : <any>null;
+        data["supplierId"] = this.supplierId !== undefined ? this.supplierId : <any>null;
+        data["numberOfVials"] = this.numberOfVials !== undefined ? this.numberOfVials : <any>null;
+        data["healthcareProviderId"] = this.healthcareProviderId !== undefined ? this.healthcareProviderId : <any>null;
         return data; 
     }
 }
@@ -1980,9 +1998,9 @@ export class CreateCapacityReportCommand implements ICreateCapacityReportCommand
 
     init(_data?: any) {
         if (_data) {
-            this.healthcareProviderId = _data["healthcareProviderId"];
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
-            this.numberOfDoses = _data["numberOfDoses"];
+            this.healthcareProviderId = _data["healthcareProviderId"] !== undefined ? _data["healthcareProviderId"] : <any>null;
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>null;
+            this.numberOfDoses = _data["numberOfDoses"] !== undefined ? _data["numberOfDoses"] : <any>null;
         }
     }
 
@@ -1995,9 +2013,9 @@ export class CreateCapacityReportCommand implements ICreateCapacityReportCommand
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["healthcareProviderId"] = this.healthcareProviderId;
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["numberOfDoses"] = this.numberOfDoses;
+        data["healthcareProviderId"] = this.healthcareProviderId !== undefined ? this.healthcareProviderId : <any>null;
+        data["date"] = this.date ? this.date.toISOString() : <any>null;
+        data["numberOfDoses"] = this.numberOfDoses !== undefined ? this.numberOfDoses : <any>null;
         return data; 
     }
 }
@@ -2026,14 +2044,17 @@ export class PagedResponseOfSupplierDtoOf implements IPagedResponseOfSupplierDto
 
     init(_data?: any) {
         if (_data) {
-            this.pageNumber = _data["pageNumber"];
-            this.pageSize = _data["pageSize"];
-            this.totalPages = _data["totalPages"];
-            this.totalRecords = _data["totalRecords"];
+            this.pageNumber = _data["pageNumber"] !== undefined ? _data["pageNumber"] : <any>null;
+            this.pageSize = _data["pageSize"] !== undefined ? _data["pageSize"] : <any>null;
+            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.totalRecords = _data["totalRecords"] !== undefined ? _data["totalRecords"] : <any>null;
             if (Array.isArray(_data["data"])) {
                 this.data = [] as any;
                 for (let item of _data["data"])
                     this.data!.push(SupplierDto.fromJS(item));
+            }
+            else {
+                this.data = <any>null;
             }
         }
     }
@@ -2047,10 +2068,10 @@ export class PagedResponseOfSupplierDtoOf implements IPagedResponseOfSupplierDto
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["pageNumber"] = this.pageNumber;
-        data["pageSize"] = this.pageSize;
-        data["totalPages"] = this.totalPages;
-        data["totalRecords"] = this.totalRecords;
+        data["pageNumber"] = this.pageNumber !== undefined ? this.pageNumber : <any>null;
+        data["pageSize"] = this.pageSize !== undefined ? this.pageSize : <any>null;
+        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["totalRecords"] = this.totalRecords !== undefined ? this.totalRecords : <any>null;
         if (Array.isArray(this.data)) {
             data["data"] = [];
             for (let item of this.data)
@@ -2083,8 +2104,8 @@ export class SupplierDto implements ISupplierDto {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
         }
     }
 
@@ -2097,8 +2118,8 @@ export class SupplierDto implements ISupplierDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["name"] = this.name !== undefined ? this.name : <any>null;
         return data; 
     }
 }

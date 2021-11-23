@@ -1,16 +1,7 @@
 import * as React from "react";
-import { Container, Row, Button, Dropdown, Form, Card } from "react-bootstrap";
-import {
-  CapacityReportDto,
-  ExpenditureReportDto,
-  HealthcareProviderClient,
-  HealthcareProviderDto,
-  OrderReportDto,
-  ReceiptReportDto,
-  StockBalanceReportDto,
-} from "./SDKs/api.generated.clients";
+import { Container, Row, Button, Card } from "react-bootstrap";
+import { HealthcareProviderClient, HealthcareProviderDto } from "./SDKs/api.generated.clients";
 import "../App.css";
-import { Link } from "react-router-dom";
 
 type State = {
   isLoaded: boolean;
@@ -57,8 +48,6 @@ export default class Reporting extends React.Component {
                   </Card>
                   </Row>  
         })}
-
-        
      </Container>
       </>
     )
