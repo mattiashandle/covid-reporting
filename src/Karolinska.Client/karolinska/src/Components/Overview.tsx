@@ -47,7 +47,7 @@ export default class Overview extends React.Component<
     receiptReports: []
   };
 
-  async sayHello(provider: HealthcareProviderDto) {
+  async fetchData(provider: HealthcareProviderDto) {
     const client = this.state.client
     const capacityReports = await client.getCapacityReports(provider.id!, 1, 100)
     const orderReports = await client.getOrderReports(provider.id!, 1, 100);
@@ -69,14 +69,14 @@ export default class Overview extends React.Component<
     const providersResponse = await client.getHealthcareProviders(1, 100);
     this.setState({providers: providersResponse!.data!})
     const initialProvider = providersResponse!.data![0];
-    this.sayHello(initialProvider);
+    this.fetchData(initialProvider);
   }
 
   private handleChange = (
     selected?: HealthcareProviderDto | HealthcareProviderDto[] | null
   ) => {
     if (selected instanceof HealthcareProviderDto) {
-      this.sayHello(selected);
+      this.fetchData(selected);
     }
   };
   render() {
