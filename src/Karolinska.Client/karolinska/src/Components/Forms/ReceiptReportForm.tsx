@@ -4,67 +4,84 @@ import {
   HealthcareProviderDto,
   CreateReceiptReportCommand,
   ICreateReceiptReportCommand,
-  SupplierDto
-} from "../SDKs/api.generated.clients";
+  SupplierDto,
+  ReceiptReportDto
+} from "../sdk/api.generated.clients";
 import { useState, useEffect } from "react";
 import ReceiptReportTable from "../tables/ReceiptReportTable";
 import Select from "react-select";
-import ClientFactory from "../SDKs/ClientFactory";
+import ClientFactory from "../sdk/ClientFactory";
 
 type Props = {
   provider: HealthcareProviderDto;
 };
 
+type FormState = {
+  reports?: ReceiptReportDto[],
+  deliveryDate?: Date,
+  expectedDeliveryDate?: Date,
+  numberOfVials?: number,
+  glnReceiver? : string,
+  suppliers?: SupplierDto[],
+  selectedSupplier? : SupplierDto,
+}
+
+
 function ReceiptReportForm(props: Props) {
-  const [deliveryDate, setDeliveryDate] = useState<Date>();
-  const [expectedDeliveryDate, setExpectedDeliveryDate] = useState<Date>();
-  const [numberOfVials, setNumberOfVials] = useState(0);
-  const [glnReceiver, setGlnReceiver] = useState("");
   const [submit, setSubmit] = useState(false);  
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
-  const [loading, setLoading] = useState(true);
-  const [suppliers, setSuppliers] = useState<SupplierDto[]>();
-  const [selectedSupplier, setSelectedSupplier] = useState<SupplierDto>();
+  const [formState, setFormState] = useState<FormState>({
+    reports: [], 
+    deliveryDate: new Date(), 
+    expectedDeliveryDate: new Date(), 
+    numberOfVials: 0, 
+    glnReceiver: '',
+    suppliers: [],
+    selectedSupplier: undefined })
 
-
-  const supplierClient = new ClientFactory().CreateSupplierClient();
+  const clientFactory = new ClientFactory();
+  const supplierClient = clientFactory.CreateSupplierClient();
+  const providerClient = clientFactory.CreateProviderClient();
 
   useEffect(() => {
-      if(!loading){return;}
-
-      supplierClient.getSuppliers(1, 100).then((response) => {
-        setSuppliers(response.data);
-        setSelectedSupplier(response.data![0]!);
-        setLoading(false);
-      });
-    
-  })
+    async function fetch() {
+      let supplierResponse = await supplierClient.getSuppliers(1, 100);
+      let receiptReports = await providerClient.getReceiptReports(props.provider?.id!, 1, 100);
+      setFormState(prevState => { return {
+        ...prevState,
+        reports: receiptReports.data,
+        suppliers: supplierResponse.data, 
+        selectedSupplier: supplierResponse.data![0]
+        }
+      })
+    }
+    fetch();
+  }, [submit])
 
   const handleSupplierChange = (
     selected?: SupplierDto | SupplierDto[] | null
   ) => {
     if (selected instanceof SupplierDto) {
-        setSelectedSupplier(selected)
+      setFormState(prevState => { return {
+        ...prevState,
+        selectedSupplier: selected
+        }
+      })
     }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-
+    e.preventDefault();
     setButtonDisabled(true);
 
-    if(!selectedSupplier)
-      return;
-
     const command : ICreateReceiptReportCommand = {
-      deliveryDate: deliveryDate,
-      expectedDeliveryDate: expectedDeliveryDate,
-      numberOfVials: numberOfVials,
-      glnReceiver: glnReceiver,
+      deliveryDate: formState.deliveryDate,
+      expectedDeliveryDate: formState.expectedDeliveryDate,
+      numberOfVials: formState.numberOfVials,
+      glnReceiver: formState.glnReceiver,
       healthcareProviderId: props.provider.id!,
-      supplierId: selectedSupplier.id
+      supplierId: formState?.selectedSupplier!.id!
     }
-
-    e.preventDefault();
 
     const providerClient = new ClientFactory().CreateProviderClient();
 
@@ -72,10 +89,6 @@ function ReceiptReportForm(props: Props) {
         setSubmit(true);
         setButtonDisabled(false);
     }, (error) => {console.log(error)}).catch((error) => console.log(error));
-
-    setTimeout(() => {
-      setSubmit(false);
-    },10000);
   };
 
   return (
@@ -94,7 +107,7 @@ function ReceiptReportForm(props: Props) {
                   <Form.Label>Lev datum</Form.Label>
                   <Form.Control
                     onChange={(e) =>
-                      setDeliveryDate(new Date(e.target.value + "T00:00"))
+                      setFormState(prevState => { return {...prevState, deliveryDate: new Date(e.target.value)} })
                     }
                     type="date"
                   />
@@ -109,7 +122,7 @@ function ReceiptReportForm(props: Props) {
                   <Form.Control
                     required={true}
                     onChange={(e) =>
-                      setExpectedDeliveryDate(new Date(e.target.value + "T00:00"))
+                      setFormState(prevState => { return {...prevState, expectedDeliveryDate: new Date(e.target.value)} })
                     }
                     type="date"
                   />
@@ -120,7 +133,7 @@ function ReceiptReportForm(props: Props) {
                   <Form.Label>Kvantitet (vial)</Form.Label>
                   <Form.Control
                     required={true}
-                    onChange={(e) => setNumberOfVials(parseInt(e.target.value))}
+                    onChange={(e) => setFormState(prevState => { return {...prevState, numberOfVials: parseInt(e.target.value)} })}
                     type="number"
                   />
                 </Form.Group>
@@ -130,9 +143,9 @@ function ReceiptReportForm(props: Props) {
                 <Form.Group className="mb-3" controlId="supplierInput">
                   <Form.Label>Vaccinleverantör</Form.Label>
                      <Select
-                        value={selectedSupplier}
+                        value={formState.selectedSupplier}
                         onChange={handleSupplierChange}
-                        options={suppliers}
+                        options={formState.suppliers}
                         getOptionLabel={(supplier: SupplierDto) => supplier.name!}
                         getOptionValue={(supplier: SupplierDto) => supplier.id!}
                         />
@@ -143,7 +156,7 @@ function ReceiptReportForm(props: Props) {
                 <Form.Group className="mb-3" controlId="glnReceiverInput">
                   <Form.Label>GLN Mottagare</Form.Label>
                   <Form.Control
-                    onChange={(e) => setGlnReceiver(e.target.value)}
+                    onChange={(e) => setFormState(prevState => { return {...prevState, glnReceiver: e.target.value} })}
                     type="text"
                   />
                 </Form.Group>

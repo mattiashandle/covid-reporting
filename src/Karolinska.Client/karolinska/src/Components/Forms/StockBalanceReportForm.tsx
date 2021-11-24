@@ -4,79 +4,84 @@ import {
   HealthcareProviderDto,
   CreateStockBalanceReportCommand,
   ICreateStockBalanceReportCommand,
-  SupplierDto
-} from "../SDKs/api.generated.clients";
+  SupplierDto,
+  StockBalanceReportDto
+} from "../sdk/api.generated.clients";
 import { useState, useEffect } from "react";
 import StockBalanceReportTable from "../tables/StockBalanceReportTable";
 import Select from "react-select";
-import ClientFactory from "../SDKs/ClientFactory";
+import ClientFactory from "../sdk/ClientFactory";
 
 type Props = {
   provider: HealthcareProviderDto;
 };
 
+type FormState = {
+  reports?: StockBalanceReportDto[],
+  suppliers?: SupplierDto[],
+  selectedSupplier? : SupplierDto,
+  stockDate?: Date,
+  numberOfVials?: number,
+  numberOfDoses?: number
+}
+
 function StockBalanceReportForm(props: Props) {
-  const [stockDate, setStockDate] = useState<Date>();
-  const [numberOfVials, setNumberOfVials] = useState(0);
-  const [numberOfDoses, setNumberOfDoses] = useState(0);
   const [submit, setSubmit] = useState(false);  
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [suppliers, setSuppliers] = useState<SupplierDto[]>();
-  const [selectedSupplier, setSelectedSupplier] = useState<SupplierDto | null>(null);
-
-  const supplierClient = new ClientFactory().CreateSupplierClient();
+  const [formState, setFormState] = useState<FormState>({reports: [], suppliers: [], stockDate: new Date(), numberOfVials: 0, numberOfDoses: 0})
+  const clientFactory = new ClientFactory();
+  const providerClient = clientFactory.CreateProviderClient();
+  const supplierClient = clientFactory.CreateSupplierClient();
 
   useEffect(() => {
-      if(!loading){return;}
+    async function fetch() {
+      let supplierResponse = await supplierClient.getSuppliers(1, 100);
+      let stockBalanceReports = await providerClient.getStockBalanceReports(props.provider?.id!, 1, 100);
+      setFormState(prevState => { return {
+        ...prevState,
+        reports: stockBalanceReports.data,
+        suppliers: supplierResponse.data, 
+        selectedSupplier: supplierResponse.data![0]
+        }
+      })
+    }
+    fetch();
+  }, [submit])
 
-      supplierClient.getSuppliers(1, 100).then((response) => {
-        setSuppliers(response.data);
-        setSelectedSupplier(response.data![0]!);
-        setLoading(false);
-      });    
-  })
 
   const handleSupplierChange = (
     selected: any
   ) => {
     console.log(selected)
     if (selected instanceof SupplierDto) {
-        setSelectedSupplier(selected)
+      setFormState(prevState => { return {
+        ...prevState,
+        selectedSupplier: selected
+        }
+      })
     }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-
+    e.preventDefault();
+    e.stopPropagation();
     setButtonDisabled(true);
 
-    if(!selectedSupplier) return;
-    
-    if(!stockDate) return;
-
     const command : ICreateStockBalanceReportCommand = {
-      date: stockDate,
-      supplierId: selectedSupplier.id,
-      numberOfVials: numberOfVials,
-      numberOfDoses: numberOfDoses,
+      date: formState.stockDate,
+      supplierId: formState.selectedSupplier?.id!,
+      numberOfVials: formState.numberOfVials,
+      numberOfDoses: formState.numberOfDoses,
       healthcareProviderId: props.provider.id
     }
 
     console.log(command)
-
-    e.preventDefault();
-
-    const providerClient = new ClientFactory().CreateProviderClient();
 
     providerClient.addStockBalanceReport(props.provider.id!, new CreateStockBalanceReportCommand(command)).then((response) => {
         console.log(response);
         setSubmit(true);
         setButtonDisabled(false);
     }, (error) => console.log(error)).catch((exception) => console.log(exception));
-
-    setTimeout(() => {
-      setSubmit(false);
-    },10000);
   };
 
   return (
@@ -95,7 +100,7 @@ function StockBalanceReportForm(props: Props) {
                   <Form.Label>Datum tid</Form.Label>
                   <Form.Control
                     onChange={(e) =>
-                      setStockDate(new Date(e.target.value + "T00:00"))
+                      setFormState(prevState => { return {...prevState, stockDate: new Date(e.target.value)} })
                     }
                     type="date"
                   />
@@ -106,9 +111,9 @@ function StockBalanceReportForm(props: Props) {
                 <Form.Group className="mb-3" controlId="supplierInput">
                   <Form.Label>Vaccinleverantör</Form.Label>
                      <Select
-                        value={selectedSupplier}
+                        value={formState.selectedSupplier}
                         onChange={handleSupplierChange}
-                        options={suppliers}
+                        options={formState.suppliers}
                         getOptionLabel={(supplier: SupplierDto) => supplier.name!}
                         getOptionValue={(supplier: SupplierDto) => supplier.id!}
                         />
@@ -120,7 +125,7 @@ function StockBalanceReportForm(props: Props) {
                   <Form.Label>Kvantitet (vial)</Form.Label>
                   <Form.Control
                     required={true}
-                    onChange={(e) => setNumberOfVials(parseInt(e.target.value))}
+                    onChange={(e) => setFormState(prevState => { return {...prevState, numberOfVials: parseInt(e.target.value)} })}
                     type="number"
                   />
                 </Form.Group>
@@ -131,7 +136,7 @@ function StockBalanceReportForm(props: Props) {
                   <Form.Label>Kvantitet (doser)</Form.Label>
                   <Form.Control
                     required={true}
-                    onChange={(e) => setNumberOfDoses(parseInt(e.target.value))}
+                    onChange={(e) => setFormState(prevState => { return {...prevState, numberOfDoses: parseInt(e.target.value)} })}
                     type="number"
                   />
                 </Form.Group>

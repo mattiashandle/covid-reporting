@@ -119,7 +119,7 @@
       "checksumCacheEnabled": false,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../Karolinska.Client/karolinska/src/Components/SDKs/api.generated.clients.ts",
+      "output": "../Karolinska.Client/karolinska/src/Components/sdk/api.generated.clients.ts",
       "newLineBehavior": "Auto"
     }
   }

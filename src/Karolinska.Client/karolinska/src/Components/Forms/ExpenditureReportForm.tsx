@@ -4,71 +4,79 @@ import {
   HealthcareProviderDto,
   SupplierDto,
   CreateExpenditureReportCommand,
-  ICreateExpenditureReportCommand
-} from "../SDKs/api.generated.clients";
+  ICreateExpenditureReportCommand,
+  ExpenditureReportDto
+} from "../sdk/api.generated.clients";
 import { useState, useEffect } from "react";
-import EpenditureReportTable from "../tables/ExpenditureReportTable";
 import Select from "react-select";
-import ClientFactory from "../SDKs/ClientFactory";
+import ClientFactory from "../sdk/ClientFactory";
+import ExpenditureReportTableV2 from "../tables/ExpenditureReportTableV2";
 
 type Props = {
   provider: HealthcareProviderDto;
 };
 
+type FormState = {
+  reports?: ExpenditureReportDto[],
+  suppliers?: SupplierDto[],
+  selectedSupplier? : SupplierDto,
+  expenditureDate?: Date,
+  numberOfVials?: number
+}
+
 function ExpenditureReportForm(props: Props) {
-  const [expenditureDate, setExpenditureDate] = useState<Date>();
-  const [numberOfVials, setNumberOfVials] = useState(0);
   const [submit, setSubmit] = useState(false);
-  const [selectedSupplier, setSelectedSupplier] = useState<SupplierDto | null>(null);  
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [suppliers, setSuppliers] = useState<SupplierDto[]>();
+  const [formState, setFormState] = useState<FormState>({reports:[], suppliers: []});
 
-  const client = new ClientFactory().CreateProviderClient();
-
-  const supplierClient = new ClientFactory().CreateSupplierClient();
+  const clientFactory = new ClientFactory();
+  const providerClient = clientFactory.CreateProviderClient();
+  const supplierClient = clientFactory.CreateSupplierClient();
 
   useEffect(() => {
-      if(!loading){return;}
-
-      supplierClient.getSuppliers(1, 100).then((response) => {
-        setSuppliers(response.data);
-        setSelectedSupplier(response.data![0]);
-        setLoading(false);
-      }, (error) => {console.log(error)});
-    
-  })
+    async function fetch() {
+      let supplierResponse = await supplierClient.getSuppliers(1, 100);
+      let expenditureReports = await providerClient.getExpenditureReports(props.provider?.id!, 1, 100);
+      setFormState(prevState => { return {
+        ...prevState,
+        reports: expenditureReports.data,
+        suppliers: supplierResponse.data, 
+        selectedSupplier: supplierResponse.data![0]
+        }
+      })
+    }
+    fetch();
+  }, [submit])
 
   const handleSupplierChange = (
     selected?: SupplierDto | SupplierDto[] | null
   ) => {
     if (selected instanceof SupplierDto) {
-        setSelectedSupplier(selected)
+      console.log(formState)
+      setFormState(prevState => { return {
+        ...prevState,
+        selectedSupplier: selected
+        }
+      })
+      console.log(formState)
     }
   };
   
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-
+    e.preventDefault();
     setButtonDisabled(true);
 
     const command : ICreateExpenditureReportCommand = {
-      date: expenditureDate,
-      numberOfVials: numberOfVials,
-      supplierId: selectedSupplier?.id,
+      date: formState.expenditureDate,
+      numberOfVials: formState.numberOfVials,
+      supplierId: formState.selectedSupplier?.id!,
       healthcareProviderId: props.provider.id!
     }
 
-    e.preventDefault();
-
-    client.addExpenditureReport(props.provider.id!, new CreateExpenditureReportCommand(command)).then(() => {
+    providerClient.addExpenditureReport(props.provider.id!, new CreateExpenditureReportCommand(command)).then(() => {
         setSubmit(true);
         setButtonDisabled(false);
     }, (error) => {console.log(error)});
-
-    setTimeout(() => {
-      setSubmit(false);
-    },10000);
   };
 
   return (
@@ -87,7 +95,7 @@ function ExpenditureReportForm(props: Props) {
                   <Form.Label>Förbrukningsdatum</Form.Label>
                   <Form.Control
                     onChange={(e) =>
-                      setExpenditureDate(new Date(e.target.value + "T00:00"))
+                      setFormState(prevState => { return {...prevState, expenditureDate: new Date(e.target.value)} })
                     }
                     type="date"
                   />
@@ -97,9 +105,9 @@ function ExpenditureReportForm(props: Props) {
                 <Form.Group className="mb-3" controlId="supplierInput">
                   <Form.Label>Vaccinleverantör</Form.Label>
                      <Select
-                        value={selectedSupplier}
+                        value={formState.selectedSupplier}
                         onChange={handleSupplierChange}
-                        options={suppliers}
+                        options={formState.suppliers}
                         getOptionLabel={(supplier: SupplierDto) => supplier.name!}
                         getOptionValue={(supplier: SupplierDto) => supplier.id!}
                         />
@@ -114,7 +122,7 @@ function ExpenditureReportForm(props: Props) {
                   <Form.Control
                     required={true}
                     onChange={(e) =>
-                      setNumberOfVials(parseInt(e.target.value))
+                      setFormState(prevState => { return {...prevState, numberOfVials: parseInt(e.target.value)} })
                     }
                     type="number"
                   />
@@ -124,12 +132,11 @@ function ExpenditureReportForm(props: Props) {
                 Spara
               </Button>
             </Row>
-          
           </Form>
         </Row>
        
         <Row className="mt-5">
-          <EpenditureReportTable provider={props.provider!} />
+          <ExpenditureReportTableV2 reports={formState.reports} />
         </Row>
       </Container>
     </>

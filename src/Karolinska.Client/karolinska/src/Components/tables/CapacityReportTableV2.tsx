@@ -9,32 +9,13 @@ import ClientFactory from "../sdk/ClientFactory";
 // type Props = {
 //   provider: HealthcareProviderDto
 // }
-type CapacityReportTableProps = {
-  provider: HealthcareProviderDto,
+type CapacityReportTableV2Props = {
+  reports: CapacityReportDto[] | null,
 }
 
-const CapacityReportTable = (props: CapacityReportTableProps) => {
-  const [loading, setLoading] = useState(true);
-  const [reports, setReports] = useState<CapacityReportDto[]>();
-  // const [onChange, setOnChange] = useState(props.onChange)
-
-  useEffect(() => {
-    if(!loading){
-      const client = new ClientFactory().CreateProviderClient();
-      props.provider && props.provider.id && client.getCapacityReports(props.provider.id, 1, 100).then(response => {
-        if(response.data && response.data.length > 1) {
-          console.log(response);
-          setReports(response.data!)
-        }
-         
-      })
-    }
-    setLoading(false);
-  }, [loading, props]);
-
-   return (
+const CapacityReportTableV2 = (props: CapacityReportTableV2Props) => {
+  return (
     <>
-    {loading ? (<h1>Loading</h1>) : (
       <div>
       <h3 className="" >Kapacitet</h3>
        <Table striped bordered hover responsive>
@@ -48,7 +29,7 @@ const CapacityReportTable = (props: CapacityReportTableProps) => {
            </tr>
          </thead>
          <tbody>
-         {reports?.map((report, idx) => {
+         {props.reports?.map((report, idx) => {
                   return <tr key={idx.toString()}>
                           <td>#</td>
                           <td>{report.id}</td>
@@ -60,9 +41,8 @@ const CapacityReportTable = (props: CapacityReportTableProps) => {
            </tbody>
         </Table>
         </div>
-    )}
     </>
   )
 }
 
-export default CapacityReportTable;
+export default CapacityReportTableV2;

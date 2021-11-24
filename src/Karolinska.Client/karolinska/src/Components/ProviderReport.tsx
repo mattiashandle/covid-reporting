@@ -4,17 +4,15 @@ import {
   Tabs,
   Tab,
 } from "react-bootstrap";
-import {
-  HealthcareProviderClient,
-  HealthcareProviderDto
-} from "./SDKs/api.generated.clients";
+import { HealthcareProviderDto } from "./sdk/api.generated.clients";
+import ClientFactory from "./sdk/ClientFactory";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import ReceiptReportForm from "./Forms/ReceiptReportForm";
-import StockBalanceReportForm from "./Forms/StockBalanceReportForm";
-import ExpenditureReportForm from "./Forms/ExpenditureReportForm";
-import CapacityReportForm from "./Forms/CapacityReportForm";
-import OrderReportForm from "./Forms/OrderReportForm";
+import ReceiptReportForm from "./forms/ReceiptReportForm";
+import StockBalanceReportForm from "./forms/StockBalanceReportForm";
+import ExpenditureReportForm from "./forms/ExpenditureReportForm";
+import CapacityReportForm from "./forms/CapacityReportForm";
+import OrderReportForm from "./forms/OrderReportForm";
 
 type ProviderData = {
   provider: HealthcareProviderDto;
@@ -29,7 +27,7 @@ function ProviderReport() {
 
   const id = query.get("id");
 
-  const client = new HealthcareProviderClient("http://localhost:5271");
+  const client = new ClientFactory().CreateProviderClient();
 
   const fetchProvider = function (): void {
     if (!loading) return;

@@ -7,24 +7,13 @@ import { useState, useEffect } from "react";
 import ClientFactory from "../sdk/ClientFactory";
 
 type Props = {
-  provider: HealthcareProviderDto
+  reports?: OrderReportDto[]
 }
 
-function OrderReportTable(props: Props) {
-  const [loading, setLoading] = useState(true);
-  const [reports, setReports] = useState<OrderReportDto[] | null>(null);
-
-  useEffect(() => {
-    if(!loading){
-      const client = new ClientFactory().CreateProviderClient()
-      props.provider && props.provider.id && client.getOrderReports(props.provider.id, 1, 100).then(response => setReports(response.data!))
-    }
-    setLoading(false);
-  }, [loading, props]);
+function OrderReportTableV2(props: Props) {
 
    return (
     <>
-    {loading ? (<h1>Loading</h1>) : (
       <div>
       <h3 className="" >Beställningar</h3>
        <Table striped bordered hover responsive>
@@ -40,7 +29,7 @@ function OrderReportTable(props: Props) {
            </tr>
          </thead>
          <tbody>
-         {reports?.map((report, idx) => {
+         {props.reports?.map((report, idx) => {
                   return <tr key={idx.toString()}>
                           <td>#</td>
                           <td>{report.id}</td>
@@ -54,9 +43,8 @@ function OrderReportTable(props: Props) {
            </tbody>
         </Table>
         </div>
-    )}
     </>
   )
 }
 
-export default OrderReportTable;
+export default OrderReportTableV2;

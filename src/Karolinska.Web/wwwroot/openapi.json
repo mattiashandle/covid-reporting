@@ -790,7 +790,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedResponseOfCapacityReportDtoOf"
+                  "$ref": "#/components/schemas/CapacityReportDto"
                 }
               }
             }
@@ -979,7 +979,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedResponseOfCapacityReportDtoOf"
+                  "$ref": "#/components/schemas/CapacityReportDto"
                 }
               }
             }
@@ -1522,34 +1522,6 @@
           }
         }
       },
-      "PagedResponseOfCapacityReportDtoOf": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalRecords": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CapacityReportDto"
-            }
-          }
-        }
-      },
       "CapacityReportDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1591,6 +1563,34 @@
           "healthcareProviderId": {
             "type": "string",
             "format": "guid"
+          }
+        }
+      },
+      "PagedResponseOfCapacityReportDtoOf": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CapacityReportDto"
+            }
           }
         }
       },

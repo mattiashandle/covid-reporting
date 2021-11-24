@@ -1,29 +1,48 @@
 import * as React from "react";
+import {useEffect} from "react";
+// import ReactDOM from "react-dom";
 import { Container, Row, Form, Button, Col, Alert } from "react-bootstrap";
 import {
   HealthcareProviderDto,
   CreateCapacityReportCommand,
-  ICreateCapacityReportCommand
-} from "../SDKs/api.generated.clients";
-import { useState } from "react";
-import CapacityReportTable from "../tables/CapacityReportTable";
-import ClientFactory from "../SDKs/ClientFactory";
+  ICreateCapacityReportCommand,
+  CapacityReportDto
+} from "../sdk/api.generated.clients";
+import { useState, useRef } from "react";
+import ClientFactory from "../sdk/ClientFactory";
+import CapacityReportTableV2 from "../tables/CapacityReportTableV2";
 
 type Props = {
   provider: HealthcareProviderDto;
 };
 
 function CapacityReportForm(props: Props) {
-  const [capacityDate, setCapacityDate] = useState<Date>();
+  const [capacityDate, setCapacityDate] = useState<Date | undefined>();
   const [numberOfDoses, setNumberOfDoses] = useState(0);
   const [submit, setSubmit] = useState(false);  
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
-
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const [capacityReports, setCapacityReports] = useState<CapacityReportDto[] | null>(null);
+  const [hasFetched, setHasFetched] = useState(false);
+  
   const client = new ClientFactory().CreateProviderClient();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    console.log("useEffect triggered from CapacityReportForm.tsx")
+    console.log(hasFetched)
+    if(!hasFetched){
+      console.log("fetching capacityReports")
+      client.getCapacityReports(props.provider.id!, 1, 100).then((response) => {
+        setHasFetched(true);
+        setCapacityReports(response.data!)
+      })
+    }
+  })
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setButtonDisabled(true);
+    e.preventDefault();
+    e.stopPropagation();
 
     const command : ICreateCapacityReportCommand = {
       date: capacityDate,
@@ -31,12 +50,11 @@ function CapacityReportForm(props: Props) {
       healthcareProviderId: props.provider.id!
     }
 
-    e.preventDefault();
-
     client.addCapacityReport(props.provider.id!, new CreateCapacityReportCommand(command)).then((response) => {
         if(response){
           setSubmit(true);
           setButtonDisabled(false);
+          setCapacityReports([response, ...capacityReports!])
         }
     }, (error) => {console.log(error)});
 
@@ -51,7 +69,7 @@ function CapacityReportForm(props: Props) {
       <Container>
       <Alert variant="success" show={submit}>Rapport skickad</Alert>
         <Row>
-          <Form
+          <Form ref={formRef}
             onSubmit={(e) => {
               handleSubmit(e);
             }}
@@ -85,7 +103,7 @@ function CapacityReportForm(props: Props) {
           </Form>
         </Row>
         <Row className="mt-5">
-          <CapacityReportTable provider={props.provider!} />
+          <CapacityReportTableV2 reports={capacityReports} />
         </Row>
       </Container>
     </>

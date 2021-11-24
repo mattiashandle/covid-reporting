@@ -1,15 +1,16 @@
 import {Container, Row } from "react-bootstrap";
 import "../App.css";
 
+
 function Home() {
     return (
       <>
         <Container>
             <Row>
                 <div className="Header text-center">
-                    <h2>Syftet är att hålla koll på vaccinsituationen hos Regionens vårdgivare</h2>
+                  <img className="text-center" style={{ width: "100%", maxWidth: "800px" }} alt="region-stockholm" src="https://logovectorseek.com/wp-content/uploads/2020/02/region-stockholm-logo-vector.png" />                
                 </div>
-            </Row>           
+            </Row>      
         </Container>
       </>
     );

@@ -3,11 +3,10 @@ import "./index.css";
 import App from "./App";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Reporting from "./Components/Reporting";
-import Overview from "./Components/Overview";
-
-import ProviderReport from "./Components/ProviderReport";
-import Home from "./Components/Home";
+import Reporting from "./components/Reporting";
+import Overview from "./components/Overview";
+import ProviderReport from "./components/ProviderReport";
+import Home from "./components/Home";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
@@ -31,10 +30,9 @@ ReactDOM.render(
             <Route path="/reports" element={<Reporting />} />
             <Route path="/overview" element={<Overview message={"hello"} />} />
             <Route path="/reports/add"  element={ <ProviderReport />}/>
-          </Routes>
-       
-      
+          </Routes>    
       </BrowserRouter>
+      
     </Container>,
   document.getElementById("root")
 );

@@ -1,17 +1,16 @@
 import * as React from "react";
 import "../App.css";
 import { Container, Row } from "react-bootstrap";
-import { HealthcareProviderClient, HealthcareProviderDto } from "./SDKs/api.generated.clients";
+import { CapacityReportDto, ExpenditureReportDto, HealthcareProviderClient, HealthcareProviderDto, OrderReportDto, ReceiptReportDto, StockBalanceReportDto } from "./sdk/api.generated.clients";
 import Select from "react-select";
-import OrderReportTable from "./tables/OrderReportTable";
-import ExpenditureReportTable from "./tables/ExpenditureReportTable";
-import ReceiptReportTable from "./tables/ReceiptReportTable";
-import CapacityReportTable from "./tables/CapacityReportTable";
-import StockBalanceReportTable from "./tables/StockBalanceReportTable";
-import ClientFactory from "./SDKs/ClientFactory";
+import OrderReportTableV2 from "./tables/OrderReportTableV2";
+import ExpenditureReportTableV2 from "./tables/ExpenditureReportTableV2";
+import ReceiptReportTableV2 from "./tables/ReceiptReportTableV2";
+import CapacityReportTableV2 from "./tables/CapacityReportTableV2";
+import StockBalanceReportTableV2 from "./tables/StockBalanceReportTableV2";
+import ClientFactory from "./sdk/ClientFactory";
 
 type OverviewProps = {
-  // using `interface` is also ok
   message: string;
 };
 
@@ -21,44 +20,63 @@ type OverviewState = {
   selectedProviderId: string | undefined;
   providers: HealthcareProviderDto[];
   selectedProvider: HealthcareProviderDto | null;
-  client: HealthcareProviderClient
+  client: HealthcareProviderClient,
+  capacityReports: CapacityReportDto[],
+  orderReports: OrderReportDto[],
+  stockBalanceReports: StockBalanceReportDto[],
+  expenditureReports: ExpenditureReportDto[],
+  receiptReports: ReceiptReportDto[]
 };
 
 export default class Overview extends React.Component<
   OverviewProps,
   OverviewState
 > {
-  options: HealthcareProviderDto[] = [];
+  
   state: OverviewState = {
     isLoaded: false,
     count: 0,
     providers: [],
     selectedProviderId: "",
     selectedProvider: null,
-    client: new ClientFactory().CreateProviderClient()
+    client: new ClientFactory().CreateProviderClient(),
+    capacityReports: [],
+    orderReports: [],
+    stockBalanceReports:[],
+    expenditureReports: [],
+    receiptReports: []
   };
 
-  componentDidMount() {
+  async sayHello(provider: HealthcareProviderDto) {
     const client = this.state.client
-
-    client.getHealthcareProviders(1, 100).then(
-      (result) => {
-        const initialProvider = result!.data![0];
-        this.setState({providers: result.data!, selectedProvider:initialProvider })
-      },
-      (error) => {
-        console.log(error)
-        this.setState({
-          isLoaded: true,
-        });
-      }
-    );
+    const capacityReports = await client.getCapacityReports(provider.id!, 1, 100)
+    const orderReports = await client.getOrderReports(provider.id!, 1, 100);
+    const stockBalanceReports = await client.getStockBalanceReports(provider.id!, 1, 100);
+    const expenditureReports = await client.getExpenditureReports(provider.id!, 1, 100);
+    const receiptReports = await client.getReceiptReports(provider.id!, 1, 100);
+    this.setState({
+      selectedProvider: provider, 
+      capacityReports: capacityReports.data!,
+      orderReports: orderReports.data!,
+      stockBalanceReports: stockBalanceReports.data!,
+      expenditureReports: expenditureReports.data!,
+      receiptReports: receiptReports.data!
+     })
   }
+
+  async componentDidMount() {
+    const client = this.state.client
+    const providersResponse = await client.getHealthcareProviders(1, 100);
+    this.setState({providers: providersResponse!.data!})
+    const initialProvider = providersResponse!.data![0];
+    this.sayHello(initialProvider);
+  }
+
   private handleChange = (
     selected?: HealthcareProviderDto | HealthcareProviderDto[] | null
   ) => {
     if (selected instanceof HealthcareProviderDto) {
-      this.setState({selectedProvider: selected});
+      this.sayHello(selected);
     }
   };
   render() {
@@ -78,18 +96,15 @@ export default class Overview extends React.Component<
         </Row>
        
         <hr />
-        <ReceiptReportTable provider={this.state.selectedProvider!} />
+        <ReceiptReportTableV2 reports={this.state.receiptReports!} />
         <hr />
-        <StockBalanceReportTable provider={this.state.selectedProvider!} />
+        <StockBalanceReportTableV2 reports={this.state.stockBalanceReports!} />
         <hr />
-        <ExpenditureReportTable provider={this.state.selectedProvider!}  />
+        <ExpenditureReportTableV2 reports={this.state.expenditureReports!}  />
         <hr />
-        <CapacityReportTable provider={this.state.selectedProvider!} />
+        <CapacityReportTableV2 reports={this.state.capacityReports} />
         <hr />
-        <OrderReportTable
-         provider={this.state.selectedProvider!}
-         />
-        <hr />
+        <OrderReportTableV2 reports={this.state.orderReports}/>
    
       </Container>
     );

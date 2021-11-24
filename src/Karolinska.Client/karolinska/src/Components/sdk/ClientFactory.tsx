@@ -2,10 +2,10 @@ import { HealthcareProviderClient, SupplierClient } from './api.generated.client
 
 export default class ClientFactory {
     public CreateProviderClient() {
-      return new HealthcareProviderClient("http://localhost:5271"); 
+      return new HealthcareProviderClient(process.env.REACT_APP_SDK_BASE_URL); 
     }
 
     public CreateSupplierClient(){
-      return new SupplierClient("http://localhost:5271");
+      return new SupplierClient(process.env.REACT_APP_SDK_BASE_URL);
     }
 }

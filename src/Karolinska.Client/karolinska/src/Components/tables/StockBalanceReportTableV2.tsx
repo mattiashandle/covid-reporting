@@ -1,30 +1,15 @@
 import Table from "react-bootstrap/Table";
 import {
   StockBalanceReportDto,
-  HealthcareProviderDto,
 } from "../sdk/api.generated.clients";
-import { useState, useEffect } from "react";
-import ClientFactory from "../sdk/ClientFactory";
 
 type Props = {
-  provider: HealthcareProviderDto
+  reports: StockBalanceReportDto[]
 }
 
-function StockBalanceReportTable(props: Props) {
-  const [loading, setLoading] = useState(true);
-  const [reports, setReports] = useState<StockBalanceReportDto[] | null>(null);
-
-  useEffect(() => {
-    if(!loading){
-      const client = new ClientFactory().CreateProviderClient();
-      props.provider && props.provider.id && client.getStockBalanceReports(props.provider.id, 1, 100).then(response => {setReports(response.data!)})
-    }
-    setLoading(false);
-  }, [loading, props]);
-
+function StockBalanceReportTableV2(props: Props) {
    return (
     <>
-    {loading ? (<h1>Loading</h1>) : (
       <div>
       <h3 className="" >Lagersaldo</h3>
        <Table striped bordered hover responsive>
@@ -40,7 +25,7 @@ function StockBalanceReportTable(props: Props) {
            </tr>
          </thead>
          <tbody>
-         {reports?.map((report, idx) => {
+         {props.reports?.map((report, idx) => {
                   return <tr key={idx.toString()}>
                         <td>#</td>
                         <td>{report.id}</td>
@@ -54,9 +39,8 @@ function StockBalanceReportTable(props: Props) {
            </tbody>
         </Table>
         </div>
-    )}
     </>
   )
 }
 
-export default StockBalanceReportTable;
+export default StockBalanceReportTableV2;

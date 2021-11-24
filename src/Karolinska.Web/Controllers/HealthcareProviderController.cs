@@ -289,7 +289,7 @@ namespace Karolinska.Web.Controllers
         }
 
         [HttpPost("healtcareProvider/{healthcareProviderId}/expenditureReports")]
-        [ProducesResponseType(typeof(PagedResponse<CapacityReportDto[]>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CapacityReportDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddExpenditureReport(
@@ -352,7 +352,7 @@ namespace Karolinska.Web.Controllers
         }
 
         [HttpPost("healtcareProvider/{healthcareProviderId}/capacityReports")]
-        [ProducesResponseType(typeof(PagedResponse<CapacityReportDto[]>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CapacityReportDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddCapacityReport(

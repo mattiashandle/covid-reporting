@@ -679,7 +679,7 @@ export class HealthcareProviderClient {
         return Promise.resolve<PagedResponseOfExpenditureReportDtoOf>(<any>null);
     }
 
-    addExpenditureReport(healthcareProviderId: string, command: CreateExpenditureReportCommand): Promise<PagedResponseOfCapacityReportDtoOf> {
+    addExpenditureReport(healthcareProviderId: string, command: CreateExpenditureReportCommand): Promise<CapacityReportDto> {
         let url_ = this.baseUrl + "/healtcareProvider/{healthcareProviderId}/expenditureReports";
         if (healthcareProviderId === undefined || healthcareProviderId === null)
             throw new Error("The parameter 'healthcareProviderId' must be defined.");
@@ -702,14 +702,14 @@ export class HealthcareProviderClient {
         });
     }
 
-    protected processAddExpenditureReport(response: Response): Promise<PagedResponseOfCapacityReportDtoOf> {
+    protected processAddExpenditureReport(response: Response): Promise<CapacityReportDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 201) {
             return response.text().then((_responseText) => {
             let result201: any = null;
             let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result201 = PagedResponseOfCapacityReportDtoOf.fromJS(resultData201);
+            result201 = CapacityReportDto.fromJS(resultData201);
             return result201;
             });
         } else if (status === 400) {
@@ -728,7 +728,7 @@ export class HealthcareProviderClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<PagedResponseOfCapacityReportDtoOf>(<any>null);
+        return Promise.resolve<CapacityReportDto>(<any>null);
     }
 
     getExpenditureReport(healthcareProviderId: string, id: string): Promise<ExpenditureReportDto> {
@@ -845,7 +845,7 @@ export class HealthcareProviderClient {
         return Promise.resolve<PagedResponseOfCapacityReportDtoOf>(<any>null);
     }
 
-    addCapacityReport(healthcareProviderId: string, command: CreateCapacityReportCommand): Promise<PagedResponseOfCapacityReportDtoOf> {
+    addCapacityReport(healthcareProviderId: string, command: CreateCapacityReportCommand): Promise<CapacityReportDto> {
         let url_ = this.baseUrl + "/healtcareProvider/{healthcareProviderId}/capacityReports";
         if (healthcareProviderId === undefined || healthcareProviderId === null)
             throw new Error("The parameter 'healthcareProviderId' must be defined.");
@@ -868,14 +868,14 @@ export class HealthcareProviderClient {
         });
     }
 
-    protected processAddCapacityReport(response: Response): Promise<PagedResponseOfCapacityReportDtoOf> {
+    protected processAddCapacityReport(response: Response): Promise<CapacityReportDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 201) {
             return response.text().then((_responseText) => {
             let result201: any = null;
             let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result201 = PagedResponseOfCapacityReportDtoOf.fromJS(resultData201);
+            result201 = CapacityReportDto.fromJS(resultData201);
             return result201;
             });
         } else if (status === 400) {
@@ -894,7 +894,7 @@ export class HealthcareProviderClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<PagedResponseOfCapacityReportDtoOf>(<any>null);
+        return Promise.resolve<CapacityReportDto>(<any>null);
     }
 
     getCapacityReport(healthcareProviderId: string, id: string): Promise<CapacityReportDto> {
@@ -1823,69 +1823,6 @@ export interface IExpenditureReportDto {
     insertDate?: Date;
 }
 
-export class PagedResponseOfCapacityReportDtoOf implements IPagedResponseOfCapacityReportDtoOf {
-    pageNumber?: number;
-    pageSize?: number;
-    totalPages?: number;
-    totalRecords?: number;
-    data?: CapacityReportDto[];
-
-    constructor(data?: IPagedResponseOfCapacityReportDtoOf) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.pageNumber = _data["pageNumber"] !== undefined ? _data["pageNumber"] : <any>null;
-            this.pageSize = _data["pageSize"] !== undefined ? _data["pageSize"] : <any>null;
-            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
-            this.totalRecords = _data["totalRecords"] !== undefined ? _data["totalRecords"] : <any>null;
-            if (Array.isArray(_data["data"])) {
-                this.data = [] as any;
-                for (let item of _data["data"])
-                    this.data!.push(CapacityReportDto.fromJS(item));
-            }
-            else {
-                this.data = <any>null;
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResponseOfCapacityReportDtoOf {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResponseOfCapacityReportDtoOf();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["pageNumber"] = this.pageNumber !== undefined ? this.pageNumber : <any>null;
-        data["pageSize"] = this.pageSize !== undefined ? this.pageSize : <any>null;
-        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
-        data["totalRecords"] = this.totalRecords !== undefined ? this.totalRecords : <any>null;
-        if (Array.isArray(this.data)) {
-            data["data"] = [];
-            for (let item of this.data)
-                data["data"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResponseOfCapacityReportDtoOf {
-    pageNumber?: number;
-    pageSize?: number;
-    totalPages?: number;
-    totalRecords?: number;
-    data?: CapacityReportDto[];
-}
-
 export class CapacityReportDto implements ICapacityReportDto {
     id?: string;
     date?: Date;
@@ -1980,6 +1917,69 @@ export interface ICreateExpenditureReportCommand {
     supplierId?: string;
     numberOfVials?: number;
     healthcareProviderId?: string;
+}
+
+export class PagedResponseOfCapacityReportDtoOf implements IPagedResponseOfCapacityReportDtoOf {
+    pageNumber?: number;
+    pageSize?: number;
+    totalPages?: number;
+    totalRecords?: number;
+    data?: CapacityReportDto[];
+
+    constructor(data?: IPagedResponseOfCapacityReportDtoOf) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.pageNumber = _data["pageNumber"] !== undefined ? _data["pageNumber"] : <any>null;
+            this.pageSize = _data["pageSize"] !== undefined ? _data["pageSize"] : <any>null;
+            this.totalPages = _data["totalPages"] !== undefined ? _data["totalPages"] : <any>null;
+            this.totalRecords = _data["totalRecords"] !== undefined ? _data["totalRecords"] : <any>null;
+            if (Array.isArray(_data["data"])) {
+                this.data = [] as any;
+                for (let item of _data["data"])
+                    this.data!.push(CapacityReportDto.fromJS(item));
+            }
+            else {
+                this.data = <any>null;
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResponseOfCapacityReportDtoOf {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResponseOfCapacityReportDtoOf();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageNumber"] = this.pageNumber !== undefined ? this.pageNumber : <any>null;
+        data["pageSize"] = this.pageSize !== undefined ? this.pageSize : <any>null;
+        data["totalPages"] = this.totalPages !== undefined ? this.totalPages : <any>null;
+        data["totalRecords"] = this.totalRecords !== undefined ? this.totalRecords : <any>null;
+        if (Array.isArray(this.data)) {
+            data["data"] = [];
+            for (let item of this.data)
+                data["data"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResponseOfCapacityReportDtoOf {
+    pageNumber?: number;
+    pageSize?: number;
+    totalPages?: number;
+    totalRecords?: number;
+    data?: CapacityReportDto[];
 }
 
 export class CreateCapacityReportCommand implements ICreateCapacityReportCommand {

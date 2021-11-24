@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Container, Row, Button, Card } from "react-bootstrap";
-import { HealthcareProviderClient, HealthcareProviderDto } from "./SDKs/api.generated.clients";
+import { HealthcareProviderClient, HealthcareProviderDto } from "./sdk/api.generated.clients";
 import "../App.css";
 
 type State = {

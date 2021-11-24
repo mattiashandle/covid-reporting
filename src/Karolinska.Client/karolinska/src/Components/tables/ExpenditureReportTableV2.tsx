@@ -1,26 +1,17 @@
 import Table from "react-bootstrap/Table";
 import { ExpenditureReportDto, HealthcareProviderClient, HealthcareProviderDto } from "../sdk/api.generated.clients";
 import { useState, useEffect } from "react";
+import ClientFactory from "../sdk/ClientFactory";
 
 type Props = {
-  provider: HealthcareProviderDto
+  reports: ExpenditureReportDto[] | undefined,
 }
 
-function ExpenditureReportTable(props: Props) {
-  const [loading, setLoading] = useState(true);
-  const [reports, setReports] = useState<ExpenditureReportDto[] | null>(null);
-
-  useEffect(() => {
-    if(!loading){
-      const client = new HealthcareProviderClient("http://localhost:5271")
-      props.provider && props.provider.id && client.getExpenditureReports(props.provider.id, 1, 100).then(response => setReports(response.data!))
-    }
-    setLoading(false);
-  }, [loading, props]);
+function ExpenditureReportTableV2(props: Props) {
 
    return (
     <>
-    {loading ? (<h1>Loading</h1>) : (
+   
       <div>
       <h3 className="" >Förbrukning</h3>
        <Table striped bordered hover responsive>
@@ -35,7 +26,7 @@ function ExpenditureReportTable(props: Props) {
            </tr>
          </thead>
          <tbody>
-         {reports?.map((report, idx) => {
+         {props.reports?.map((report, idx) => {
                   return <tr key={idx.toString()}>
                           <td>#</td>
                           <td>{report.id}</td>
@@ -48,9 +39,8 @@ function ExpenditureReportTable(props: Props) {
            </tbody>
         </Table>
         </div>
-    )}
     </>
   )
 }
 
-export default ExpenditureReportTable;
+export default ExpenditureReportTableV2;
