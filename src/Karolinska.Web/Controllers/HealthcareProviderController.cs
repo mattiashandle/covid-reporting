@@ -3,8 +3,10 @@ using Karolinska.Application.Features.Commands;
 using Karolinska.Application.Features.Queries;
 using Karolinska.Application.Wrappers;
 using Karolinska.Core.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 
 namespace Karolinska.Web.Controllers
 {
@@ -99,6 +101,7 @@ namespace Karolinska.Web.Controllers
         }
 
         [HttpPost("healtcareProvider/{healthcareProviderId}/orderReports")]
+        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(OrderReportDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -162,6 +165,7 @@ namespace Karolinska.Web.Controllers
         }
 
         [HttpPost("healtcareProvider/{healthcareProviderId}/stockBalanceReports")]
+        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(StockBalanceReportDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -226,6 +230,7 @@ namespace Karolinska.Web.Controllers
         }
 
         [HttpPost("healtcareProvider/{healthcareProviderId}/receiptReports")]
+        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ReceiptReportDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -289,6 +294,7 @@ namespace Karolinska.Web.Controllers
         }
 
         [HttpPost("healtcareProvider/{healthcareProviderId}/expenditureReports")]
+        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ExpenditureReportDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -351,7 +357,31 @@ namespace Karolinska.Web.Controllers
             return Ok(capacityReport);
         }
 
+        [HttpPatch("healtcareProvider/{healthcareProviderId}/capacityReports/{id}")]
+        [Consumes("application/json-patch+json")]
+        [ProducesResponseType(typeof(CapacityReportDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateCapacityReport(
+           [FromServices] ICommandHandler<UpdateCapacityReportCommand, CapacityReportDto> commandHandler,
+           [FromRoute] Guid healthcareProviderId, Guid id,
+           [FromBody] JsonPatchDocument<CapacityReportDto> jsonPatchDocument,
+            CancellationToken cancellationToken)
+        {
+            var capacityReport = await commandHandler.HandleAsync(new UpdateCapacityReportCommand(id,jsonPatchDocument));
+
+            if (capacityReport == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(capacityReport);
+        }
+
         [HttpPost("healtcareProvider/{healthcareProviderId}/capacityReports")]
+        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(CapacityReportDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

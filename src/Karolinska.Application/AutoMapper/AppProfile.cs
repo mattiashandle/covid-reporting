@@ -8,7 +8,7 @@ namespace Karolinska.Application.AutoMapper
     {
         public AppProfile()
         {
-            CreateMap<CapacityReport, CapacityReportDto>();
+            CreateMap<CapacityReport, CapacityReportDto>().ReverseMap();
             CreateMap<Supplier, SupplierDto>();
             CreateMap<ExpenditureReport, ExpenditureReportDto>().ForMember(e => e.SupplierName, src => src.MapFrom(v => v.Supplier.Name));
             CreateMap<StockBalanceReport, StockBalanceReportDto>().ForMember(e => e.SupplierName, src => src.MapFrom(v => v.Supplier.Name));

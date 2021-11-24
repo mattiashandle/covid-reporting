@@ -53,6 +53,8 @@ namespace Karolinska.Web.Extensions
 
             services.AddTransient<ICommandHandler<CreateReceiptReportCommand, ReceiptReportDto?>, CreateReceiptReportCommandHandler>();
 
+            services.AddTransient<ICommandHandler<UpdateCapacityReportCommand, CapacityReportDto>, UpdateCapacityReportCommandHandler>();
+
             return services;
 
         }

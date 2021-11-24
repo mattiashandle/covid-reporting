@@ -8,6 +8,7 @@ using Karolinska.Application.Wrappers;
 using Karolinska.Core.Entities;
 using Karolinska.Infrastructure.Contexts;
 using Karolinska.Web.Controllers;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -100,7 +101,7 @@ namespace Tests.Karolinska.Web.Controllers
         }
 
         [Test, CustomAutoData]
-        public async Task AddOrderReport_should_return_CreatedAtActionResultt(IMapper mapper, HealthcareProvider healthcareProvider, IFixture fixture)
+        public async Task AddOrderReport_should_return_CreatedAtActionResult(IMapper mapper, HealthcareProvider healthcareProvider, IFixture fixture)
         {
             var dbContextOptions = new DbContextOptionsBuilder<KarolinskaContext>()
                   .UseInMemoryDatabase(databaseName: fixture.Create<string>())
@@ -125,6 +126,46 @@ namespace Tests.Karolinska.Web.Controllers
             var createdAtActionResult = (CreatedAtActionResult)actionResult;
 
             Assert.That(createdAtActionResult.Value, Is.TypeOf<OrderReportDto>());
+        }
+
+        [Test, CustomAutoData]
+        public async Task UpdateCapacityReport_should_return_OkObjectResult(IMapper mapper, CapacityReport capacityReport, int numberOfDoses, IFixture fixture)
+        {
+            var dbContextOptions = new DbContextOptionsBuilder<KarolinskaContext>()
+                  .UseInMemoryDatabase(databaseName: fixture.Create<string>())
+                  .Options;
+
+            using var context = new KarolinskaContext(dbContextOptions);
+
+            await context.CapacityReports.AddAsync(capacityReport);
+
+            await context.SaveChangesAsync();
+
+            var sut = new HealthcareProviderController(NullLogger<HealthcareProviderController>.Instance);
+
+            var commandHandler = new UpdateCapacityReportCommandHandler(context, mapper);
+
+            var patchDocument = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument<CapacityReportDto>();
+
+            patchDocument.Operations.Add(new Operation<CapacityReportDto>
+            {
+                op = nameof(OperationType.Replace),
+                path = $"/{nameof(CapacityReportDto.NumberOfDoses)}",
+                value = numberOfDoses
+            });
+
+            var actionResult = await sut.UpdateCapacityReport(commandHandler, 
+                capacityReport.HealthcareProviderId, capacityReport.Id, patchDocument, CancellationToken.None);
+
+            Assert.That(actionResult, Is.TypeOf<OkObjectResult>());
+
+            var okObjectResult = (OkObjectResult)actionResult;
+
+            Assert.That(okObjectResult.Value, Is.TypeOf<CapacityReportDto>());
+
+            var capacityReportDto = (CapacityReportDto)okObjectResult.Value;
+
+            Assert.That(capacityReportDto.NumberOfDoses, Is.EqualTo(numberOfDoses));
         }
     }
 }

@@ -954,6 +954,75 @@ export class HealthcareProviderClient {
         }
         return Promise.resolve<CapacityReportDto>(<any>null);
     }
+
+    updateCapacityReport(healthcareProviderId: string, id: string, jsonPatchDocument: Operation[]): Promise<CapacityReportDto> {
+        let url_ = this.baseUrl + "/healtcareProvider/{healthcareProviderId}/capacityReports/{id}";
+        if (healthcareProviderId === undefined || healthcareProviderId === null)
+            throw new Error("The parameter 'healthcareProviderId' must be defined.");
+        url_ = url_.replace("{healthcareProviderId}", encodeURIComponent("" + healthcareProviderId));
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(jsonPatchDocument);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdateCapacityReport(_response);
+        });
+    }
+
+    protected processUpdateCapacityReport(response: Response): Promise<CapacityReportDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CapacityReportDto.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 422) {
+            return response.text().then((_responseText) => {
+            let result422: any = null;
+            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result422 = ProblemDetails.fromJS(resultData422);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result422);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<CapacityReportDto>(<any>null);
+    }
 }
 
 export class SupplierClient {
@@ -1129,6 +1198,7 @@ export class ProblemDetails implements IProblemDetails {
     status?: number | null;
     detail?: string | null;
     instance?: string | null;
+    extensions?: { [key: string]: any; };
 
     constructor(data?: IProblemDetails) {
         if (data) {
@@ -1146,6 +1216,16 @@ export class ProblemDetails implements IProblemDetails {
             this.status = _data["status"] !== undefined ? _data["status"] : <any>null;
             this.detail = _data["detail"] !== undefined ? _data["detail"] : <any>null;
             this.instance = _data["instance"] !== undefined ? _data["instance"] : <any>null;
+            if (_data["extensions"]) {
+                this.extensions = {} as any;
+                for (let key in _data["extensions"]) {
+                    if (_data["extensions"].hasOwnProperty(key))
+                        (<any>this.extensions)![key] = _data["extensions"][key];
+                }
+            }
+            else {
+                this.extensions = <any>null;
+            }
         }
     }
 
@@ -1163,6 +1243,13 @@ export class ProblemDetails implements IProblemDetails {
         data["status"] = this.status !== undefined ? this.status : <any>null;
         data["detail"] = this.detail !== undefined ? this.detail : <any>null;
         data["instance"] = this.instance !== undefined ? this.instance : <any>null;
+        if (this.extensions) {
+            data["extensions"] = {};
+            for (let key in this.extensions) {
+                if (this.extensions.hasOwnProperty(key))
+                    (<any>data["extensions"])[key] = this.extensions[key] !== undefined ? this.extensions[key] : <any>null;
+            }
+        }
         return data; 
     }
 }
@@ -1173,6 +1260,7 @@ export interface IProblemDetails {
     status?: number | null;
     detail?: string | null;
     instance?: string | null;
+    extensions?: { [key: string]: any; };
 }
 
 export class PagedResponseOfOrderReportDtoOf implements IPagedResponseOfOrderReportDtoOf {
@@ -1980,6 +2068,83 @@ export interface ICapacityReportDto {
     date?: Date;
     numberOfDoses?: number;
     insertDate?: Date;
+}
+
+export class OperationBase implements IOperationBase {
+    path?: string | null;
+    op?: string | null;
+    from?: string | null;
+
+    constructor(data?: IOperationBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.path = _data["path"] !== undefined ? _data["path"] : <any>null;
+            this.op = _data["op"] !== undefined ? _data["op"] : <any>null;
+            this.from = _data["from"] !== undefined ? _data["from"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): OperationBase {
+        data = typeof data === 'object' ? data : {};
+        let result = new OperationBase();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["path"] = this.path !== undefined ? this.path : <any>null;
+        data["op"] = this.op !== undefined ? this.op : <any>null;
+        data["from"] = this.from !== undefined ? this.from : <any>null;
+        return data; 
+    }
+}
+
+export interface IOperationBase {
+    path?: string | null;
+    op?: string | null;
+    from?: string | null;
+}
+
+export class Operation extends OperationBase implements IOperation {
+    value?: any | null;
+
+    constructor(data?: IOperation) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.value = _data["value"] !== undefined ? _data["value"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): Operation {
+        data = typeof data === 'object' ? data : {};
+        let result = new Operation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["value"] = this.value !== undefined ? this.value : <any>null;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOperation extends IOperationBase {
+    value?: any | null;
 }
 
 export class CreateCapacityReportCommand implements ICreateCapacityReportCommand {

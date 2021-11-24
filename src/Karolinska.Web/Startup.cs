@@ -12,6 +12,7 @@ using Karolinska.Web.Extensions;
 using Karolinska.Web.Middlewares;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Karolinska.Web.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Karolinska.Web
 {
@@ -45,7 +46,7 @@ namespace Karolinska.Web
             services.AddControllers((options) =>
             {
                 options.Filters.Add(typeof(OperationCanceledExceptionFilter));
-            });
+            }).AddNewtonsoftJson();
 
             services.AddEndpointsApiExplorer();
             
