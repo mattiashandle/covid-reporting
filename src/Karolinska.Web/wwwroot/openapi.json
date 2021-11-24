@@ -790,7 +790,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CapacityReportDto"
+                  "$ref": "#/components/schemas/ExpenditureReportDto"
                 }
               }
             }
@@ -1522,28 +1522,6 @@
           }
         }
       },
-      "CapacityReportDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "date": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "numberOfDoses": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "insertDate": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
       "CreateExpenditureReportCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -1591,6 +1569,28 @@
             "items": {
               "$ref": "#/components/schemas/CapacityReportDto"
             }
+          }
+        }
+      },
+      "CapacityReportDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "numberOfDoses": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "insertDate": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

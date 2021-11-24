@@ -679,7 +679,7 @@ export class HealthcareProviderClient {
         return Promise.resolve<PagedResponseOfExpenditureReportDtoOf>(<any>null);
     }
 
-    addExpenditureReport(healthcareProviderId: string, command: CreateExpenditureReportCommand): Promise<CapacityReportDto> {
+    addExpenditureReport(healthcareProviderId: string, command: CreateExpenditureReportCommand): Promise<ExpenditureReportDto> {
         let url_ = this.baseUrl + "/healtcareProvider/{healthcareProviderId}/expenditureReports";
         if (healthcareProviderId === undefined || healthcareProviderId === null)
             throw new Error("The parameter 'healthcareProviderId' must be defined.");
@@ -702,14 +702,14 @@ export class HealthcareProviderClient {
         });
     }
 
-    protected processAddExpenditureReport(response: Response): Promise<CapacityReportDto> {
+    protected processAddExpenditureReport(response: Response): Promise<ExpenditureReportDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 201) {
             return response.text().then((_responseText) => {
             let result201: any = null;
             let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result201 = CapacityReportDto.fromJS(resultData201);
+            result201 = ExpenditureReportDto.fromJS(resultData201);
             return result201;
             });
         } else if (status === 400) {
@@ -728,7 +728,7 @@ export class HealthcareProviderClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<CapacityReportDto>(<any>null);
+        return Promise.resolve<ExpenditureReportDto>(<any>null);
     }
 
     getExpenditureReport(healthcareProviderId: string, id: string): Promise<ExpenditureReportDto> {
@@ -1823,54 +1823,6 @@ export interface IExpenditureReportDto {
     insertDate?: Date;
 }
 
-export class CapacityReportDto implements ICapacityReportDto {
-    id?: string;
-    date?: Date;
-    numberOfDoses?: number;
-    insertDate?: Date;
-
-    constructor(data?: ICapacityReportDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>null;
-            this.numberOfDoses = _data["numberOfDoses"] !== undefined ? _data["numberOfDoses"] : <any>null;
-            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>null;
-        }
-    }
-
-    static fromJS(data: any): CapacityReportDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CapacityReportDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id !== undefined ? this.id : <any>null;
-        data["date"] = this.date ? this.date.toISOString() : <any>null;
-        data["numberOfDoses"] = this.numberOfDoses !== undefined ? this.numberOfDoses : <any>null;
-        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>null;
-        return data; 
-    }
-}
-
-export interface ICapacityReportDto {
-    id?: string;
-    date?: Date;
-    numberOfDoses?: number;
-    insertDate?: Date;
-}
-
 export class CreateExpenditureReportCommand implements ICreateExpenditureReportCommand {
     date?: Date;
     supplierId?: string;
@@ -1980,6 +1932,54 @@ export interface IPagedResponseOfCapacityReportDtoOf {
     totalPages?: number;
     totalRecords?: number;
     data?: CapacityReportDto[];
+}
+
+export class CapacityReportDto implements ICapacityReportDto {
+    id?: string;
+    date?: Date;
+    numberOfDoses?: number;
+    insertDate?: Date;
+
+    constructor(data?: ICapacityReportDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>null;
+            this.numberOfDoses = _data["numberOfDoses"] !== undefined ? _data["numberOfDoses"] : <any>null;
+            this.insertDate = _data["insertDate"] ? new Date(_data["insertDate"].toString()) : <any>null;
+        }
+    }
+
+    static fromJS(data: any): CapacityReportDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CapacityReportDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["date"] = this.date ? this.date.toISOString() : <any>null;
+        data["numberOfDoses"] = this.numberOfDoses !== undefined ? this.numberOfDoses : <any>null;
+        data["insertDate"] = this.insertDate ? this.insertDate.toISOString() : <any>null;
+        return data; 
+    }
+}
+
+export interface ICapacityReportDto {
+    id?: string;
+    date?: Date;
+    numberOfDoses?: number;
+    insertDate?: Date;
 }
 
 export class CreateCapacityReportCommand implements ICreateCapacityReportCommand {
