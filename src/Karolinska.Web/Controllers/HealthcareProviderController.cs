@@ -41,11 +41,11 @@ namespace Karolinska.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetHealthcareProvider(
-            [FromServices] IQueryHandler<GetProviderByIdQuery, HealthcareProviderDto> queryHandler,
+            [FromServices] IQueryHandler<GetHealthcareProviderByIdQuery, HealthcareProviderDto> queryHandler,
             [FromRoute] Guid healthcareProviderId,
             CancellationToken cancellationToken)
         {
-            var provider = await queryHandler.HandleAsync(new GetProviderByIdQuery { Id = healthcareProviderId }, cancellationToken);
+            var provider = await queryHandler.HandleAsync(new GetHealthcareProviderByIdQuery { Id = healthcareProviderId }, cancellationToken);
 
             if (provider == null)
             {

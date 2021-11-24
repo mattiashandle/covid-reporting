@@ -16,7 +16,7 @@ namespace Karolinska.Web.Extensions
 
             services.AddTransient<IQueryHandler<GetHealthcareProvidersQuery, PagedResponse<HealthcareProviderDto[]>>, GetHealthcareProvidersQueryHandler>();
 
-            services.AddTransient<IQueryHandler<GetProviderByIdQuery, HealthcareProviderDto>, GetProviderByIdQueryHandler>();
+            services.AddTransient<IQueryHandler<GetHealthcareProviderByIdQuery, HealthcareProviderDto>, GetHealthcareProviderByIdQueryHandler>();
 
             services.AddTransient<IQueryHandler<GetOrderReportsQuery, PagedResponse<OrderReportDto[]>>, GetOrderReportsQueryHandler>();
 

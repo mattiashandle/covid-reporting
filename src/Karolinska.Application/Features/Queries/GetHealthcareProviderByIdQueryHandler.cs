@@ -11,23 +11,23 @@ using System.Threading.Tasks;
 
 namespace Karolinska.Application.Features.Queries
 {
-    public class GetProviderByIdQuery
+    public class GetHealthcareProviderByIdQuery
     {
         public Guid Id { get; set; }
     }
 
-    public class GetProviderByIdQueryHandler : IQueryHandler<GetProviderByIdQuery, HealthcareProviderDto>
+    public class GetHealthcareProviderByIdQueryHandler : IQueryHandler<GetHealthcareProviderByIdQuery, HealthcareProviderDto>
     {
         private readonly KarolinskaContext _context;
         private readonly IMapper _mapper;
 
-        public GetProviderByIdQueryHandler(KarolinskaContext context, IMapper mapper)
+        public GetHealthcareProviderByIdQueryHandler(KarolinskaContext context, IMapper mapper)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<HealthcareProviderDto?> HandleAsync(GetProviderByIdQuery query, CancellationToken cancellationToken)
+        public async Task<HealthcareProviderDto?> HandleAsync(GetHealthcareProviderByIdQuery query, CancellationToken cancellationToken)
         {
             return await _context.HealthcareProviders.Where(e => e.Id.Equals(query.Id))
                 .ProjectTo<HealthcareProviderDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken);
