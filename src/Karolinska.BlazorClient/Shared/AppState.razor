@@ -1,0 +1,39 @@
+﻿@inject IJSInProcessRuntime JS
+
+<CascadingValue Value=this>
+    @ChildContent
+</CascadingValue>
+
+@code {
+	[Parameter] public RenderFragment ChildContent { get; set; }
+
+	private ICollection<OrderReportDto>? _orderReports;
+
+	public ICollection<OrderReportDto>? OrderReports 
+	{
+		get 
+		{ 
+			return _orderReports; 
+		}
+		set
+		{
+			_orderReports = value;
+
+			JS.InvokeVoid(JsInteropConstants.SetSessionStorage, nameof(OrderReports), System.Text.Json.JsonSerializer.Serialize(value));
+
+			StateHasChanged();
+		}
+	}
+
+	protected override void OnInitialized()
+	{
+		var value = JS.Invoke<string>(JsInteropConstants.GetSessionStorage, nameof(OrderReports));
+
+		if (value != null)
+		{
+			_orderReports = System.Text.Json.JsonSerializer.Deserialize<ICollection<OrderReportDto>?>(value);
+
+			return;
+		}
+	}
+}

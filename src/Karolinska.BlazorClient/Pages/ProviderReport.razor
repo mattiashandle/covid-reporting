@@ -1,0 +1,69 @@
+﻿@page "/rapportera/{ProviderId}"
+@inject IHealthcareProviderClient ProviderClient;
+
+@if(currentProvider == null)
+{
+    
+}
+else
+{
+    <h1>@currentProvider.Name</h1>
+}
+
+@if(reportTypes == null)
+{
+
+}
+else
+{
+    var reportCardsGrops = reportTypes.ChunkBy(4);
+
+    @foreach (var group in reportCardsGrops)
+    {
+        <div class="row mt-3">
+            @foreach (var item in group)
+            {
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.name</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="@item.href" class="btn btn-primary">Rapportera</a>
+                        </div>
+                    </div>
+                </div>
+           }
+       </div>
+    }
+
+}
+
+
+
+
+@code {
+    [Parameter]
+    public string? ProviderId { get; set; }
+
+    private HealthcareProviderDto currentProvider { get; set; }
+
+    private IReadOnlyList<(string name, string href)> reportTypes { get; set; }
+    //[CascadingParameter] public AppState AppState { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        reportTypes = new[]
+        {
+            ("Beställningar", $"rapportera/{ProviderId}/bestallningar"),
+            ("Kapacitet", $"rapportera/{ProviderId}/bestallningar"),
+            ("Förbrukning", $"rapportera/{ProviderId}/bestallningar"),
+            ("Lagersaldo", $"rapportera/{ProviderId}/bestallningar"),
+            ("Inleverans", $"rapportera/{ProviderId}/bestallningar")
+        };
+
+        if (Guid.TryParse(ProviderId, out var result))
+        {
+            currentProvider = await ProviderClient.GetHealthcareProviderAsync(result);
+        }
+    }
+}

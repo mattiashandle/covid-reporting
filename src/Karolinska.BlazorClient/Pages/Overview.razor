@@ -1,0 +1,132 @@
+﻿@page "/overblick"
+@inject HttpClient Http
+@inject IHealthcareProviderClient ProviderClient;
+@inject ISupplierClient SupplierClient;
+
+<PageTitle>Översikt</PageTitle>
+
+<h1>Översikt för regionen</h1>
+
+<p>Här får regionen en översikt över vårdgivarnas rapporter.</p>
+
+@if (providers == null)
+{
+    <p><em>Laddar...</em></p>
+}
+else
+{
+    <select class="form-select" @onchange="HandleSupplierChange">
+        @foreach (var supplier in providers)
+        {
+            <option value="@supplier.Id">@supplier.Name</option>
+        }
+    </select>
+
+}
+
+@if (orderReports == null)
+{
+    <p><em>Laddar...</em></p>
+}
+else
+{
+    <TableTemplate Items="orderReports" Context="report" TItem="OrderReportDto">
+        <TableHeader>
+            <th>Rapport ID</th>
+            <th>Inskickad datum</th>
+            <th>Beställningsdatum</th>
+            <th>Önskat lev datum</th>
+            <th>Kvantitet (dos)</th>
+            <th>GLN-mottagare</th>
+        </TableHeader>
+        <RowTemplate >
+            <td>@report.Id</td>
+            <td>@report.InsertDate.ToString("yyyy-MM-dd")</td>
+            <td>@report.OrderDate?.ToString("yyyy-MM-dd")</td>
+            <td>@report.RequestedDeliveryDate?.ToString("yyyy-MM-dd")</td>
+            <td>@report.Quantity</td>
+            <td>@report.GlnReceiver</td>
+        </RowTemplate>
+    </TableTemplate>
+}
+
+ <hr />
+
+@if (expenditureReports == null)
+{
+    <p><em>Laddar...</em></p>
+}
+else
+{
+     <TableTemplate Items="expenditureReports" Context="report" TItem="ExpenditureReportDto">
+        <TableHeader>
+            <th>Rapport ID</th>
+            <th>Inskickat datum</th>
+            <th>Förbrukningsdatum</th>
+            <th>Vaccin leverantör</th>
+            <th>Kvantitet (vial)</th>
+        </TableHeader>
+        <RowTemplate >
+            <td>@report.Id</td>
+            <td>@report.InsertDate.ToString("yyyy-MM-dd")</td>
+            <td>@report.Date.ToString("yyyy-MM-dd")</td>
+            <td>@report.SupplierName</td>
+            <td>@report.NumberOfVials</td>
+        </RowTemplate>
+    </TableTemplate>
+}
+
+
+@code {
+    [CascadingParameter] public AppState AppState { get; set; } = null!;
+
+    private IReadOnlyList<OrderReportDto> orderReports;
+    private IReadOnlyList<ExpenditureReportDto> expenditureReports;
+    private IReadOnlyList<ReceiptReportDto> receiptReports;
+    private IReadOnlyList<CapacityReportDto> capacityReports;
+    private IReadOnlyList<StockBalanceReportDto> stockBalanceReports;
+
+    public async Task HandleSupplierChange(ChangeEventArgs e)
+    {
+        if (e.Value is string providerIdString)
+        {
+            var selectedProviderId = Guid.Parse(e.Value.ToString());
+
+            await UpdateTableData(selectedProviderId);
+        }
+    }
+
+    private async Task UpdateTableData(Guid providerId)
+    {
+        var orderReportsResponse = await ProviderClient.GetOrderReportsAsync(providerId, 1, 100);
+        orderReports = orderReportsResponse.Data.ToList();
+
+        var expenditureReportsResponse = await ProviderClient.GetExpenditureReportsAsync(providerId, 1, 100);
+        expenditureReports = expenditureReportsResponse.Data.ToList();
+
+        var receiptReportsResponse = await ProviderClient.GetReceiptReportsAsync(providerId, 1, 100);
+        receiptReports = receiptReportsResponse.Data.ToList();
+
+        var capacityReportsResponse = await ProviderClient.GetCapacityReportsAsync(providerId, 1, 100);
+        capacityReports = capacityReportsResponse.Data.ToList();
+
+        var stockBalanceReportsResponse = await ProviderClient.GetStockBalanceReportsAsync(providerId, 1, 100);
+        stockBalanceReports = stockBalanceReportsResponse.Data.ToList();
+    }
+
+    private ICollection<HealthcareProviderDto> providers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var pagedProvidersResponse = await ProviderClient.GetHealthcareProvidersAsync(1, 100);
+
+        providers = pagedProvidersResponse.Data;
+
+        if (!providers.Any())
+        {
+            return;
+        }
+
+        await UpdateTableData(providers.First().Id);
+    }
+}

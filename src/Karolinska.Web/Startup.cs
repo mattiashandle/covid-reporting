@@ -58,6 +58,8 @@ namespace Karolinska.Web
                 options.Title = "Karolinska API";
             });
 
+            services.AddDistributedMemoryCache();
+
             //Log invalid model state
             services.PostConfigure<ApiBehaviorOptions>(options =>
             {
@@ -94,7 +96,7 @@ namespace Karolinska.Web
 
             app.UseMiddleware<RequestLoggingMiddleware>();
 
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000", "https://localhost:7035"));
 
             app.UseRouting();
 
