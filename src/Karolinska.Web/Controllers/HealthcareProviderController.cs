@@ -121,6 +121,32 @@ namespace Karolinska.Web.Controllers
             return CreatedAtAction(nameof(GetOrderReport), new { healthcareProviderId, id = orderReport.Id }, orderReport);
         }
 
+        [HttpPatch("healtcareProvider/{healthcareProviderId}/orderReports/{id}")]
+        [Consumes("application/json-patch+json")]
+        [ProducesResponseType(typeof(OrderReportDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateOrderReport(
+           [FromServices] ICommandHandler<UpdateOrderReportCommand, OrderReportDto> commandHandler,
+           [FromRoute] Guid healthcareProviderId, Guid id,
+           [FromBody] JsonPatchDocument<OrderReportDto> jsonPatchDocument,
+            CancellationToken cancellationToken)
+        {
+            var orderReport = await commandHandler.HandleAsync(new UpdateOrderReportCommand(id, jsonPatchDocument));
+
+            if (orderReport == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(orderReport);
+        }
+
+
+       
+
         [HttpGet("healtcareProvider/{healthcareProviderId}/stockBalanceReports")]
         [ProducesResponseType(typeof(PagedResponse<StockBalanceReportDto[]>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

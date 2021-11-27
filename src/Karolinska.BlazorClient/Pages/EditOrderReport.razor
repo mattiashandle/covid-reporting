@@ -1,0 +1,145 @@
+﻿@page "/rapportera/{ProviderId}/bestallningar/{OrderReportId}/editera"
+
+@inject IHealthcareProviderClient ProviderClient;
+
+<h3>Editera beställning</h3>
+<p>Id: @(currentReport?.Id ?? Guid.Empty)</p>
+
+
+<EditForm class="form" Model="@editOrderReportForm" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="row">
+        <div class="col-6">
+            <label for="orderDateInput" class="form-label">Beställningsdatum</label>
+            <InputDate class="form-control" id="orderDateInput" @bind-Value="editOrderReportForm.OrderDate" />
+        </div>
+        <div class="col-6">
+            <label for="requestedDateInput" class="form-label">Önskat lev datum</label>
+            <InputDate class="form-control" id="requestedDateInput" @bind-Value="editOrderReportForm.RequestedDeliveryDate" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label for="quantityInput" class="form-label">Kvantitet (doser)</label>
+            <InputNumber class="form-control" id="quantityInput" @bind-Value="editOrderReportForm.Quantity" />
+        </div>
+        <div class="col-3">
+            <label for="glnInput" class="form-label">GLN-mottagre</label>
+            <InputText class="form-control" id="quantityInput" @bind-Value="editOrderReportForm.GlnReceiver" />
+        </div>
+    </div>
+
+    <button class="btn btn-primary mt-3" type="submit">Skicka</button>
+</EditForm>
+
+@if (showToast)
+{
+    <div class="alert alert-success mt-5" role="alert">
+        Beställningsrapport uppdaterad!
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string ProviderId { get; set; }
+
+    private Guid _providerId => Guid.Parse(ProviderId);
+
+    [Parameter]
+    public string OrderReportId { get; set; }
+
+    private Guid _orderReportId => Guid.Parse(OrderReportId);
+
+    private HealthcareProviderDto provider;
+
+    private OrderReportDto currentReport;
+
+    private bool showToast { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        provider = await ProviderClient.GetHealthcareProviderAsync(_providerId);
+
+        currentReport = await ProviderClient.GetOrderReportAsync(_providerId, _orderReportId);
+
+        editOrderReportForm.Reset(currentReport);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var operations = new List<Operation>();
+
+        if (!NullableDateEqualityComparer.Default.Equals(currentReport.OrderDate, editOrderReportForm.OrderDate))
+        {
+            operations.Add(new Operation
+                {
+                    Path = $"/{nameof(OrderReportDto.OrderDate)}",
+                    Op = "replace",
+                    Value = editOrderReportForm.OrderDate
+                });
+        }
+
+        if (!NullableDateEqualityComparer.Default.Equals(currentReport.RequestedDeliveryDate, editOrderReportForm.RequestedDeliveryDate))
+        {
+            operations.Add(new Operation
+                {
+                    Path = $"/{nameof(OrderReportDto.RequestedDeliveryDate)}",
+                    Op = "replace",
+                    Value = editOrderReportForm.RequestedDeliveryDate
+                });
+        }
+
+        if (currentReport.Quantity != editOrderReportForm.Quantity)
+        {
+            operations.Add(new Operation
+                {
+                    Path = $"/{nameof(OrderReportDto.Quantity)}",
+                    Op = "replace",
+                    Value = editOrderReportForm.Quantity
+                });
+        }
+
+        if (currentReport.GlnReceiver != editOrderReportForm.GlnReceiver)
+        {
+            operations.Add(new Operation
+                {
+                    Path = $"/{nameof(OrderReportDto.GlnReceiver)}",
+                    Op = "replace",
+                    Value = editOrderReportForm.GlnReceiver
+                });
+        }
+
+        if (operations.Any())
+        {
+            currentReport = await ProviderClient.UpdateOrderReportAsync(_providerId, _orderReportId, operations);
+            editOrderReportForm.Reset(currentReport);
+            showToast = true;
+            return;
+        }
+    }
+
+    private EditOrderReportForm editOrderReportForm = new();
+
+
+    public class EditOrderReportForm
+    {
+        public void Reset(OrderReportDto orderReport)
+        {
+            OrderDate = orderReport.OrderDate;
+            RequestedDeliveryDate = orderReport.RequestedDeliveryDate;
+            Quantity = orderReport.Quantity;
+            GlnReceiver = orderReport.GlnReceiver;
+        }
+
+        public DateTime? OrderDate { get; set; }
+
+        [Required]
+        public DateTime? RequestedDeliveryDate { get; set; }
+
+        [Range(0, int.MaxValue)]
+        public int Quantity { get; set; }
+
+        public string GlnReceiver { get; set; }
+    }
+}

@@ -1,5 +1,6 @@
 ﻿@page "/rapportera/{ProviderId}/bestallningar"
-@inject IHealthcareProviderClient ProviderClient;
+@inject IHealthcareProviderClient ProviderClient
+
 <h3>Beställningar</h3>
 
 @if (currentProvider == null)
@@ -11,51 +12,82 @@ else
     <h1>@currentProvider.Name</h1>
 }
 
-<div class="container">
-    <div>
+@if (showToast)
+{
+    <div class="alert alert-success" role="alert">
+        Beställningsrapport skickad!
     </div>
-</div>
+}
 
 <EditForm class="form" Model="@orderForm" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="row">
         <div class="col-6">
-            <div class="mb-3">
+           
                 <label for="orderDateInput" class="form-label">Beställningsdatum</label>
                 <InputDate class="form-control" id="orderDateInput" @bind-Value="orderForm.OrderDate" />
-            </div>
         </div>
-        <div class="mb-6">
+        <div class="col-6">
             <label for="requestedDateInput" class="form-label">Önskat lev datum</label>
             <InputDate class="form-control" id="requestedDateInput" @bind-Value="orderForm.RequestedDeliveryDate" />
         </div>
     </div>
     <div class="row">
         <div class="col-6">
-            <div class="mb-3">
                 <label for="quantityInput" class="form-label">Kvantitet (doser)</label>
                 <InputNumber class="form-control" id="quantityInput" @bind-Value="orderForm.Quantity" />
-            </div>
         </div>
         <div class="col-6">
-            <div class="mb-3">
-                <label for="glnInput" class="form-label">GLN-mottagre</label>
-                <InputText class="form-control" id="quantityInput" @bind-Value="orderForm.GLNReceiver" />
-            </div>
+            <label for="glnInput" class="form-label">GLN-mottagre</label>
+            <InputText class="form-control" id="quantityInput" @bind-Value="orderForm.GLNReceiver" />
         </div>
     </div>
 
-    <button class="button" type="submit">Skicka</button>
+    <button class="btn btn-primary mt-3" type="submit">Skicka</button>
 </EditForm>
+
+<hr />
+
+@if (orderReports == null)
+{
+    <p><em>Laddar...</em></p>
+}
+else
+{
+    <TableTemplate Items="orderReports" Context="report" TItem="OrderReportDto">
+        <TableHeader>
+            <th>Rapport ID</th>
+            <th>Inskickad datum</th>
+            <th>Beställningsdatum</th>
+            <th>Önskat lev datum</th>
+            <th>Kvantitet (dos)</th>
+            <th>GLN-mottagare</th>
+        </TableHeader>
+        <RowTemplate>
+            <td><a href="rapportera/@ProviderId/bestallningar/@report.Id/editera">@report.Id</a></td>
+            <td>@report.InsertDate.ToString("yyyy-MM-dd")</td>
+            <td>@report.OrderDate?.ToString("yyyy-MM-dd")</td>
+            <td>@report.RequestedDeliveryDate?.ToString("yyyy-MM-dd")</td>
+            <td>@report.Quantity</td>
+            <td>@report.GlnReceiver</td>
+        </RowTemplate>
+    </TableTemplate>
+}
+
+
 
 @code {
     [Parameter]
-    public string? ProviderId { get; set; }
+    public string ProviderId { get; set; }
 
     private HealthcareProviderDto currentProvider { get; set; }
 
+    private bool showToast { get; set; } = false;
+
     [CascadingParameter] public AppState AppState { get; set; } = null!;
+
+    private IReadOnlyList<OrderReportDto> orderReports;
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,14 +95,29 @@ else
         {
             currentProvider = await ProviderClient.GetHealthcareProviderAsync(result);
         }
+
+        var orderReportsResponse = await ProviderClient.GetOrderReportsAsync(result, 1, 100);
+        orderReports = orderReportsResponse.Data.ToList();
     }
 
     private OrderReportFormModel orderForm = new();
 
     private async Task HandleValidSubmit()
     {
+        var response = await ProviderClient.AddOrderReportAsync(currentProvider.Id, new CreateOrderReportCommand
+            {
+                GlnReceiver = orderForm.GLNReceiver,
+                HealthcareProviderId = currentProvider.Id,
+                OrderDate = orderForm.OrderDate,
+                Quantity = orderForm.Quantity,
+                RequestedDeliveryDate = orderForm.RequestedDeliveryDate
+            });
 
-        // Process the valid form
+        showToast = true;
+        orderForm = new OrderReportFormModel();
+
+        var orderReportsResponse = await ProviderClient.GetOrderReportsAsync(currentProvider.Id, 1, 100);
+        orderReports = orderReportsResponse.Data.ToList();
     }
 
 
@@ -79,7 +126,7 @@ else
         public DateTime? OrderDate { get; set; }
 
         [Required]
-        public DateTime RequestedDeliveryDate { get; set; }
+        public DateTime? RequestedDeliveryDate { get; set; }
 
         [Required]
         [Range(0, int.MaxValue)]

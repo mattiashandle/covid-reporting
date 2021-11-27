@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Karolinska.Application", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Karolinska.Web", "tests\Tests.Karolinska.Web\Tests.Karolinska.Web.csproj", "{6C12222F-8D76-47F8-946F-86D5985F7EA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karolinska.BlazorClient", "src\Karolinska.BlazorClient\Karolinska.BlazorClient.csproj", "{57178FEA-06B5-4BA0-A828-A8F9BB5A1448}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Karolinska.BlazorClient", "src\Karolinska.BlazorClient\Karolinska.BlazorClient.csproj", "{57178FEA-06B5-4BA0-A828-A8F9BB5A1448}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karolinska.Shared", "src\Karolinska.Shared\Karolinska.Shared.csproj", "{B653298F-7C51-4C72-BCEE-C363E74ECE7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Karolinska.Shared", "src\Karolinska.Shared\Karolinska.Shared.csproj", "{B653298F-7C51-4C72-BCEE-C363E74ECE7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
